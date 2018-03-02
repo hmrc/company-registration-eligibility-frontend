@@ -11,3 +11,30 @@ GET        /this-service-has-been-reset                 controllers.SessionExpir
 GET        /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad
 
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
+
+GET        /sampleIntPage               controllers.SampleIntPageController.onPageLoad(mode: Mode = NormalMode)
+POST       /sampleIntPage               controllers.SampleIntPageController.onSubmit(mode: Mode = NormalMode)
+GET        /changeSampleIntPage                        controllers.SampleIntPageController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeSampleIntPage                        controllers.SampleIntPageController.onSubmit(mode: Mode = CheckMode)
+
+GET        /sampleOptionsPage               controllers.SampleOptionsPageController.onPageLoad(mode: Mode = NormalMode)
+POST       /sampleOptionsPage               controllers.SampleOptionsPageController.onSubmit(mode: Mode = NormalMode)
+GET        /changeSampleOptionsPage               controllers.SampleOptionsPageController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeSampleOptionsPage               controllers.SampleOptionsPageController.onSubmit(mode: Mode = CheckMode)
+
+GET        /samplePage                       controllers.SamplePageController.onPageLoad()
+
+GET        /sampleQuestionPage                       controllers.SampleQuestionPageController.onPageLoad(mode: Mode = NormalMode)
+POST       /sampleQuestionPage                       controllers.SampleQuestionPageController.onSubmit(mode: Mode = NormalMode)
+GET        /changeSampleQuestionPage                       controllers.SampleQuestionPageController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeSampleQuestionPage                       controllers.SampleQuestionPageController.onSubmit(mode: Mode = CheckMode)
+
+GET        /sampleStringPage               controllers.SampleStringPageController.onPageLoad(mode: Mode = NormalMode)
+POST       /sampleStringPage               controllers.SampleStringPageController.onSubmit(mode: Mode = NormalMode)
+GET        /changeSampleStringPage                        controllers.SampleStringPageController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeSampleStringPage                        controllers.SampleStringPageController.onSubmit(mode: Mode = CheckMode)
+
+GET        /sampleYesNoPage                       controllers.SampleYesNoPageController.onPageLoad(mode: Mode = NormalMode)
+POST       /sampleYesNoPage                       controllers.SampleYesNoPageController.onSubmit(mode: Mode = NormalMode)
+GET        /changeSampleYesNoPage                       controllers.SampleYesNoPageController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeSampleYesNoPage                       controllers.SampleYesNoPageController.onSubmit(mode: Mode = CheckMode)

@@ -42,3 +42,42 @@ site.textarea.char_limit = (Limit is {0} characters)
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+sampleIntPage.title = sampleIntPage
+sampleIntPage.heading = sampleIntPage
+sampleIntPage.checkYourAnswersLabel = sampleIntPage
+sampleIntPage.error.nonNumeric = Please give an answer for sampleIntPage using numbers
+sampleIntPage.error.required = Please give an answer for sampleIntPage
+sampleIntPage.error.wholeNumber = Please give an answer for sampleIntPage using whole numbers
+sampleIntPage.error.outOfRange = sampleIntPage must be between {0} and {1}
+
+sampleOptionsPage.title = Sample options page
+sampleOptionsPage.heading = Sample options page
+sampleOptionsPage.one = One
+sampleOptionsPage.two = Two
+sampleOptionsPage.checkYourAnswersLabel = Sample options page
+sampleOptionsPage.error.required = Please give an answer for sampleOptionsPage
+
+samplePage.title = samplePage
+samplePage.heading = samplePage
+
+sampleQuestionPage.title = sampleQuestionPage
+sampleQuestionPage.heading = sampleQuestionPage
+sampleQuestionPage.field1 = Field 1
+sampleQuestionPage.field2 = Field 2
+sampleQuestionPage.checkYourAnswersLabel = sampleQuestionPage
+sampleQuestionPage.error.field1.required = Enter field1
+sampleQuestionPage.error.field2.required = Enter field2
+sampleQuestionPage.error.field1.length = field1 must be 100 characters or less
+sampleQuestionPage.error.field2.length = field2 must be 100 characters or less
+
+sampleStringPage.title = sampleStringPage
+sampleStringPage.heading = sampleStringPage
+sampleStringPage.checkYourAnswersLabel = sampleStringPage
+sampleStringPage.error.required = Enter sampleStringPage
+sampleStringPage.error.length = SampleStringPage must be 100 characters or less
+
+sampleYesNoPage.title = sampleYesNoPage
+sampleYesNoPage.heading = sampleYesNoPage
+sampleYesNoPage.checkYourAnswersLabel = sampleYesNoPage
+sampleYesNoPage.error.required = Please give an answer for sampleYesNoPage

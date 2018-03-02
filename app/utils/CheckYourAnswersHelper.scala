@@ -21,4 +21,24 @@ import models.CheckMode
 import viewmodels.{AnswerRow, RepeaterAnswerRow, RepeaterAnswerSection}
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers) {
+
+  def sampleYesNoPage: Option[AnswerRow] = userAnswers.sampleYesNoPage map {
+    x => AnswerRow("sampleYesNoPage.checkYourAnswersLabel", if(x) "site.yes" else "site.no", true, routes.SampleYesNoPageController.onPageLoad(CheckMode).url)
+  }
+
+  def sampleStringPage: Option[AnswerRow] = userAnswers.sampleStringPage map {
+    x => AnswerRow("sampleStringPage.checkYourAnswersLabel", s"$x", false, routes.SampleStringPageController.onPageLoad(CheckMode).url)
+  }
+
+  def sampleQuestionPage: Option[AnswerRow] = userAnswers.sampleQuestionPage map {
+    x => AnswerRow("sampleQuestionPage.checkYourAnswersLabel", s"${x.field1} ${x.field2}", false, routes.SampleQuestionPageController.onPageLoad(CheckMode).url)
+  }
+
+  def sampleOptionsPage: Option[AnswerRow] = userAnswers.sampleOptionsPage map {
+    x => AnswerRow("sampleOptionsPage.checkYourAnswersLabel", s"sampleOptionsPage.$x", true, routes.SampleOptionsPageController.onPageLoad(CheckMode).url)
+  }
+
+  def sampleIntPage: Option[AnswerRow] = userAnswers.sampleIntPage map {
+    x => AnswerRow("sampleIntPage.checkYourAnswersLabel", s"$x", false, routes.SampleIntPageController.onPageLoad(CheckMode).url)
+  }
 }

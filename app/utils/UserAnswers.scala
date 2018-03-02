@@ -21,4 +21,14 @@ import identifiers._
 import models._
 
 class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
+  def sampleYesNoPage: Option[Boolean] = cacheMap.getEntry[Boolean](SampleYesNoPageId.toString)
+
+  def sampleStringPage: Option[String] = cacheMap.getEntry[String](SampleStringPageId.toString)
+
+  def sampleQuestionPage: Option[SampleQuestionPage] = cacheMap.getEntry[SampleQuestionPage](SampleQuestionPageId.toString)
+
+  def sampleOptionsPage: Option[SampleOptionsPage] = cacheMap.getEntry[SampleOptionsPage](SampleOptionsPageId.toString)
+
+  def sampleIntPage: Option[Int] = cacheMap.getEntry[Int](SampleIntPageId.toString)
+
 }

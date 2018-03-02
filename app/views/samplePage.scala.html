@@ -1,0 +1,11 @@
+@import config.FrontendAppConfig
+
+@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+
+@main_template(
+    title = messages("samplePage.title"),
+    appConfig = appConfig,
+    bodyClasses = None) {
+
+    @components.heading("samplePage.heading")
+}

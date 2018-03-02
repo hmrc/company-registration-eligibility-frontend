@@ -1,0 +1,29 @@
+@import config.FrontendAppConfig
+@import uk.gov.hmrc.play.views.html._
+@import controllers.routes._
+@import models.SampleOptionsPage
+@import models.Mode
+
+@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@main_template(
+    title = messages("sampleOptionsPage.title"),
+    appConfig = appConfig,
+    bodyClasses = None) {
+
+    @helpers.form(action = SampleOptionsPageController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @components.error_summary(form.errors)
+
+        @components.heading("sampleOptionsPage.heading")
+
+        @components.input_radio(
+            field = form("value"),
+            legend = messages("sampleOptionsPage.heading"),
+            legendClass = Some("visually-hidden"),
+            inputs = SampleOptionsPage.options.toSeq
+        )
+
+        @components.submit_button()
+    }
+}
