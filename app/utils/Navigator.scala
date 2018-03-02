@@ -27,7 +27,11 @@ import models.{CheckMode, Mode, NormalMode}
 class Navigator @Inject()() {
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
-
+    SampleIntPageId -> (_ => controllers.routes.SampleOptionsPageController.onPageLoad(NormalMode)),
+    SampleOptionsPageId -> (_ => controllers.routes.SampleQuestionPageController.onPageLoad(NormalMode)),
+    SampleQuestionPageId -> (_ => controllers.routes.SampleStringPageController.onPageLoad(NormalMode)),
+    SampleStringPageId -> (_ => controllers.routes.SampleYesNoPageController.onPageLoad(NormalMode)),
+    SampleYesNoPageId -> (_ => controllers.routes.CheckYourAnswersController.onPageLoad())
   )
 
   private val editRouteMap: Map[Identifier, UserAnswers => Call] = Map(
