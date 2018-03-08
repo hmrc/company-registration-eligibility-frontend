@@ -50,3 +50,11 @@ beforeYouStart.text = We’re going to ask some questions. Your answers will:
 beforeYouStart.bullet1 = show whether you can use this service to register a limited company and set up Corporation Tax
 beforeYouStart.bullet2 = take you to another service if you’re not eligible to use this one
 beforeYouStart.submit = Continue to questions
+
+ordinaryShares.title = Will the company have ‘ordinary shares’?
+ordinaryShares.heading = Will the company have ‘ordinary shares’?
+ordinaryShares.yes = Yes
+ordinaryShares.no = No
+ordinaryShares.dk = I don''t know
+ordinaryShares.checkYourAnswersLabel = Will the company have ‘ordinary shares’?
+ordinaryShares.error.required = Please give an answer for ordinaryShares

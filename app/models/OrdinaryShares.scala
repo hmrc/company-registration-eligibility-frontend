@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package config
+package models
 
-import com.google.inject.AbstractModule
-import controllers.actions._
+import utils.{Enumerable, RadioOption, WithName}
 
-class Module extends AbstractModule {
+sealed trait OrdinaryShares
 
-  override def configure(): Unit = {
+object OrdinaryShares {
 
-    // Bind the actions for DI
-    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
-    bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
+  case object Yes extends WithName("yes") with OrdinaryShares
+  case object No extends WithName("no") with OrdinaryShares
+  case object Dk extends WithName("dk") with OrdinaryShares
 
-    // For session based storage instead of cred based, change to SessionActionImpl
-    bind(classOf[CacheIdentifierAction]).to(classOf[SessionActionImpl]).asEagerSingleton()
+  val values: Set[OrdinaryShares] = Set(
+    Yes, No, Dk
+  )
+
+  val options: Set[RadioOption] = values.map {
+    value =>
+      RadioOption("ordinaryShares", value.toString)
   }
+
+  implicit val enumerable: Enumerable[OrdinaryShares] =
+    Enumerable(values.toSeq.map(v => v.toString -> v): _*)
 }

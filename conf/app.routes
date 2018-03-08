@@ -14,3 +14,8 @@ GET        /unauthorised                                controllers.Unauthorised
 
 GET        /beforeYouStart                       controllers.BeforeYouStartController.onPageLoad()
 POST       /beforeYouStart                       controllers.BeforeYouStartController.onSubmit()
+
+GET        /ordinaryShares               controllers.OrdinarySharesController.onPageLoad(mode: Mode = NormalMode)
+POST       /ordinaryShares               controllers.OrdinarySharesController.onSubmit(mode: Mode = NormalMode)
+GET        /changeOrdinaryShares               controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeOrdinaryShares               controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)

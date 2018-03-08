@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package config
+package forms
 
-import com.google.inject.AbstractModule
-import controllers.actions._
+import javax.inject.Inject
 
-class Module extends AbstractModule {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.OrdinaryShares
 
-  override def configure(): Unit = {
+class OrdinarySharesFormProvider @Inject() extends FormErrorHelper with Mappings {
 
-    // Bind the actions for DI
-    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
-    bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
-
-    // For session based storage instead of cred based, change to SessionActionImpl
-    bind(classOf[CacheIdentifierAction]).to(classOf[SessionActionImpl]).asEagerSingleton()
-  }
+  def apply(): Form[OrdinaryShares] =
+    Form(
+      "value" -> enumerable[OrdinaryShares]("ordinaryShares.error.required")
+    )
 }

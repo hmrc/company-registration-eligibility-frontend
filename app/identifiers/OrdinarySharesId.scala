@@ -14,20 +14,8 @@
  * limitations under the License.
  */
 
-package config
+package identifiers
 
-import com.google.inject.AbstractModule
-import controllers.actions._
-
-class Module extends AbstractModule {
-
-  override def configure(): Unit = {
-
-    // Bind the actions for DI
-    bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
-    bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
-
-    // For session based storage instead of cred based, change to SessionActionImpl
-    bind(classOf[CacheIdentifierAction]).to(classOf[SessionActionImpl]).asEagerSingleton()
-  }
+case object OrdinarySharesId extends Identifier {
+  override def toString: String = "ordinaryShares"
 }

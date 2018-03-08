@@ -21,4 +21,8 @@ import models.CheckMode
 import viewmodels.{AnswerRow, RepeaterAnswerRow, RepeaterAnswerSection}
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers) {
+
+  def ordinaryShares: Option[AnswerRow] = userAnswers.ordinaryShares map {
+    x => AnswerRow("ordinaryShares.checkYourAnswersLabel", s"ordinaryShares.$x", true, routes.OrdinarySharesController.onPageLoad(CheckMode).url)
+  }
 }
