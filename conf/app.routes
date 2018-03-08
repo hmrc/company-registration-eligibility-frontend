@@ -11,3 +11,6 @@ GET        /this-service-has-been-reset                 controllers.SessionExpir
 GET        /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad
 
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
+
+GET        /beforeYouStart                       controllers.BeforeYouStartController.onPageLoad()
+POST       /beforeYouStart                       controllers.BeforeYouStartController.onSubmit()

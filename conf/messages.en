@@ -43,3 +43,10 @@ site.textarea.char_limit = (Limit is {0} characters)
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+beforeYouStart.title = Check before you start
+beforeYouStart.heading = Check before you start
+beforeYouStart.text = We’re going to ask some questions. Your answers will:
+beforeYouStart.bullet1 = show whether you can use this service to register a limited company and set up Corporation Tax
+beforeYouStart.bullet2 = take you to another service if you’re not eligible to use this one
+beforeYouStart.submit = Continue to questions
