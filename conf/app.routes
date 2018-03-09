@@ -1,3 +1,46 @@
 # microservice specific routes
 
-GET        /hello-world             @uk.gov.hmrc.companyregistrationeligibilityfrontend.controllers.HelloWorld.helloWorld
+GET        /                                            controllers.IndexController.onPageLoad
+
+GET        /assets/*file                                controllers.Assets.versioned(path="/public", file: Asset)
+
+GET        /language/:lang                              controllers.LanguageSwitchController.switchToLanguage(lang: String)
+
+GET        /this-service-has-been-reset                 controllers.SessionExpiredController.onPageLoad
+
+GET        /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad
+
+GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
+
+GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
+POST       /check-before-you-start                      controllers.BeforeYouStartController.onSubmit()
+
+GET        /company-have-ordinary-shares                controllers.OrdinarySharesController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-have-ordinary-shares                controllers.OrdinarySharesController.onSubmit(mode: Mode = NormalMode)
+
+GET        /register-more-than-five-directors           controllers.TooManyDirectorsController.onPageLoad()
+POST       /register-more-than-five-directors           controllers.TooManyDirectorsController.onSubmit()
+
+GET        /changeOrdinaryShares                        controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeOrdinaryShares                        controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)
+
+GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
+POST       /ineligible                                  controllers.IneligibleController.onSubmit()
+
+GET        /parent-company                              controllers.ParentCompanyController.onPageLoad()
+POST       /parent-company                              controllers.ParentCompanyController.onSubmit()
+
+GET        /taking-over-business                        controllers.TakingOverBusinessController.onPageLoad()
+POST       /taking-over-business                        controllers.TakingOverBusinessController.onSubmit()
+
+GET        /corporate-director-secretary                controllers.CorporateOfficerController.onPageLoad()
+POST       /corporate-director-secretary                controllers.CorporateOfficerController.onSubmit()
+
+GET        /corporate-shareholder                       controllers.CorporateShareholderController.onPageLoad()
+POST       /corporate-shareholder                       controllers.CorporateShareholderController.onSubmit()
+
+GET        /secure-register-form                        controllers.SecureRegisterController.onPageLoad()
+POST       /secure-register-form                        controllers.SecureRegisterController.onSubmit()
+
+GET        /set-up-company                              controllers.EligibleController.onPageLoad()
+POST       /set-up-company                              controllers.EligibleController.onSubmit()
