@@ -10,7 +10,7 @@ import controllers.actions._
 import config.FrontendAppConfig
 import forms.$className$FormProvider
 import identifiers.$className$Id
-import models.Mode
+import models.NormalMode
 import utils.{Navigator, UserAnswers}
 import views.html.$className;format="decap"$
 
@@ -27,23 +27,23 @@ class $className;format="cap"$Controller @Inject()(appConfig: FrontendAppConfig,
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(mode: Mode) = (identify andThen getData andThen requireData) {
+  def onPageLoad() = (identify andThen getData andThen requireData) {
     implicit request =>
       val preparedForm = request.userAnswers.$className;format="decap"$ match {
         case None => form
         case Some(value) => form.fill(value)
       }
-      Ok($className;format="decap"$(appConfig, preparedForm, mode))
+      Ok($className;format="decap"$(appConfig, preparedForm, NormalMode))
   }
 
-  def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
+  def onSubmit() = (identify andThen getData andThen requireData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest($className;format="decap"$(appConfig, formWithErrors, mode))),
+          Future.successful(BadRequest($className;format="decap"$(appConfig, formWithErrors, NormalMode))),
         (value) =>
           dataCacheConnector.save[Boolean](request.internalId, $className$Id.toString, value).map(cacheMap =>
-            Redirect(navigator.nextPage($className$Id, mode)(new UserAnswers(cacheMap))))
+            Redirect(navigator.nextPage($className$Id, NormalMode)(new UserAnswers(cacheMap))))
       )
   }
 }
