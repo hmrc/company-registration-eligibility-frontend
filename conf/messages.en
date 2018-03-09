@@ -61,6 +61,6 @@ ordinaryShares.error.required = Please give an answer for ordinaryShares
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
-tooManyDirectors.checkYourAnswersLabel = tooManyDirectors
+tooManyDirectors.checkYourAnswersLabel = Wibble wibble I''m a teapot (says George)
 tooManyDirectors.error.required = Tell us if you want to register more than 5 directors
 tooManyDirectors.text = Company officers are directors or secretaries who represent the company and make key decisions about how it''s run.

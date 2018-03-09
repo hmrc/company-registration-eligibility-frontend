@@ -12,13 +12,15 @@ GET        /check-your-answers                          controllers.CheckYourAns
 
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
-GET        /beforeYouStart                       controllers.BeforeYouStartController.onPageLoad()
-POST       /beforeYouStart                       controllers.BeforeYouStartController.onSubmit()
+GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
+POST       /check-before-you-start                      controllers.BeforeYouStartController.onSubmit()
 
-GET        /ordinaryShares               controllers.OrdinarySharesController.onPageLoad(mode: Mode = NormalMode)
-POST       /ordinaryShares               controllers.OrdinarySharesController.onSubmit(mode: Mode = NormalMode)
+GET        /company-have-ordinary-shares                controllers.OrdinarySharesController.onPageLoad(mode: Mode = NormalMode)
+POST       /company-have-ordinary-shares                controllers.OrdinarySharesController.onSubmit(mode: Mode = NormalMode)
+
+GET        /register-more-than-five-directors           controllers.TooManyDirectorsController.onPageLoad()
+POST       /register-more-than-five-directors           controllers.TooManyDirectorsController.onSubmit()
+
+
 GET        /changeOrdinaryShares               controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeOrdinaryShares               controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)
-
-GET        /register-more-than-five-directors                                   controllers.TooManyDirectorsController.onPageLoad()
-POST       /register-more-than-five-directors                                   controllers.TooManyDirectorsController.onSubmit()

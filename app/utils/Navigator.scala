@@ -28,6 +28,9 @@ class Navigator @Inject()() {
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
 
+    TooManyDirectorsId -> (_ => routes.OrdinarySharesController.onPageLoad(NormalMode)),
+    OrdinarySharesId -> (_ => routes.CheckYourAnswersController.onPageLoad())
+
   )
 
   private val editRouteMap: Map[Identifier, UserAnswers => Call] = Map(

@@ -30,7 +30,7 @@ import views.html.tooManyDirectors
 
 class TooManyDirectorsControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.IndexController.onPageLoad()
+  def onwardRoute = routes.OrdinarySharesController.onPageLoad(NormalMode)
 
   val formProvider = new TooManyDirectorsFormProvider()
   val form = formProvider()

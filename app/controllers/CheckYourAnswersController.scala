@@ -34,7 +34,11 @@ class CheckYourAnswersController @Inject()(appConfig: FrontendAppConfig,
   def onPageLoad() = (authenticate andThen getData andThen requireData) {
     implicit request =>
       val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)
-      val sections = Seq(AnswerSection(None, Seq()))
+      import checkYourAnswersHelper._
+      val sections = Seq(AnswerSection(None, Seq(
+        tooManyDirectors,
+        ordinaryShares
+      ).flatten))
       Ok(check_your_answers(appConfig, sections))
   }
 }
