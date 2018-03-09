@@ -111,3 +111,7 @@ secureRegister.text = This includes any:
 secureRegister.bullet1 = company directors
 secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, people who have significant influence over the way the company is run
 
+
+eligible.title = You can set up a company with this service
+eligible.heading = You can set up a company with this service
+eligible.text = On the next page you''ll set up an account for the company so you can use the service.
