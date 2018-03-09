@@ -22,6 +22,10 @@ import viewmodels.{AnswerRow, RepeaterAnswerRow, RepeaterAnswerSection}
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers) {
 
+  def secureRegister: Option[AnswerRow] = userAnswers.secureRegister map {
+    x => AnswerRow("secureRegister.checkYourAnswersLabel", if(x) "site.yes" else "site.no", true, routes.SecureRegisterController.onPageLoad().url)
+  }
+
   def corporateShareholder: Option[AnswerRow] = userAnswers.corporateShareholder map {
     x => AnswerRow("corporateShareholder.checkYourAnswersLabel", if(x) "site.yes" else "site.no", true, routes.CorporateShareholderController.onPageLoad().url)
   }

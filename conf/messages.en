@@ -73,6 +73,7 @@ ineligible.parentCompany.text = To set up a company that has a parent company, y
 ineligible.takingOverBusiness.text = To set up a company that''s taking over another business, you''ll need to use another service.
 ineligible.corporateOfficer.text = To set up a company with a corporate director or secretary, you''ll need to use another service.
 ineligible.corporateShareholder.text = To set up a company with a corporate shareholder, you''ll need to use another service.
+ineligible.secureRegister.text = To set up a company when one of its directors or secretaries has successfully applied to be on the Companies House secure register, you''ll need to use another service.
 ineligible.submit = Use other service
 
 parentCompany.title = Will a parent company control the company you''re setting up?
@@ -101,3 +102,12 @@ corporateShareholder.heading = Do you need to include a ''corporate shareholder'
 corporateShareholder.checkYourAnswersLabel = corporateShareholder
 corporateShareholder.error.required = Please give an answer for corporateShareholder
 corporateShareholder.text = This is a shareholder that''s a corporate body not a human being.
+
+secureRegister.title = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
+secureRegister.heading = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
+secureRegister.checkYourAnswersLabel = secureRegister
+secureRegister.error.required = Please give an answer for secureRegister
+secureRegister.text = This includes any:
+secureRegister.bullet1 = company directors
+secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, people who have significant influence over the way the company is run
+

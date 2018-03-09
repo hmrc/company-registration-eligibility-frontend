@@ -39,3 +39,6 @@ POST       /corporate-director-secretary                                   contr
 
 GET        /corporate-shareholder                                   controllers.CorporateShareholderController.onPageLoad()
 POST       /corporate-shareholder                                   controllers.CorporateShareholderController.onSubmit()
+
+GET        /secure-register-form                                   controllers.SecureRegisterController.onPageLoad()
+POST       /secure-register-form                                   controllers.SecureRegisterController.onSubmit()

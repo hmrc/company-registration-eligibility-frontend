@@ -21,6 +21,8 @@ import identifiers._
 import models._
 
 class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
+  def secureRegister: Option[Boolean] = cacheMap.getEntry[Boolean](SecureRegisterId.toString)
+
   def corporateShareholder: Option[Boolean] = cacheMap.getEntry[Boolean](CorporateShareholderId.toString)
 
   def corporateOfficer: Option[Boolean] = cacheMap.getEntry[Boolean](CorporateOfficerId.toString)
