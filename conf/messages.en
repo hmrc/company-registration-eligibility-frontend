@@ -58,6 +58,8 @@ ordinaryShares.no = No
 ordinaryShares.dk = I don''t know
 ordinaryShares.checkYourAnswersLabel = Will the company have ‘ordinary shares’?
 ordinaryShares.error.required = Tell us if the company will have ordinary shares
+ordinaryShares.p1 = The company must have at least one shareholder with at least one share. For this service, it will need to be an ordinary share.
+ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
