@@ -26,13 +26,37 @@ import models.{CheckMode, Mode, NormalMode}
 @Singleton
 class Navigator @Inject()() {
 
+  type Navigation = Tuple2[Identifier, UserAnswers => Call]
+
+  private def pageIdToPageLoad(pageId: Identifier) = pageId match {
+    case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
+    case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
+    case _ => ???
+  }
+
+  private def getYesNoAnswer(answers: UserAnswers, pageId: Identifier): Option[Boolean] = pageId match {
+    case TooManyDirectorsId => answers.tooManyDirectors
+    case _ => ???
+  }
+
+  private def nextOnFalse(fromPage: Identifier, toPage: Identifier): Navigation = {
+    def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad()//pageId.toString)
+    fromPage -> {
+      answers => getYesNoAnswer(answers, fromPage) match {
+        case Some(false) => pageIdToPageLoad(toPage)
+        case _ => ineligiblePage(fromPage)
+      }
+    }
+  }
+
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
 
-    TooManyDirectorsId -> {answers => answers.tooManyDirectors match {
-        case Some(false) => routes.OrdinarySharesController.onPageLoad(NormalMode)
-        case _ => routes.IneligibleController.onPageLoad()
-      }
-    },
+    nextOnFalse(TooManyDirectorsId, OrdinarySharesId),
+//    TooManyDirectorsId -> {answers => answers.tooManyDirectors match {
+//        case Some(false) => routes.OrdinarySharesController.onPageLoad(NormalMode)
+//        case _ => routes.IneligibleController.onPageLoad()
+//      }
+//    },
     OrdinarySharesId -> (_ => routes.CheckYourAnswersController.onPageLoad())
 
   )
