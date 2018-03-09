@@ -57,7 +57,7 @@ ordinaryShares.yes = Yes
 ordinaryShares.no = No
 ordinaryShares.dk = I don''t know
 ordinaryShares.checkYourAnswersLabel = Will the company have ‘ordinary shares’?
-ordinaryShares.error.required = Please give an answer for ordinaryShares
+ordinaryShares.error.required = Tell us if the company will have ordinary shares
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
@@ -79,13 +79,13 @@ ineligible.submit = Use other service
 parentCompany.title = Will a parent company control the company you''re setting up?
 parentCompany.heading = Will a parent company control the company you''re setting up?
 parentCompany.checkYourAnswersLabel = parentCompany
-parentCompany.error.required = Please give an answer for parentCompany
+parentCompany.error.required = Tell us if a parent company control the company you''re setting up
 parentCompany.text = This is when another company will own at least 75% of the shares in the new company.
 
 takingOverBusiness.title = Is the new company taking over another business?
 takingOverBusiness.heading = Is the new company taking over another business?
 takingOverBusiness.checkYourAnswersLabel = takingOverBusiness
-takingOverBusiness.error.required = Please give an answer for takingOverBusiness
+takingOverBusiness.error.required = Tell us if the new company taking over another business
 takingOverBusiness.text = This includes if it''s:
 takingOverBusiness.bullet1 = buying another limited company
 takingOverBusiness.bullet2 = changing a sole trader business into a limited company
@@ -94,19 +94,19 @@ takingOverBusiness.bullet3 = changing a partnership business into a limited comp
 corporateOfficer.title = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.heading = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.checkYourAnswersLabel = corporateOfficer
-corporateOfficer.error.required = Please give an answer for corporateOfficer
+corporateOfficer.error.required = Tell us if you need to include a ''corporate director'' or ''corporate secretary'' in this application
 corporateOfficer.text = This is a company director or secretary that''s a corporate body not a human being.
 
 corporateShareholder.title = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.heading = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.checkYourAnswersLabel = corporateShareholder
-corporateShareholder.error.required = Please give an answer for corporateShareholder
+corporateShareholder.error.required = Tell us if you need to include a ''corporate shareholder'' in this application
 corporateShareholder.text = This is a shareholder that''s a corporate body not a human being.
 
 secureRegister.title = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
 secureRegister.heading = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
 secureRegister.checkYourAnswersLabel = secureRegister
-secureRegister.error.required = Please give an answer for secureRegister
+secureRegister.error.required = Tell us if Companies House already protects the home address of any company directors
 secureRegister.text = This includes any:
 secureRegister.bullet1 = company directors
 secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, people who have significant influence over the way the company is run
