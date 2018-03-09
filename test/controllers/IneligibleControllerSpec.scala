@@ -27,12 +27,12 @@ class IneligibleControllerSpec extends ControllerSpecBase {
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
     new IneligibleController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)
 
-  def viewAsString() = ineligible(frontendAppConfig)(fakeRequest, messages).toString
+  def viewAsString() = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
 
   "Ineligible Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = controller().onPageLoad(fakeRequest)
+      val result = controller().onPageLoad("foo")(fakeRequest)
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()

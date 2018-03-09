@@ -67,5 +67,5 @@ tooManyDirectors.text = Company officers are directors or secretaries who repres
 
 ineligible.title = You need to use another service
 ineligible.heading = You need to use another service
-ineligible.text = To set up a company with more than 5 company officers, you''ll need to use another service.
+ineligible.tooManyDirectors.text = To set up a company with more than 5 company officers, you''ll need to use another service.
 ineligible.submit = Use other service

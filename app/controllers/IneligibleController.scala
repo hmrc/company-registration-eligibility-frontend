@@ -31,9 +31,9 @@ class IneligibleController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
                                          identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
 
-  def onPageLoad = (identify) {
+  def onPageLoad(inelligibleType: String) = (identify) {
     implicit request =>
-      Ok(ineligible(appConfig))
+      Ok(ineligible(appConfig, inelligibleType))
   }
 
   def onSubmit: Action[AnyContent] = Action { implicit request =>

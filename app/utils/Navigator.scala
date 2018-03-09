@@ -40,7 +40,7 @@ class Navigator @Inject()() {
   }
 
   private def nextOnFalse(fromPage: Identifier, toPage: Identifier): Navigation = {
-    def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad()//pageId.toString)
+    def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
     fromPage -> {
       answers => getYesNoAnswer(answers, fromPage) match {
         case Some(false) => pageIdToPageLoad(toPage)

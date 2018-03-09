@@ -17,7 +17,7 @@
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.play.views.html.helpers.{form}
 
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+@(appConfig: FrontendAppConfig, inelligibleType: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = messages("ineligible.title"),
@@ -26,7 +26,7 @@
 
     @components.heading("ineligible.heading")
 
-    @components.text("ineligible.text")
+    @components.text(s"ineligible.${inelligibleType}.text")
 
     @form(action = controllers.routes.IneligibleController.onSubmit()) {
         @components.button("ineligible.submit", "submit")
