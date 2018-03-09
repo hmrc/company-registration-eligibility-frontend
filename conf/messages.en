@@ -60,6 +60,8 @@ ordinaryShares.checkYourAnswersLabel = Will the company have â€˜ordinary sharesâ
 ordinaryShares.error.required = Tell us if the company will have ordinary shares
 ordinaryShares.p1 = The company must have at least one shareholder with at least one share. For this service, it will need to be an ordinary share.
 ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
+ordinaryShares.whatare = What are ordinary shares?
+ordinaryShares.dropdown = Ordinary shares are the most common type of share. They give shareholders the right to vote on company decisions and to receive dividend payments.
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
@@ -92,12 +94,17 @@ takingOverBusiness.text = This includes if it''s:
 takingOverBusiness.bullet1 = buying another limited company
 takingOverBusiness.bullet2 = changing a sole trader business into a limited company
 takingOverBusiness.bullet3 = changing a partnership business into a limited company
+takingOverBusiness.whatis = What is a sole trader or partnership business?
+takingOverBusiness.dropdown.p1 = A sole trader is someone who's self-employed and is the only owner of their business.
+takingOverBusiness.dropdown.p2 = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
 
 corporateOfficer.title = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.heading = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.checkYourAnswersLabel = corporateOfficer
 corporateOfficer.error.required = Tell us if you need to include a ''corporate director'' or ''corporate secretary'' in this application
 corporateOfficer.text = This is a company director or secretary that''s a corporate body not a human being.
+corporateOfficer.whatis = What is a corporate body?
+corporateOfficer.dropdown = A corporate body is a legal entity, such as a company, club or association, that has legal rights and obligations.
 
 corporateShareholder.title = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.heading = Do you need to include a ''corporate shareholder'' in this application?
