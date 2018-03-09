@@ -68,4 +68,12 @@ tooManyDirectors.text = Company officers are directors or secretaries who repres
 ineligible.title = You need to use another service
 ineligible.heading = You need to use another service
 ineligible.tooManyDirectors.text = To set up a company with more than 5 company officers, you''ll need to use another service.
+ineligible.ordinaryShares.text = To set up a company that doesn''t have ordinary shares, you''ll need to use another service.
+ineligible.parentCompany.text = To set up a company that has a parent company, you''ll need to use another service.
 ineligible.submit = Use other service
+
+parentCompany.title = Will a parent company control the company you''re setting up?
+parentCompany.heading = Will a parent company control the company you''re setting up?
+parentCompany.checkYourAnswersLabel = parentCompany
+parentCompany.error.required = Please give an answer for parentCompany
+parentCompany.text = This is when another company will own at least 75% of the shares in the new company.

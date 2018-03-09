@@ -27,3 +27,6 @@ POST       /changeOrdinaryShares               controllers.OrdinarySharesControl
 
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
 POST       /ineligible                       controllers.IneligibleController.onSubmit()
+
+GET        /parent-company                                   controllers.ParentCompanyController.onPageLoad()
+POST       /parent-company                                   controllers.ParentCompanyController.onSubmit()

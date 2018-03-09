@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package utils
+package forms
 
-import uk.gov.hmrc.http.cache.client.CacheMap
-import identifiers._
-import models._
+import javax.inject.Inject
 
-class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
-  def parentCompany: Option[Boolean] = cacheMap.getEntry[Boolean](ParentCompanyId.toString)
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  def tooManyDirectors: Option[Boolean] = cacheMap.getEntry[Boolean](TooManyDirectorsId.toString)
+class ParentCompanyFormProvider @Inject() extends FormErrorHelper with Mappings {
 
-  def ordinaryShares: Option[OrdinaryShares] = cacheMap.getEntry[OrdinaryShares](OrdinarySharesId.toString)
-
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("parentCompany.error.required")
+    )
 }

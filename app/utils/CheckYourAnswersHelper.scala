@@ -22,6 +22,10 @@ import viewmodels.{AnswerRow, RepeaterAnswerRow, RepeaterAnswerSection}
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers) {
 
+  def parentCompany: Option[AnswerRow] = userAnswers.parentCompany map {
+    x => AnswerRow("parentCompany.checkYourAnswersLabel", if(x) "site.yes" else "site.no", true, routes.ParentCompanyController.onPageLoad().url)
+  }
+
   def tooManyDirectors: Option[AnswerRow] = userAnswers.tooManyDirectors map {
     x => AnswerRow("tooManyDirectors.checkYourAnswersLabel", if(x) "site.yes" else "site.no", true, routes.TooManyDirectorsController.onPageLoad().url)
   }

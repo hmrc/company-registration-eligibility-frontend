@@ -21,7 +21,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.routes
 import identifiers._
-import models.{CheckMode, Mode, NormalMode}
+import models.{CheckMode, Mode, NormalMode, OrdinaryShares}
 
 @Singleton
 class Navigator @Inject()() {
@@ -31,16 +31,19 @@ class Navigator @Inject()() {
   private def pageIdToPageLoad(pageId: Identifier) = pageId match {
     case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
     case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
+    case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
     case _ => ???
   }
 
   private def getYesNoAnswer(answers: UserAnswers, pageId: Identifier): Option[Boolean] = pageId match {
     case TooManyDirectorsId => answers.tooManyDirectors
+    case ParentCompanyId => answers.parentCompany
     case _ => ???
   }
 
+  private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
+
   private def nextOnFalse(fromPage: Identifier, toPage: Identifier): Navigation = {
-    def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
     fromPage -> {
       answers => getYesNoAnswer(answers, fromPage) match {
         case Some(false) => pageIdToPageLoad(toPage)
@@ -52,12 +55,12 @@ class Navigator @Inject()() {
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
 
     nextOnFalse(TooManyDirectorsId, OrdinarySharesId),
-//    TooManyDirectorsId -> {answers => answers.tooManyDirectors match {
-//        case Some(false) => routes.OrdinarySharesController.onPageLoad(NormalMode)
-//        case _ => routes.IneligibleController.onPageLoad()
-//      }
-//    },
-    OrdinarySharesId -> (_ => routes.CheckYourAnswersController.onPageLoad())
+    OrdinarySharesId -> { answers => answers.ordinaryShares match {
+      case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
+      case _ => pageIdToPageLoad(ParentCompanyId)
+    }
+    },
+    nextOnFalse(ParentCompanyId, ParentCompanyId)
 
   )
 
