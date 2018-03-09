@@ -30,3 +30,6 @@ POST       /ineligible                       controllers.IneligibleController.on
 
 GET        /parent-company                                   controllers.ParentCompanyController.onPageLoad()
 POST       /parent-company                                   controllers.ParentCompanyController.onSubmit()
+
+GET        /taking-over-business                                   controllers.TakingOverBusinessController.onPageLoad()
+POST       /taking-over-business                                   controllers.TakingOverBusinessController.onSubmit()

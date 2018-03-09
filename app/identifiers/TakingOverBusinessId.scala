@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package utils
+package identifiers
 
-import uk.gov.hmrc.http.cache.client.CacheMap
-import identifiers._
-import models._
-
-class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
-  def takingOverBusiness: Option[Boolean] = cacheMap.getEntry[Boolean](TakingOverBusinessId.toString)
-
-  def parentCompany: Option[Boolean] = cacheMap.getEntry[Boolean](ParentCompanyId.toString)
-
-  def tooManyDirectors: Option[Boolean] = cacheMap.getEntry[Boolean](TooManyDirectorsId.toString)
-
-  def ordinaryShares: Option[OrdinaryShares] = cacheMap.getEntry[OrdinaryShares](OrdinarySharesId.toString)
-
+case object TakingOverBusinessId extends Identifier {
+  override def toString: String = "takingOverBusiness"
 }

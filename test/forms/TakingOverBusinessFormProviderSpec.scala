@@ -14,19 +14,32 @@
  * limitations under the License.
  */
 
-package utils
+package forms
 
-import uk.gov.hmrc.http.cache.client.CacheMap
-import identifiers._
-import models._
+import forms.behaviours.BooleanFieldBehaviours
+import play.api.data.FormError
 
-class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
-  def takingOverBusiness: Option[Boolean] = cacheMap.getEntry[Boolean](TakingOverBusinessId.toString)
+class TakingOverBusinessFormProviderSpec extends BooleanFieldBehaviours {
 
-  def parentCompany: Option[Boolean] = cacheMap.getEntry[Boolean](ParentCompanyId.toString)
+  val requiredKey = "takingOverBusiness.error.required"
+  val invalidKey = "error.boolean"
 
-  def tooManyDirectors: Option[Boolean] = cacheMap.getEntry[Boolean](TooManyDirectorsId.toString)
+  val form = new TakingOverBusinessFormProvider()()
 
-  def ordinaryShares: Option[OrdinaryShares] = cacheMap.getEntry[OrdinaryShares](OrdinarySharesId.toString)
+  ".value" must {
 
+    val fieldName = "value"
+
+    behave like booleanField(
+      form,
+      fieldName,
+      invalidError = FormError(fieldName, invalidKey)
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }

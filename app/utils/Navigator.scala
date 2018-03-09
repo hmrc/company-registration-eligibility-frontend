@@ -32,12 +32,14 @@ class Navigator @Inject()() {
     case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
     case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
     case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
+    case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
     case _ => ???
   }
 
   private def getYesNoAnswer(answers: UserAnswers, pageId: Identifier): Option[Boolean] = pageId match {
     case TooManyDirectorsId => answers.tooManyDirectors
     case ParentCompanyId => answers.parentCompany
+    case TakingOverBusinessId => answers.takingOverBusiness
     case _ => ???
   }
 
@@ -60,7 +62,8 @@ class Navigator @Inject()() {
       case _ => pageIdToPageLoad(ParentCompanyId)
     }
     },
-    nextOnFalse(ParentCompanyId, ParentCompanyId)
+    nextOnFalse(ParentCompanyId, TakingOverBusinessId),
+    nextOnFalse(TakingOverBusinessId, TakingOverBusinessId)
 
   )
 
