@@ -34,6 +34,7 @@ class Navigator @Inject()() {
     case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
     case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
     case CorporateOfficerId => routes.CorporateOfficerController.onPageLoad()
+    case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
     case _ => ???
   }
 
@@ -42,6 +43,7 @@ class Navigator @Inject()() {
     case ParentCompanyId => answers.parentCompany
     case TakingOverBusinessId => answers.takingOverBusiness
     case CorporateOfficerId => answers.corporateOfficer
+    case CorporateShareholderId => answers.corporateShareholder
     case _ => ???
   }
 
@@ -66,7 +68,8 @@ class Navigator @Inject()() {
     },
     nextOnFalse(ParentCompanyId, TakingOverBusinessId),
     nextOnFalse(TakingOverBusinessId, CorporateOfficerId),
-    nextOnFalse(CorporateOfficerId, CorporateOfficerId)
+    nextOnFalse(CorporateOfficerId, CorporateShareholderId),
+    nextOnFalse(CorporateShareholderId, CorporateShareholderId)
   )
 
   private val editRouteMap: Map[Identifier, UserAnswers => Call] = Map(
