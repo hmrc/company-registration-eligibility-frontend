@@ -45,16 +45,16 @@ class OrdinarySharesController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode) = (identify andThen getData) {
+  def onPageLoad(mode: Mode) = (identify andThen getData andThen requireData) {
     implicit request =>
-      val preparedForm = request.userAnswers flatMap (_.ordinaryShares) match {
+      val preparedForm = request.userAnswers.ordinaryShares match {
         case None => form
         case Some(value) => form.fill(value)
       }
       Ok(ordinaryShares(appConfig, preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode) = (identify andThen getData).async {
+  def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
