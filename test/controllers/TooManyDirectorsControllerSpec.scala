@@ -31,6 +31,7 @@ import views.html.tooManyDirectors
 class TooManyDirectorsControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = routes.OrdinarySharesController.onPageLoad(NormalMode)
+  def ineligibleRoute = routes.IneligibleController.onPageLoad()
 
   val formProvider = new TooManyDirectorsFormProvider()
   val form = formProvider()
@@ -59,7 +60,7 @@ class TooManyDirectorsControllerSpec extends ControllerSpecBase {
       contentAsString(result) mustBe viewAsString(form.fill(true))
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the onward route when a no is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
 
       val result = controller().onSubmit()(postRequest)

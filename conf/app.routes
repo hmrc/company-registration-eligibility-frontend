@@ -24,3 +24,6 @@ POST       /register-more-than-five-directors           controllers.TooManyDirec
 
 GET        /changeOrdinaryShares               controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeOrdinaryShares               controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)
+
+GET        /ineligible                       controllers.IneligibleController.onPageLoad()
+POST       /ineligible                       controllers.IneligibleController.onSubmit()

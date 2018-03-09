@@ -64,3 +64,8 @@ tooManyDirectors.heading = Do you need to include more than 5 company officers i
 tooManyDirectors.checkYourAnswersLabel = Wibble wibble I''m a teapot (says George)
 tooManyDirectors.error.required = Tell us if you want to register more than 5 directors
 tooManyDirectors.text = Company officers are directors or secretaries who represent the company and make key decisions about how it''s run.
+
+ineligible.title = You need to use another service
+ineligible.heading = You need to use another service
+ineligible.text = To set up a company with more than 5 company officers, you''ll need to use another service.
+ineligible.submit = Use other service

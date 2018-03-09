@@ -28,7 +28,11 @@ class Navigator @Inject()() {
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
 
-    TooManyDirectorsId -> (_ => routes.OrdinarySharesController.onPageLoad(NormalMode)),
+    TooManyDirectorsId -> {answers => answers.tooManyDirectors match {
+        case Some(false) => routes.OrdinarySharesController.onPageLoad(NormalMode)
+        case _ => routes.IneligibleController.onPageLoad()
+      }
+    },
     OrdinarySharesId -> (_ => routes.CheckYourAnswersController.onPageLoad())
 
   )
