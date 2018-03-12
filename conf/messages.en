@@ -41,6 +41,11 @@ site.save_and_continue = Save and continue
 site.service_name = company-registration-eligibility-frontend
 site.textarea.char_limit = (Limit is {0} characters)
 
+common.feedbackFirst                                                = This is a new service - your
+common.feedbackSecond                                               = feedback
+common.feedbackThird                                                = will help us to improve it.
+common.feedbackLinkText                                             = feedback
+
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
