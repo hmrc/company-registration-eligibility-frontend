@@ -8,9 +8,9 @@ $(document).ready(function() {
   showHideContent = new GOVUK.ShowHideContent()
   showHideContent.init()
 
-  var osyes = $("#value-yes");
-  var osno = $("#value-no");
-  var dontknow = $("#value-dk");
+  var osyes = $("#ordinaryShares-yes");
+  var osno = $("#ordinaryShares-no");
+  var dontknow = $("#ordinaryShares-dk");
   var dontknowtoggle = $("#dk-hidden");
 
   if(dontknow.is(":checked")){
