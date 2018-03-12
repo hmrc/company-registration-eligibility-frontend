@@ -48,20 +48,30 @@ private object AppDependencies {
     lazy val test : Seq[ModuleID] = ???
   }
 
+  def testDeps(scope: String) = Seq(
+    "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
+    "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
+    "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion % scope,
+    "org.pegdown" % "pegdown" % pegdownVersion % scope,
+    "org.jsoup" % "jsoup" % "1.10.3" % scope,
+    "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
+    "org.mockito" % "mockito-all" % mockitoAllVersion % scope,
+    "org.scalacheck" %% "scalacheck" % scalacheckVersion % scope
+  )
+
   object Test {
     def apply() = new TestDependencies {
-      override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
-        "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion % scope,
-        "org.pegdown" % "pegdown" % pegdownVersion % scope,
-        "org.jsoup" % "jsoup" % "1.10.3" % scope,
-        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-all" % mockitoAllVersion % scope,
-        "org.scalacheck" %% "scalacheck" % scalacheckVersion % scope
-      )
+      override lazy val test = testDeps(scope)
     }.test
   }
 
-  def apply() = compile ++ Test()
+  object IntegrationTest {
+    def apply() = new TestDependencies {
+      override lazy val test = testDeps("it")
+    }.test ++ Seq(
+      "com.github.tomakehurst" % "wiremock" % "2.6.0" % "it"
+    )
+  }
+
+  def apply() = compile ++ Test() ++ IntegrationTest()
 }
