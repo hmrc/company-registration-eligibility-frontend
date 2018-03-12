@@ -62,6 +62,7 @@ ordinaryShares.p1 = The company must have at least one shareholder with at least
 ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
 ordinaryShares.whatare = What are ordinary shares?
 ordinaryShares.dropdown = Ordinary shares are the most common type of share. They give shareholders the right to vote on company decisions and to receive dividend payments.
+ordinaryShares.dontknow = The vast majority of companies have ordinary shares. We'll treat this answer as a ''yes'' and you''ll be able to set up the company with ordinary shares. If you ever find out the company needs different types of shares, you can contact Companies House to change them.
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
