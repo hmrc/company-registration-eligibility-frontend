@@ -26,8 +26,6 @@ import models.{CheckMode, Mode, NormalMode, OrdinaryShares}
 @Singleton
 class Navigator @Inject()() {
 
-  type Navigation = Tuple2[Identifier, UserAnswers => Call]
-
   private def pageIdToPageLoad(pageId: Identifier) = pageId match {
     case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
     case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
@@ -40,21 +38,11 @@ class Navigator @Inject()() {
     case _ => ???
   }
 
-  private def getYesNoAnswer(answers: UserAnswers, pageId: Identifier): Option[Boolean] = pageId match {
-    case TooManyDirectorsId => answers.tooManyDirectors
-    case ParentCompanyId => answers.parentCompany
-    case TakingOverBusinessId => answers.takingOverBusiness
-    case CorporateOfficerId => answers.corporateOfficer
-    case CorporateShareholderId => answers.corporateShareholder
-    case SecureRegisterId => answers.secureRegister
-    case _ => ???
-  }
-
   private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
 
-  private def nextOnFalse(fromPage: Identifier, toPage: Identifier): Navigation = {
+  private def nextOnFalse(fromPage: Identifier, toPage: Identifier): (Identifier, UserAnswers => Call) = {
     fromPage -> {
-      answers => getYesNoAnswer(answers, fromPage) match {
+      _.getAnswer(fromPage) match {
         case Some(false) => pageIdToPageLoad(toPage)
         case _ => ineligiblePage(fromPage)
       }
@@ -62,12 +50,12 @@ class Navigator @Inject()() {
   }
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
-
     nextOnFalse(TooManyDirectorsId, OrdinarySharesId),
-    OrdinarySharesId -> { answers => answers.ordinaryShares match {
-      case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
-      case _ => pageIdToPageLoad(ParentCompanyId)
-    }
+    OrdinarySharesId -> {
+      _.ordinaryShares match {
+        case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
+        case _ => pageIdToPageLoad(ParentCompanyId)
+      }
     },
     nextOnFalse(ParentCompanyId, TakingOverBusinessId),
     nextOnFalse(TakingOverBusinessId, CorporateOfficerId),
