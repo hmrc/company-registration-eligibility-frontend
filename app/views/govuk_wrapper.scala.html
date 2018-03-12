@@ -63,13 +63,16 @@
 @footerLinks = {}
 
 @serviceInfo = {
-    @uiLayouts.serviceInfo(
-      betaBanner = HtmlFormat.empty,
-      includeGridWrapper = false,
-      serviceInfoContent = Some(serviceInfoContent))
 }
 
 @mainContentHeader = {
+    <div id="global-header-bar"></div>
+    <div class="phase-banner">
+        <p>
+            <strong class="phase-tag">BETA</strong>
+            <span>@Messages("common.feedbackFirst") <a href="">@Messages("common.feedbackSecond")</a> @Messages("common.feedbackThird")</span>
+        </p>
+    </div>
 
     @if(appConfig.languageTranslationEnabled) {
         @views.html.language_selection(

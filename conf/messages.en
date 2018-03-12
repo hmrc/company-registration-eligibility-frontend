@@ -41,6 +41,11 @@ site.save_and_continue = Save and continue
 site.service_name = company-registration-eligibility-frontend
 site.textarea.char_limit = (Limit is {0} characters)
 
+common.feedbackFirst                                                = This is a new service - your
+common.feedbackSecond                                               = feedback
+common.feedbackThird                                                = will help us to improve it.
+common.feedbackLinkText                                             = feedback
+
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
@@ -57,7 +62,12 @@ ordinaryShares.yes = Yes
 ordinaryShares.no = No
 ordinaryShares.dk = I don''t know
 ordinaryShares.checkYourAnswersLabel = Will the company have ‘ordinary shares’?
-ordinaryShares.error.required = Please give an answer for ordinaryShares
+ordinaryShares.error.required = Tell us if the company will have ordinary shares
+ordinaryShares.p1 = The company must have at least one shareholder with at least one share. For this service, it will need to be an ordinary share.
+ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
+ordinaryShares.whatare = What are ordinary shares?
+ordinaryShares.dropdown = Ordinary shares are the most common type of share. They give shareholders the right to vote on company decisions and to receive dividend payments.
+ordinaryShares.dontknow = The vast majority of companies have ordinary shares. We'll treat this answer as a ''yes'' and you''ll be able to set up the company with ordinary shares. If you ever find out the company needs different types of shares, you can contact Companies House to change them.
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
@@ -79,34 +89,39 @@ ineligible.submit = Use other service
 parentCompany.title = Will a parent company control the company you''re setting up?
 parentCompany.heading = Will a parent company control the company you''re setting up?
 parentCompany.checkYourAnswersLabel = parentCompany
-parentCompany.error.required = Please give an answer for parentCompany
+parentCompany.error.required = Tell us if a parent company control the company you''re setting up
 parentCompany.text = This is when another company will own at least 75% of the shares in the new company.
 
 takingOverBusiness.title = Is the new company taking over another business?
 takingOverBusiness.heading = Is the new company taking over another business?
 takingOverBusiness.checkYourAnswersLabel = takingOverBusiness
-takingOverBusiness.error.required = Please give an answer for takingOverBusiness
+takingOverBusiness.error.required = Tell us if the new company taking over another business
 takingOverBusiness.text = This includes if it''s:
 takingOverBusiness.bullet1 = buying another limited company
 takingOverBusiness.bullet2 = changing a sole trader business into a limited company
 takingOverBusiness.bullet3 = changing a partnership business into a limited company
+takingOverBusiness.whatis = What is a sole trader or partnership business?
+takingOverBusiness.dropdown.p1 = A sole trader is someone who's self-employed and is the only owner of their business.
+takingOverBusiness.dropdown.p2 = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
 
 corporateOfficer.title = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.heading = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
 corporateOfficer.checkYourAnswersLabel = corporateOfficer
-corporateOfficer.error.required = Please give an answer for corporateOfficer
+corporateOfficer.error.required = Tell us if you need to include a ''corporate director'' or ''corporate secretary'' in this application
 corporateOfficer.text = This is a company director or secretary that''s a corporate body not a human being.
+corporateOfficer.whatis = What is a corporate body?
+corporateOfficer.dropdown = A corporate body is a legal entity, such as a company, club or association, that has legal rights and obligations.
 
 corporateShareholder.title = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.heading = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.checkYourAnswersLabel = corporateShareholder
-corporateShareholder.error.required = Please give an answer for corporateShareholder
+corporateShareholder.error.required = Tell us if you need to include a ''corporate shareholder'' in this application
 corporateShareholder.text = This is a shareholder that''s a corporate body not a human being.
 
 secureRegister.title = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
 secureRegister.heading = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
 secureRegister.checkYourAnswersLabel = secureRegister
-secureRegister.error.required = Please give an answer for secureRegister
+secureRegister.error.required = Tell us if Companies House already protects the home address of any company directors
 secureRegister.text = This includes any:
 secureRegister.bullet1 = company directors
 secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, people who have significant influence over the way the company is run

@@ -65,14 +65,6 @@ class Navigator @Inject()() {
     nextOnFalse(EligibleId, EligibleId)
   )
 
-  private val editRouteMap: Map[Identifier, UserAnswers => Call] = Map(
-
-  )
-
-  def nextPage(id: Identifier, mode: Mode): UserAnswers => Call = mode match {
-    case NormalMode =>
-      routeMap.getOrElse(id, _ => routes.IndexController.onPageLoad())
-    case CheckMode =>
-      editRouteMap.getOrElse(id, _ => routes.CheckYourAnswersController.onPageLoad())
-  }
+  def nextPage(id: Identifier, mode: Mode): UserAnswers => Call =
+    routeMap.getOrElse(id, _ => routes.IndexController.onPageLoad())
 }

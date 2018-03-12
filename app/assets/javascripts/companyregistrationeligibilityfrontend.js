@@ -8,6 +8,42 @@ $(document).ready(function() {
   showHideContent = new GOVUK.ShowHideContent()
   showHideContent.init()
 
+  var osyes = $("#ordinaryShares-yes");
+  var osno = $("#ordinaryShares-no");
+  var dontknow = $("#ordinaryShares-dk");
+  var dontknowtoggle = $("#dk-hidden");
+
+  if(dontknow.is(":checked")){
+    dontknowtoggle.show();
+  } else {
+    dontknowtoggle.hide();
+  }
+
+  osyes.on("change", function () {
+    if(dontknow.is(":checked")){
+       dontknowtoggle.show();
+    } else {
+       dontknowtoggle.hide();
+    }
+  });
+
+  osno.on("change", function () {
+    if(dontknow.is(":checked")){
+      dontknowtoggle.show();
+    } else {
+      dontknowtoggle.hide();
+    }
+  });
+
+  dontknow.on("change", function () {
+      if(dontknow.is(":checked")){
+        dontknowtoggle.show();
+      } else {
+        dontknowtoggle.hide();
+      }
+  });
+
+
   // =====================================================
   // Handle number inputs
   // =====================================================
