@@ -1,5 +1,5 @@
-@*
- * Copyright 2018 HM Revenue & Customs
+/*
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(
-messageKey: String = "",
-inputType: String = "button",
-bid: String = ""
-)(implicit messages: Messages)
+package helpers
 
-<div class="section">
-    <input type="@inputType" class="button" id="@bid" value="@messages(messageKey)" />
-</div>
+trait FakeConfig {
+  val mockHost: String
+  val mockPort: Int
+  lazy val mockUrl = s"http://$mockHost:$mockPort"
+
+  def fakeConfig(extraConfig: (String,String)*) = Map(
+    "play.filters.csrf.header.bypassHeaders.X-Requested-With" -> "*",
+    "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck",
+    "auditing.consumer.baseUri.host" -> s"$mockHost",
+    "auditing.consumer.baseUri.port" -> s"$mockPort"
+  ) ++ extraConfig
+}

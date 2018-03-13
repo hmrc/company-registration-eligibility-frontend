@@ -26,7 +26,7 @@ import models.{CheckMode, Mode, NormalMode, OrdinaryShares}
 @Singleton
 class Navigator @Inject()() {
 
-  private def pageIdToPageLoad(pageId: Identifier) = pageId match {
+  private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
     case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
     case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
     case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
@@ -35,12 +35,12 @@ class Navigator @Inject()() {
     case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
-    case _ => ???
+    case _ => throw new RuntimeException(s"[Navigator] [pageIdToPageLoad] Could not load page for pageId: $pageId")
   }
 
   private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
 
-  private def nextOnFalse(fromPage: Identifier, toPage: Identifier): (Identifier, UserAnswers => Call) = {
+  private[utils] def nextOnFalse(fromPage: Identifier, toPage: Identifier): (Identifier, UserAnswers => Call) = {
     fromPage -> {
       _.getAnswer(fromPage) match {
         case Some(false) => pageIdToPageLoad(toPage)

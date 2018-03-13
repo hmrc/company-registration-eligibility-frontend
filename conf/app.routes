@@ -42,3 +42,5 @@ POST       /secure-register-form                        controllers.SecureRegist
 
 GET        /set-up-company                              controllers.EligibleController.onPageLoad()
 POST       /set-up-company                              controllers.EligibleController.onSubmit()
+
+GET        /feedback                                    controllers.FeedbackController.show()

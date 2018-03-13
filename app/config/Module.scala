@@ -18,6 +18,7 @@ package config
 
 import com.google.inject.AbstractModule
 import controllers.actions._
+import controllers.{EligibleController, EligibleControllerImpl, FeedbackController, FeedbackControllerImpl}
 
 class Module extends AbstractModule {
 
@@ -29,5 +30,9 @@ class Module extends AbstractModule {
 
     // For session based storage instead of cred based, change to SessionActionImpl
     bind(classOf[CacheIdentifierAction]).to(classOf[SessionActionImpl]).asEagerSingleton()
+
+    // Controllers
+    bind(classOf[EligibleController]).to(classOf[EligibleControllerImpl]).asEagerSingleton()
+    bind(classOf[FeedbackController]).to(classOf[FeedbackControllerImpl]).asEagerSingleton()
   }
 }

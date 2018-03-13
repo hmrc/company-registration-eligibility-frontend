@@ -18,25 +18,26 @@ package controllers
 
 import javax.inject.Inject
 
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import controllers.actions._
 import config.FrontendAppConfig
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
-import views.html.ineligible
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
-class IneligibleController @Inject()(appConfig: FrontendAppConfig,
-                                     override val messagesApi: MessagesApi,
-                                     identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
+class FeedbackControllerImpl @Inject()(val appConfig: FrontendAppConfig,
+                                       override val messagesApi: MessagesApi) extends FeedbackController {
+  val feedbackUrl       = appConfig.feedbackUrl
+  val frontendUrl       = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
+}
 
-  def onPageLoad(inelligibleType: String) = (identify) {
+trait FeedbackController extends FrontendController with I18nSupport {
+  val appConfig : FrontendAppConfig
+  val frontendUrl : String
+  val feedbackUrl : String
+
+  def show: Action[AnyContent] = Action.async {
     implicit request =>
-      Ok(ineligible(appConfig, inelligibleType))
-  }
-
-  def onSubmit: Action[AnyContent] = Action { implicit request =>
-    Redirect(appConfig.webincsUrl)
+      Future.successful(Redirect(s"$frontendUrl$feedbackUrl"))
   }
 }

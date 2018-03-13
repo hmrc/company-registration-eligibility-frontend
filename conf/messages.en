@@ -37,7 +37,7 @@ site.no = No
 site.yes = Yes
 site.continue = Continue
 site.save_and_continue = Save and continue
-site.service_name = company-registration-eligibility-frontend
+site.service_name = Register your company
 site.textarea.char_limit = (Limit is {0} characters)
 
 common.feedbackFirst                                                = This is a new service - your
