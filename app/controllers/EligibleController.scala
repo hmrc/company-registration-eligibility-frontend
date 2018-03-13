@@ -16,27 +16,46 @@
 
 package controllers
 
+import java.net.URLEncoder
 import javax.inject.Inject
 
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import controllers.actions._
 import config.FrontendAppConfig
+import controllers.actions._
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.eligible
 
-import scala.concurrent.Future
+class EligibleControllerImpl @Inject()(val appConfig: FrontendAppConfig,
+                                       override val messagesApi: MessagesApi,
+                                       val identify: CacheIdentifierAction) extends EligibleController {
+  val postSignInUri     = appConfig.postSignInUrl
+  val ggMakeAccountUrl  = appConfig.ggMakeAccountUrl
+  val frontendUrl       = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
+}
 
-class EligibleController @Inject()(appConfig: FrontendAppConfig,
-                                         override val messagesApi: MessagesApi,
-                                         identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
+trait EligibleController extends FrontendController with I18nSupport {
+  val appConfig : FrontendAppConfig
+  val frontendUrl : String
+  val ggMakeAccountUrl : String
+  val postSignInUri : String
+  val identify : CacheIdentifierAction
 
-  def onPageLoad = (identify) {
+  private[controllers] def buildCreateAccountURL: String = {
+    val crfePostSignIn = s"$frontendUrl$postSignInUri"
+    val ggrf = "government-gateway-registration-frontend"
+    val accountType = "accountType=organisation"
+    val origin = "origin=company-registration-frontend"
+    val continueURL = s"continue=${URLEncoder.encode(s"$crfePostSignIn","UTF-8")}"
+    s"$ggMakeAccountUrl/$ggrf?$accountType&$continueURL&$origin"
+  }
+
+  def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
       Ok(eligible(appConfig))
   }
 
   def onSubmit: Action[AnyContent] = Action { implicit request =>
-    Redirect(controllers.routes.EligibleController.onPageLoad())
+    Redirect(buildCreateAccountURL)
   }
 }

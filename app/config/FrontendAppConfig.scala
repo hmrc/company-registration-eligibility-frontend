@@ -40,6 +40,17 @@ class FrontendAppConfig @Inject() (override val runModeConfiguration: Configurat
   lazy val loginUrl = loadConfig("urls.login")
   lazy val loginContinueUrl = loadConfig("urls.loginContinue")
 
+  private val configRoot = "microservice.services"
+
+  lazy val compRegFEURL     = baseUrl("company-registration-frontend")
+  lazy val compRegFEURI     = loadConfig(s"$configRoot.company-registration-frontend.www.uri")
+  lazy val postSignInUrl    = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
+  lazy val feedbackUrl      = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
+
+  lazy val webincsUrl       = getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
+
+  lazy val ggMakeAccountUrl = baseUrl("gg-reg-fe")
+
   lazy val languageTranslationEnabled = runModeConfiguration.getBoolean("microservice.services.features.welsh-translation").getOrElse(true)
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

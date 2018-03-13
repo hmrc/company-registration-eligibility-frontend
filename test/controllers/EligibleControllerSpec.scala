@@ -25,7 +25,11 @@ class EligibleControllerSpec extends ControllerSpecBase {
   def onwardRoute = routes.EligibleController.onPageLoad()
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new EligibleController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)
+    new EligibleControllerImpl(frontendAppConfig, messagesApi, FakeCacheIdentifierAction) {
+      override val postSignInUri     = "piUr"
+      override val frontendUrl       = "frUr"
+      override val ggMakeAccountUrl  = "ggMa"
+    }
 
   def viewAsString() = eligible(frontendAppConfig)(fakeRequest, messages).toString
 
@@ -38,13 +42,14 @@ class EligibleControllerSpec extends ControllerSpecBase {
       contentAsString(result) mustBe viewAsString()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to GG create account URL when the user hits submit" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody()
 
       val result = controller().onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(onwardRoute.url)
+      redirectLocation(result).get must include("ggMa/government-gateway-registration-frontend")
+      redirectLocation(result).get must include("continue=frUrpiUr")
     }
 
   }

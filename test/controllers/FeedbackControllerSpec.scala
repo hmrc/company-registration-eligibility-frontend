@@ -18,33 +18,25 @@ package controllers
 
 import controllers.actions._
 import play.api.test.Helpers._
-import views.html.ineligible
+import views.html.eligible
 
-class IneligibleControllerSpec extends ControllerSpecBase {
-
-  def onwardRoute = routes.IndexController.onPageLoad()
+class FeedbackControllerSpec extends ControllerSpecBase {
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new IneligibleController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)
-
-  def viewAsString() = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
-
-  "Ineligible Controller" must {
-
-    "return OK and the correct view for a GET" in {
-      val result = controller().onPageLoad("foo")(fakeRequest)
-
-      status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString()
+    new FeedbackControllerImpl(frontendAppConfig, messagesApi) {
+      override val feedbackUrl     = "feUr"
+      override val frontendUrl     = "frUr"
     }
 
-    "redirect to the next page when valid data is submitted" in {
-      val postRequest = fakeRequest.withFormUrlEncodedBody()
+  "Eligible Controller" must {
 
-      val result = controller().onSubmit()(postRequest)
+    "redirect to company registration feedback submission on show" in {
+      val req = fakeRequest.withFormUrlEncodedBody()
+
+      val result = controller().show()(req)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(frontendAppConfig.webincsUrl)
+      redirectLocation(result).get must include("frUrfeUr")
     }
 
   }

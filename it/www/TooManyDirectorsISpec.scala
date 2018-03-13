@@ -32,7 +32,7 @@ class TooManyDirectorsISpec extends FakeConfig with UnitSpec
 
   override implicit lazy val app = FakeApplication(additionalConfiguration = fakeConfig())
 
-  private def client(path: String) = ws.url(s"http://localhost:$port/company-registration-eligibility$path").withFollowRedirects(false)
+  private def client(path: String) = ws.url(s"http://localhost:$port/eligibility-for-setting-up-company$path").withFollowRedirects(false)
 
   override def beforeAll() = {
     super.beforeAll()
