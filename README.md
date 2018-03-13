@@ -1,7 +1,6 @@
 # company-registration-eligibility-frontend
 
-[![Build Status](https://travis-ci.org/hmrc/company-registration-eligibility-frontend.svg)](https://travis-ci.org/hmrc/company-registration-eligibility-frontend) [ ![Download](https://api.bintray.com/
-packages/hmrc/releases/company-registration-eligibility-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/company-registration-eligibility-frontend/_latestVersion)
+[![Build Status](https://travis-ci.org/hmrc/company-registration-eligibility-frontend.svg)](https://travis-ci.org/hmrc/company-registration-eligibility-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/company-registration-eligibility-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/company-registration-eligibility-frontend/_latestVersion)
 
 This is a placeholder README.md for a new repository
 

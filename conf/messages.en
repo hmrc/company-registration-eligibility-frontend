@@ -18,8 +18,7 @@ error.integer = Give an answer in whole numbers
 error.non_numeric = Give a value using only numbers
 error.number = Please enter a valid number
 error.required = Please enter a value
-error.summary.title = There’s been a problem
-error.summary.text = Check the following
+error.summary.title = This page has errors
 
 index.title = company-registration-eligibility-frontend
 index.heading = company-registration-eligibility-frontend
@@ -46,22 +45,22 @@ common.feedbackSecond                                               = feedback
 common.feedbackThird                                                = will help us to improve it.
 common.feedbackLinkText                                             = feedback
 
-unauthorised.title = You can’t access this service with this account
-unauthorised.heading = You can’t access this service with this account
+unauthorised.title = You can''t access this service with this account
+unauthorised.heading = You can''t access this service with this account
 
 beforeYouStart.title = Check before you start
 beforeYouStart.heading = Check before you start
-beforeYouStart.text = We’re going to ask some questions. Your answers will:
+beforeYouStart.text = We''re going to ask some questions. Your answers will:
 beforeYouStart.bullet1 = show whether you can use this service to register a limited company and set up Corporation Tax
-beforeYouStart.bullet2 = take you to another service if you’re not eligible to use this one
+beforeYouStart.bullet2 = take you to another service if you''re not eligible to use this one
 beforeYouStart.submit = Continue to questions
 
-ordinaryShares.title = Will the company have ‘ordinary shares’?
-ordinaryShares.heading = Will the company have ‘ordinary shares’?
+ordinaryShares.title = Will the company have ''ordinary shares''?
+ordinaryShares.heading = Will the company have ''ordinary shares''?
 ordinaryShares.yes = Yes
 ordinaryShares.no = No
 ordinaryShares.dk = I don''t know
-ordinaryShares.checkYourAnswersLabel = Will the company have ‘ordinary shares’?
+ordinaryShares.checkYourAnswersLabel = Will the company have ''ordinary shares''?
 ordinaryShares.error.required = Tell us if the company will have ordinary shares
 ordinaryShares.p1 = The company must have at least one shareholder with at least one share. For this service, it will need to be an ordinary share.
 ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
@@ -77,13 +76,14 @@ tooManyDirectors.text = Company officers are directors or secretaries who repres
 
 ineligible.title = You need to use another service
 ineligible.heading = You need to use another service
-ineligible.tooManyDirectors.text = To set up a company with more than 5 company officers, you''ll need to use another service.
-ineligible.ordinaryShares.text = To set up a company that doesn''t have ordinary shares, you''ll need to use another service.
-ineligible.parentCompany.text = To set up a company that has a parent company, you''ll need to use another service.
-ineligible.takingOverBusiness.text = To set up a company that''s taking over another business, you''ll need to use another service.
-ineligible.corporateOfficer.text = To set up a company with a corporate director or secretary, you''ll need to use another service.
-ineligible.corporateShareholder.text = To set up a company with a corporate shareholder, you''ll need to use another service.
-ineligible.secureRegister.text = To set up a company when one of its directors or secretaries has successfully applied to be on the Companies House secure register, you''ll need to use another service.
+ineligible.text = To set up a company {0}, you''ll need to use another service.
+ineligible.tooManyDirectors.text = with more than 5 company officers
+ineligible.ordinaryShares.text = that doesn''t have ordinary shares
+ineligible.parentCompany.text = that has a parent company
+ineligible.takingOverBusiness.text = that''s taking over another business
+ineligible.corporateOfficer.text = with a corporate director or secretary
+ineligible.corporateShareholder.text = with a corporate shareholder
+ineligible.secureRegister.text = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
 ineligible.submit = Use other service
 
 parentCompany.title = Will a parent company control the company you''re setting up?
@@ -125,7 +125,6 @@ secureRegister.error.required = Tell us if Companies House already protects the 
 secureRegister.text = This includes any:
 secureRegister.bullet1 = company directors
 secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, people who have significant influence over the way the company is run
-
 
 eligible.title = You can set up a company with this service
 eligible.heading = You can set up a company with this service

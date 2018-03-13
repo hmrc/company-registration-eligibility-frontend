@@ -16,11 +16,13 @@
 
 @(dropdownKey: String, dropdownContentList : Seq[String])(implicit messages: Messages)
 
-<details>
-    <summary class="summary">@Messages(dropdownKey)</summary>
-    <div class="panel panel-border-narrow">
-        @for(content <- dropdownContentList) {
+<div class="form-group">
+    <details>
+        <summary><span class="summary">@Messages(dropdownKey)</span></summary>
+        <div class="panel panel-border-narrow">
+            @for(content <- dropdownContentList) {
             <p>@Messages(content)</p>
-        }
-    </div>
-</details>
+            }
+        </div>
+    </details>
+</div>
