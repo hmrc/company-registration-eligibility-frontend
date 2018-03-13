@@ -16,14 +16,9 @@
 
 @(textKey: String, bulletKeys: Seq[String])(implicit messages: Messages)
 
-<div class="form-group">
- <p class="lede">@Messages(textKey)</p>
-</div>
-
-<div class="form-group">
+ <p>@Messages(textKey)</p>
  <ul class="list list-bullet">
   @for(bulletKey <- bulletKeys) {
-  <li>@Messages(bulletKey)</li>
+   <li>@Messages(bulletKey)</li>
   }
  </ul>
-</div>

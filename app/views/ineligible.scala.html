@@ -26,7 +26,7 @@
 
     @components.heading("ineligible.heading")
 
-    @components.text(s"ineligible.${inelligibleType}.text")
+    @components.text_with_variables("ineligible.text", s"ineligible.${inelligibleType}.text")
 
     @form(action = controllers.routes.IneligibleController.onSubmit()) {
         @components.button("ineligible.submit", "submit")

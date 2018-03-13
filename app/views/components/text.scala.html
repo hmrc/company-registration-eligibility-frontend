@@ -14,8 +14,7 @@
  * limitations under the License.
  *@
 
-@(textKey: String)(implicit messages: Messages)
+@(textKey: String, indented: Boolean = false)(implicit messages: Messages)
 
-<div class="form-group">
- <p>@Messages(textKey)</p>
-</div>
+
+<p @if(indented){class="indent"}>@Messages(textKey)</p>
