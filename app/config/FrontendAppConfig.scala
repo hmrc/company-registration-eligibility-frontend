@@ -49,7 +49,7 @@ class FrontendAppConfig @Inject() (override val runModeConfiguration: Configurat
 
   lazy val webincsUrl       = getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
 
-  lazy val ggMakeAccountUrl = baseUrl("gg-reg-fe")
+  lazy val ggMakeAccountUrl = loadConfig(s"$configRoot.gg-reg-fe.url")
 
   lazy val languageTranslationEnabled = runModeConfiguration.getBoolean("microservice.services.features.welsh-translation").getOrElse(true)
   def languageMap: Map[String, Lang] = Map(
