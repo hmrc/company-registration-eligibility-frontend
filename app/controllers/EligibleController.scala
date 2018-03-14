@@ -31,18 +31,18 @@ class EligibleControllerImpl @Inject()(val appConfig: FrontendAppConfig,
                                        val identify: CacheIdentifierAction) extends EligibleController {
   val postSignInUri     = appConfig.postSignInUrl
   val ggMakeAccountUrl  = appConfig.ggMakeAccountUrl
-  val frontendUrl       = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
+  val companyRegURI     = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
 }
 
 trait EligibleController extends FrontendController with I18nSupport {
   val appConfig : FrontendAppConfig
-  val frontendUrl : String
+  val companyRegURI : String
   val ggMakeAccountUrl : String
   val postSignInUri : String
   val identify : CacheIdentifierAction
 
   private[controllers] def buildCreateAccountURL: String = {
-    val crfePostSignIn = s"$frontendUrl$postSignInUri"
+    val crfePostSignIn = s"$companyRegURI$postSignInUri"
     val ggrf = "government-gateway-registration-frontend"
     val accountType = "accountType=organisation"
     val origin = "origin=company-registration-frontend"

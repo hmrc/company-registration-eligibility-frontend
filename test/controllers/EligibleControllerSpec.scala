@@ -26,8 +26,8 @@ class EligibleControllerSpec extends ControllerSpecBase {
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
     new EligibleControllerImpl(frontendAppConfig, messagesApi, FakeCacheIdentifierAction) {
-      override val postSignInUri     = "piUr"
-      override val frontendUrl       = "frUr"
+      override val postSignInUri     = "/psiuri"
+      override val companyRegURI     = "/uri"
       override val ggMakeAccountUrl  = "ggMa"
     }
 
@@ -49,7 +49,7 @@ class EligibleControllerSpec extends ControllerSpecBase {
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result).get must include("ggMa/government-gateway-registration-frontend")
-      redirectLocation(result).get must include("continue=frUrpiUr")
+      redirectLocation(result).get must include("continue=%2Furi%2Fpsiuri")
     }
 
   }
