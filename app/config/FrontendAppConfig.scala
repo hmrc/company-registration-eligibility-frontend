@@ -42,8 +42,8 @@ class FrontendAppConfig @Inject() (override val runModeConfiguration: Configurat
 
   private val configRoot = "microservice.services"
 
-  lazy val compRegFEURL     = baseUrl("company-registration-frontend")
-  lazy val compRegFEURI     = loadConfig(s"$configRoot.company-registration-frontend.www.uri")
+  lazy val compRegFEURL     = loadConfig(s"$configRoot.company-registration-frontend.url")
+  lazy val compRegFEURI     = loadConfig(s"$configRoot.company-registration-frontend.uri")
   lazy val postSignInUrl    = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
   lazy val feedbackUrl      = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
 
