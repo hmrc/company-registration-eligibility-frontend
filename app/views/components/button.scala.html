@@ -20,6 +20,4 @@ inputType: String = "button",
 bid: String = ""
 )(implicit messages: Messages)
 
-<div class="section">
-    <input type="@inputType" class="button" id="@bid" value="@messages(messageKey)" />
-</div>
+<input type="@inputType" class="button" id="@bid" value="@messages(messageKey)" />

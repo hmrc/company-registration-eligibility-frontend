@@ -27,15 +27,15 @@
     appConfig = appConfig,
     bodyClasses = None) {
 
+    @components.back_link()
+
+    @components.error_summary(form.errors)
+
+    @components.heading("secureRegister.heading")
+
+    @components.text_with_bullets("secureRegister.text",Seq("secureRegister.bullet1","secureRegister.bullet2"))
+
     @helpers.form(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
-
-        @components.back_link()
-
-        @components.error_summary(form.errors)
-
-        @components.heading("secureRegister.heading")
-
-        @components.text_with_bullets("secureRegister.text",Seq("secureRegister.bullet1","secureRegister.bullet2"))
 
         @components.input_yes_no(
             field = form("value"),

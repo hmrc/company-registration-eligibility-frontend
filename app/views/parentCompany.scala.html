@@ -27,15 +27,15 @@
     appConfig = appConfig,
     bodyClasses = None) {
 
+    @components.back_link()
+
+    @components.error_summary(form.errors)
+
+    @components.heading("parentCompany.heading")
+
+    @components.text("parentCompany.text")
+
     @helpers.form(action = ParentCompanyController.onSubmit(), 'autoComplete -> "off") {
-
-        @components.back_link()
-
-        @components.error_summary(form.errors)
-
-        @components.heading("parentCompany.heading")
-
-        @components.text("parentCompany.text")
 
         @components.input_yes_no(
             field = form("value"),
