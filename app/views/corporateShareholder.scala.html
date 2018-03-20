@@ -27,17 +27,17 @@
     appConfig = appConfig,
     bodyClasses = None) {
 
+    @components.back_link()
+
+    @components.error_summary(form.errors)
+
+    @components.heading("corporateShareholder.heading")
+
+    @components.text("corporateShareholder.text")
+
+    @components.info_dropdown("corporateOfficer.whatis", Seq("corporateOfficer.dropdown"))
+
     @helpers.form(action = CorporateShareholderController.onSubmit(), 'autoComplete -> "off") {
-
-        @components.back_link()
-
-        @components.error_summary(form.errors)
-
-        @components.heading("corporateShareholder.heading")
-
-        @components.text("corporateShareholder.text")
-
-        @components.info_dropdown("corporateOfficer.whatis", Seq("corporateOfficer.dropdown"))
 
         @components.input_yes_no(
             field = form("value"),
