@@ -32,11 +32,11 @@
             @if(hint.nonEmpty){
                 <span class="form-hint">@{hint.get}</span>
             }
+            @field.errors.map { error =>
+                <span class="error-notification" id="error-message-@{field.id}-input">@messages(error.message, error.args: _*)</span>
+            }
         </legend>
 
-        @field.errors.map { error =>
-            <span class="error-notification" id="error-message-@{field.id}-input">@messages(error.message, error.args: _*)</span>
-        }
         @for(input <- inputs) {
             <div class="multiple-choice">
                 <input id="@{input.id}" type="radio" name="@{field.id}" value="@{input.value}" @if(field.value == Some(input.value)){checked="checked"} @if(trackGa){data-journey-click="company-registration-eligibility-frontend:click:@{input.id}"} />
