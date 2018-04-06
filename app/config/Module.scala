@@ -29,7 +29,7 @@ class Module extends AbstractModule {
     bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
 
     // For session based storage instead of cred based, change to SessionActionImpl
-    bind(classOf[CacheIdentifierAction]).to(classOf[SessionActionImpl]).asEagerSingleton()
+    bind(classOf[IdentifierAction]).to(classOf[SessionIdentifierAction]).asEagerSingleton()
 
     // Controllers
     bind(classOf[EligibleController]).to(classOf[EligibleControllerImpl]).asEagerSingleton()

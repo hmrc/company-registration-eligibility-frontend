@@ -17,12 +17,12 @@
 package controllers.actions
 
 import play.api.mvc.{Request, Result}
-import models.requests.CacheIdentifierRequest
+import models.requests.IdentifierRequest
 
 import scala.concurrent.Future
 
-object FakeCacheIdentifierAction extends CacheIdentifierAction {
-  override def invokeBlock[A](request: Request[A], block: (CacheIdentifierRequest[A]) => Future[Result]): Future[Result] =
-    block(CacheIdentifierRequest(request, "id"))
+object FakeCacheIdentifierAction extends IdentifierAction {
+  override def invokeBlock[A](request: Request[A], block: (IdentifierRequest[A]) => Future[Result]): Future[Result] =
+    block(IdentifierRequest(request, "id"))
 }
 

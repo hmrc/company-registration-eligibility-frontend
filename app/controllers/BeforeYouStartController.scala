@@ -29,7 +29,7 @@ import scala.concurrent.Future
 
 class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
-                                         identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
+                                         identify: IdentifierAction) extends FrontendController with I18nSupport {
 
   def onPageLoad = (identify) {
     implicit request =>

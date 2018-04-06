@@ -28,7 +28,7 @@ import views.html.eligible
 
 class EligibleControllerImpl @Inject()(val appConfig: FrontendAppConfig,
                                        override val messagesApi: MessagesApi,
-                                       val identify: CacheIdentifierAction) extends EligibleController {
+                                       val identify: IdentifierAction) extends EligibleController {
   val postSignInUri     = appConfig.postSignInUrl
   val ggMakeAccountUrl  = appConfig.ggMakeAccountUrl
   val companyRegURI     = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
@@ -39,7 +39,7 @@ trait EligibleController extends FrontendController with I18nSupport {
   val companyRegURI : String
   val ggMakeAccountUrl : String
   val postSignInUri : String
-  val identify : CacheIdentifierAction
+  val identify : IdentifierAction
 
   private[controllers] def buildCreateAccountURL: String = {
     val crfePostSignIn = s"$companyRegURI$postSignInUri"

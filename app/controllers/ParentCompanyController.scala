@@ -36,7 +36,7 @@ class ParentCompanyController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
                                          dataCacheConnector: DataCacheConnector,
                                          navigator: Navigator,
-                                         identify: CacheIdentifierAction,
+                                         identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
                                          formProvider: ParentCompanyFormProvider) extends FrontendController with I18nSupport {
