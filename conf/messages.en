@@ -37,7 +37,7 @@ site.no = No
 site.yes = Yes
 site.continue = Continue
 site.save_and_continue = Save and continue
-site.service_name = Register your company
+site.service_name = Set up a limited company and register for Corporation Tax
 site.textarea.char_limit = (Limit is {0} characters)
 
 common.feedbackFirst                                                = This is a new service - your
@@ -51,7 +51,7 @@ unauthorised.heading = You can''t access this service with this account
 beforeYouStart.title = Check before you start
 beforeYouStart.heading = Check before you start
 beforeYouStart.text = We''re going to ask some questions. Your answers will:
-beforeYouStart.bullet1 = show whether you can use this service to register a limited company and set up Corporation Tax
+beforeYouStart.bullet1 = show whether you can use this service to set up a limited company and register for Corporation Tax
 beforeYouStart.bullet2 = take you to another service if you''re not eligible to use this one
 beforeYouStart.submit = Continue to questions
 
