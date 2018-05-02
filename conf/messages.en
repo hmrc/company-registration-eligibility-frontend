@@ -70,7 +70,6 @@ ordinaryShares.dontknow = The vast majority of companies have ordinary shares. W
 
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
-tooManyDirectors.checkYourAnswersLabel = Wibble wibble I''m a teapot (says George)
 tooManyDirectors.error.required = Tell us if you want to register more than 5 directors
 tooManyDirectors.text = Company officers are directors or secretaries who represent the company and make key decisions about how it''s run.
 
@@ -101,7 +100,7 @@ takingOverBusiness.bullet1 = buying another limited company
 takingOverBusiness.bullet2 = changing a sole trader business into a limited company
 takingOverBusiness.bullet3 = changing a partnership business into a limited company
 takingOverBusiness.whatis = What is a sole trader or partnership business?
-takingOverBusiness.dropdown.p1 = A sole trader is someone who's self-employed and is the only owner of their business.
+takingOverBusiness.dropdown.p1 = A sole trader is someone who''s self-employed and is the only owner of their business.
 takingOverBusiness.dropdown.p2 = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
 
 corporateOfficer.title = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
