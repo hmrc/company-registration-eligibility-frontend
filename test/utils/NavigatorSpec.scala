@@ -64,6 +64,14 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
     }
   }
 
+  "taking over business" should {
+    "redirect to coperate shareholders" in {
+      val userAnswers = new UserAnswers(CacheMap("id", Map(TakingOverBusinessId.toString -> JsBoolean(false))))
+      navigator.nextPage(TakingOverBusinessId, NormalMode)(userAnswers).url mustBe controllers.routes.CorporateShareholderController.onPageLoad().url
+
+    }
+  }
+
   "nextOnFalse" should {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
