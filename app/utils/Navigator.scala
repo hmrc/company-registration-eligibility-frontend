@@ -58,7 +58,7 @@ class Navigator @Inject()() {
       }
     },
     nextOnFalse(ParentCompanyId, TakingOverBusinessId),
-    nextOnFalse(TakingOverBusinessId, CorporateOfficerId),
+    nextOnFalse(TakingOverBusinessId, CorporateShareholderId),
     nextOnFalse(CorporateOfficerId, CorporateShareholderId),
     nextOnFalse(CorporateShareholderId, SecureRegisterId),
     nextOnFalse(SecureRegisterId, EligibleId),
