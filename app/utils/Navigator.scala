@@ -31,7 +31,6 @@ class Navigator @Inject()() {
     case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
     case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
     case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
-    case CorporateOfficerId => routes.CorporateOfficerController.onPageLoad()
     case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
@@ -59,7 +58,6 @@ class Navigator @Inject()() {
     },
     nextOnFalse(ParentCompanyId, TakingOverBusinessId),
     nextOnFalse(TakingOverBusinessId, CorporateShareholderId),
-    nextOnFalse(CorporateOfficerId, CorporateShareholderId),
     nextOnFalse(CorporateShareholderId, SecureRegisterId),
     nextOnFalse(SecureRegisterId, EligibleId),
     nextOnFalse(EligibleId, EligibleId)

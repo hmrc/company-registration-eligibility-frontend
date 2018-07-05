@@ -44,7 +44,6 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
         OrdinarySharesId -> routes.OrdinarySharesController.onPageLoad(NormalMode),
         ParentCompanyId -> routes.ParentCompanyController.onPageLoad(),
         TakingOverBusinessId -> routes.TakingOverBusinessController.onPageLoad(),
-        CorporateOfficerId -> routes.CorporateOfficerController.onPageLoad(),
         CorporateShareholderId -> routes.CorporateShareholderController.onPageLoad(),
         SecureRegisterId -> routes.SecureRegisterController.onPageLoad(),
         EligibleId -> routes.EligibleController.onPageLoad()

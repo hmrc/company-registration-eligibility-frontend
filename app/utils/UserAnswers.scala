@@ -28,8 +28,6 @@ class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
 
   def corporateShareholder: Option[Boolean] = cacheMap.getEntry[Boolean](CorporateShareholderId.toString)
 
-  def corporateOfficer: Option[Boolean] = cacheMap.getEntry[Boolean](CorporateOfficerId.toString)
-
   def takingOverBusiness: Option[Boolean] = cacheMap.getEntry[Boolean](TakingOverBusinessId.toString)
 
   def parentCompany: Option[Boolean] = cacheMap.getEntry[Boolean](ParentCompanyId.toString)
