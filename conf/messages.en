@@ -80,7 +80,6 @@ ineligible.tooManyDirectors.text = with more than 5 company officers
 ineligible.ordinaryShares.text = that doesn''t have ordinary shares
 ineligible.parentCompany.text = that has a parent company
 ineligible.takingOverBusiness.text = that''s taking over another business
-ineligible.corporateOfficer.text = with a corporate director or secretary
 ineligible.corporateShareholder.text = with a corporate shareholder
 ineligible.secureRegister.text = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
 ineligible.submit = Use other service
@@ -103,19 +102,13 @@ takingOverBusiness.whatis = What is a sole trader or partnership business?
 takingOverBusiness.dropdown.p1 = A sole trader is someone who''s self-employed and is the only owner of their business.
 takingOverBusiness.dropdown.p2 = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
 
-corporateOfficer.title = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
-corporateOfficer.heading = Do you need to include a ''corporate director'' or ''corporate secretary'' in this application?
-corporateOfficer.checkYourAnswersLabel = corporateOfficer
-corporateOfficer.error.required = Tell us if you need to include a ''corporate director'' or ''corporate secretary'' in this application
-corporateOfficer.text = This is a company director or secretary that''s a corporate body not a human being.
-corporateOfficer.whatis = What is a corporate body?
-corporateOfficer.dropdown = A corporate body is a legal entity, such as a company, club or association, that has legal rights and obligations.
-
 corporateShareholder.title = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.heading = Do you need to include a ''corporate shareholder'' in this application?
 corporateShareholder.checkYourAnswersLabel = corporateShareholder
 corporateShareholder.error.required = Tell us if you need to include a ''corporate shareholder'' in this application
 corporateShareholder.text = This is a shareholder that''s a corporate body not a human being.
+corporateShareholder.whatis = What is a corporate body?
+corporateShareholder.dropdown = A corporate body is a legal entity, such as a company, club or association, that has legal rights and obligations.
 
 secureRegister.title = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
 secureRegister.heading = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?

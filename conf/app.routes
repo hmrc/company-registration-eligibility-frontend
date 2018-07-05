@@ -31,9 +31,6 @@ POST       /parent-company                              controllers.ParentCompan
 GET        /taking-over-business                        controllers.TakingOverBusinessController.onPageLoad()
 POST       /taking-over-business                        controllers.TakingOverBusinessController.onSubmit()
 
-GET        /corporate-director-secretary                controllers.CorporateOfficerController.onPageLoad()
-POST       /corporate-director-secretary                controllers.CorporateOfficerController.onSubmit()
-
 GET        /corporate-shareholder                       controllers.CorporateShareholderController.onPageLoad()
 POST       /corporate-shareholder                       controllers.CorporateShareholderController.onSubmit()
 
