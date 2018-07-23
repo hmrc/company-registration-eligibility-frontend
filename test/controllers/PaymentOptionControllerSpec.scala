@@ -23,26 +23,25 @@ import utils.FakeNavigator
 import connectors.FakeDataCacheConnector
 import controllers.actions._
 import play.api.test.Helpers._
-import forms.TooManyDirectorsFormProvider
-import identifiers.TooManyDirectorsId
+import forms.PaymentOptionFormProvider
+import identifiers.PaymentOptionId
 import models.NormalMode
-import views.html.tooManyDirectors
+import views.html.paymentOption
 
-class TooManyDirectorsControllerSpec extends ControllerSpecBase {
+class PaymentOptionControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.OrdinarySharesController.onPageLoad(NormalMode)
-  def ineligibleRoute = routes.IneligibleController.onPageLoad(TooManyDirectorsId.toString)
+  def onwardRoute = routes.IndexController.onPageLoad()
 
-  val formProvider = new TooManyDirectorsFormProvider()
+  val formProvider = new PaymentOptionFormProvider()
   val form = formProvider()
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new TooManyDirectorsController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(desiredRoute = onwardRoute), FakeCacheIdentifierAction,
+    new PaymentOptionController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(desiredRoute = onwardRoute), FakeCacheIdentifierAction,
       dataRetrievalAction, new DataRequiredActionImpl, formProvider)
 
-  def viewAsString(form: Form[_] = form) = tooManyDirectors(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form) = paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
-  "TooManyDirectors Controller" must {
+  "PaymentOption Controller" must {
 
     "return OK and the correct view for a GET" in {
       val result = controller().onPageLoad()(fakeRequest)
@@ -52,7 +51,7 @@ class TooManyDirectorsControllerSpec extends ControllerSpecBase {
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
-      val validData = Map(TooManyDirectorsId.toString -> JsBoolean(true))
+      val validData = Map(PaymentOptionId.toString -> JsBoolean(true))
       val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)))
 
       val result = controller(getRelevantData).onPageLoad()(fakeRequest)
@@ -60,7 +59,7 @@ class TooManyDirectorsControllerSpec extends ControllerSpecBase {
       contentAsString(result) mustBe viewAsString(form.fill(true))
     }
 
-    "redirect to the onward route when a no is submitted" in {
+    "redirect to the next page when valid data is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
 
       val result = controller().onSubmit()(postRequest)
@@ -82,8 +81,7 @@ class TooManyDirectorsControllerSpec extends ControllerSpecBase {
     "redirect to Session Expired for a GET if no existing data is found" in {
       val result = controller(dontGetAnyData).onPageLoad()(fakeRequest)
 
-      status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad().url)
+      status(result) mustBe OK
     }
 
     "redirect to Session Expired for a POST if no existing data is found" in {
@@ -91,7 +89,7 @@ class TooManyDirectorsControllerSpec extends ControllerSpecBase {
       val result = controller(dontGetAnyData).onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(onwardRoute.url)
     }
   }
 }

@@ -17,44 +17,31 @@
 package www
 
 import controllers.routes
-import helpers.FakeConfig
-import itutil.WiremockHelper
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, WordSpecLike}
-import org.scalatestplus.play.OneServerPerSuite
+import helpers.{AuthHelper, IntegrationSpecBase, SessionHelper}
+import identifiers.PaymentOptionId
+import play.api.http.HeaderNames
 import play.api.test.FakeApplication
-import uk.gov.hmrc.play.test.UnitSpec
 
-class TooManyDirectorsISpec extends FakeConfig with UnitSpec
-  with OneServerPerSuite with WordSpecLike with WiremockHelper with BeforeAndAfterAll with BeforeAndAfterEach {
-  val mockPort = 11111
-  val mockHost = "localhost"
-  val url = s"http://$mockHost:$mockPort"
+class TooManyDirectorsISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
 
   override implicit lazy val app = FakeApplication(additionalConfiguration = fakeConfig())
 
   private def client(path: String) = ws.url(s"http://localhost:$port/eligibility-for-setting-up-company$path").withFollowRedirects(false)
 
-  override def beforeAll() = {
-    super.beforeAll()
-    startWiremock()
-  }
-
-  override def afterAll() = {
-    stopWiremock()
-    super.afterAll()
-  }
-
-  override def beforeEach() = {
-    resetWiremock()
-  }
-
   s"GET ${routes.TooManyDirectorsController.onPageLoad().url}" should {
-
-    "return the do you want to register more than five directors page" in {
+    "redirect if you have no saved data" in {
       val fResponse = client("/register-more-than-five-directors").get()
       val response = await(fResponse)
 
-      response.status shouldBe 200
+      response.status mustBe 303
+    }
+    "open the page if data is already stored" in {
+      cacheSessionData(sessionId, PaymentOptionId.toString, true)
+
+      val fResponse = client("/register-more-than-five-directors").withHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
+      val response = await(fResponse)
+
+      response.status mustBe 200
     }
   }
 }

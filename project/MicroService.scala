@@ -44,7 +44,7 @@ trait MicroService {
     .settings(publishingSettings: _*)
     .settings(defaultSettings(): _*)
     .settings(
-      scalacOptions ++= Seq("-Xfatal-warnings", "-feature"),
+      scalacOptions ++= Seq("-feature"),
       libraryDependencies ++= appDependencies,
       retrieveManaged := true,
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)

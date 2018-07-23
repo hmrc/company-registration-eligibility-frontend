@@ -22,7 +22,7 @@ import views.html.beforeYouStart
 
 class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.TooManyDirectorsController.onPageLoad()
+  def onwardRoute = routes.PaymentOptionController.onPageLoad()
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
     new BeforeYouStartController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)

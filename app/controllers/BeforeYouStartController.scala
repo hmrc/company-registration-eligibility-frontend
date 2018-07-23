@@ -37,6 +37,6 @@ class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
   }
 
   def onSubmit: Action[AnyContent] = Action { implicit request =>
-    Redirect(controllers.routes.TooManyDirectorsController.onPageLoad())
+    Redirect(controllers.routes.PaymentOptionController.onPageLoad())
   }
 }
