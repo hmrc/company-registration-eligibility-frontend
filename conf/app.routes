@@ -22,6 +22,7 @@ POST       /register-more-than-five-directors           controllers.TooManyDirec
 GET        /changeOrdinaryShares                        controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeOrdinaryShares                        controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)
 
+GET        /ineligible/paymentOption                    controllers.IneligibleController.onPageLoadPayment()
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
 POST       /ineligible                                  controllers.IneligibleController.onSubmit()
 
@@ -41,3 +42,6 @@ GET        /set-up-company                              controllers.EligibleCont
 POST       /set-up-company                              controllers.EligibleController.onSubmit()
 
 GET        /feedback                                    controllers.FeedbackController.show()
+
+GET        /card-paypal                                 controllers.PaymentOptionController.onPageLoad()
+POST       /card-paypal                                 controllers.PaymentOptionController.onSubmit()

@@ -29,6 +29,12 @@ private object AppDependencies {
   private val playLanguageVersion = "3.4.0"
   private val bootstrapVersion = "1.7.0"
   private val scalacheckVersion = "1.13.4"
+  private val jsoupVersion = "1.11.2"
+  private val scoverageVersion = "1.3.1"
+  private val wireMockVersion = "2.6.0"
+  private val reactivemongoTestVersion = "3.1.0"
+  private val playWhitelistVersion     = "2.0.0"
+  private val frontendBootstrapVersion = "8.24.0"
 
   val compile = Seq(
     ws,
@@ -69,7 +75,10 @@ private object AppDependencies {
     def apply() = new TestDependencies {
       override lazy val test = testDeps("it")
     }.test ++ Seq(
-      "com.github.tomakehurst" % "wiremock" % "2.6.0" % "it"
+      "com.github.tomakehurst" % "wiremock" % wireMockVersion % "it",
+      "uk.gov.hmrc"           %% "reactivemongo-test" % reactivemongoTestVersion % "it",
+      "uk.gov.hmrc"           %% "hmrctest" % hmrcTestVersion % "it",
+      "org.scalatestplus.play"  %% "scalatestplus-play" % scalaTestPlusPlayVersion % "it"
     )
   }
 

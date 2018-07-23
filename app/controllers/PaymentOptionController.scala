@@ -24,42 +24,42 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import connectors.DataCacheConnector
 import controllers.actions._
 import config.FrontendAppConfig
-import forms.TooManyDirectorsFormProvider
-import identifiers.TooManyDirectorsId
+import forms.PaymentOptionFormProvider
+import identifiers.PaymentOptionId
 import models.NormalMode
 import utils.{Navigator, UserAnswers}
-import views.html.tooManyDirectors
+import views.html.paymentOption
 
 import scala.concurrent.Future
 
-class TooManyDirectorsController @Inject()(appConfig: FrontendAppConfig,
+class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
                                          dataCacheConnector: DataCacheConnector,
                                          navigator: Navigator,
                                          identify: CacheIdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: TooManyDirectorsFormProvider) extends FrontendController with I18nSupport {
+                                         formProvider: PaymentOptionFormProvider) extends FrontendController with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad() = (identify andThen getData andThen requireData) {
+  def onPageLoad() = (identify andThen getData) {
     implicit request =>
-      val preparedForm = request.userAnswers.tooManyDirectors match {
+      val preparedForm = request.userAnswers flatMap(_.paymentOption) match {
         case None => form
         case Some(value) => form.fill(value)
       }
-      Ok(tooManyDirectors(appConfig, preparedForm, NormalMode))
+      Ok(paymentOption(appConfig, preparedForm, NormalMode))
   }
 
-  def onSubmit() = (identify andThen getData andThen requireData).async {
+  def onSubmit() = (identify andThen getData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(tooManyDirectors(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(paymentOption(appConfig, formWithErrors, NormalMode))),
         (value) =>
-          dataCacheConnector.save[Boolean](request.internalId, TooManyDirectorsId.toString, value).map(cacheMap =>
-            Redirect(navigator.nextPage(TooManyDirectorsId, NormalMode)(new UserAnswers(cacheMap))))
+          dataCacheConnector.save[Boolean](request.internalId, PaymentOptionId.toString, value).map(cacheMap =>
+            Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(new UserAnswers(cacheMap))))
       )
   }
 }

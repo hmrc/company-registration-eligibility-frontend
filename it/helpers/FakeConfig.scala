@@ -16,7 +16,10 @@
 
 package helpers
 
+import uk.gov.hmrc.mongo.MongoSpecSupport
+
 trait FakeConfig {
+  self: MongoSpecSupport =>
   val mockHost: String
   val mockPort: Int
   lazy val mockUrl = s"http://$mockHost:$mockPort"
@@ -25,6 +28,7 @@ trait FakeConfig {
     "play.filters.csrf.header.bypassHeaders.X-Requested-With" -> "*",
     "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck",
     "auditing.consumer.baseUri.host" -> s"$mockHost",
-    "auditing.consumer.baseUri.port" -> s"$mockPort"
+    "auditing.consumer.baseUri.port" -> s"$mockPort",
+    "mongodb.uri" -> s"$mongoUri"
   ) ++ extraConfig
 }

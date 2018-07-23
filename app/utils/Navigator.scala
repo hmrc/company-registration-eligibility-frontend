@@ -34,33 +34,40 @@ class Navigator @Inject()() {
     case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
+    case PaymentOptionId => routes.EligibleController.onPageLoad()
     case _ => throw new RuntimeException(s"[Navigator] [pageIdToPageLoad] Could not load page for pageId: $pageId")
   }
 
   private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
 
-  private[utils] def nextOnFalse(fromPage: Identifier, toPage: Identifier): (Identifier, UserAnswers => Call) = {
+  private[utils] def nextOn(fromPage: Identifier, toPage: Identifier, condition : Boolean = false): (Identifier, UserAnswers => Call) = {
     fromPage -> {
       _.getAnswer(fromPage) match {
-        case Some(false) => pageIdToPageLoad(toPage)
+        case Some(`condition`) => pageIdToPageLoad(toPage)
         case _ => ineligiblePage(fromPage)
       }
     }
   }
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
-    nextOnFalse(TooManyDirectorsId, OrdinarySharesId),
+    PaymentOptionId -> {
+      _.paymentOption match {
+        case Some(true) => pageIdToPageLoad(TooManyDirectorsId)
+        case _ => routes.IneligibleController.onPageLoadPayment()
+      }
+    },
+    nextOn(TooManyDirectorsId, OrdinarySharesId),
     OrdinarySharesId -> {
       _.ordinaryShares match {
         case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
         case _ => pageIdToPageLoad(ParentCompanyId)
       }
     },
-    nextOnFalse(ParentCompanyId, TakingOverBusinessId),
-    nextOnFalse(TakingOverBusinessId, CorporateShareholderId),
-    nextOnFalse(CorporateShareholderId, SecureRegisterId),
-    nextOnFalse(SecureRegisterId, EligibleId),
-    nextOnFalse(EligibleId, EligibleId)
+    nextOn(ParentCompanyId, TakingOverBusinessId),
+    nextOn(TakingOverBusinessId, CorporateShareholderId),
+    nextOn(CorporateShareholderId, SecureRegisterId),
+    nextOn(SecureRegisterId, EligibleId),
+    nextOn(EligibleId, EligibleId)
   )
 
   def nextPage(id: Identifier, mode: Mode): UserAnswers => Call =

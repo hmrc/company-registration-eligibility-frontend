@@ -82,6 +82,7 @@ ineligible.parentCompany.text = that has a parent company
 ineligible.takingOverBusiness.text = that''s taking over another business
 ineligible.corporateShareholder.text = with a corporate shareholder
 ineligible.secureRegister.text = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
+ineligible.payment.text = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit = Use other service
 
 parentCompany.title = Will a parent company control the company you''re setting up?
@@ -121,3 +122,9 @@ secureRegister.bullet2 = ''persons in significant control'' (PSCs) - that is, pe
 eligible.title = You can set up a company with this service
 eligible.heading = You can set up a company with this service
 eligible.text = On the next page you''ll set up an account for the company so you can use the service.
+
+paymentOption.title = Are you able to pay for this application using a card or PayPal?
+paymentOption.heading = Are you able to pay for this application using a card or PayPal?
+paymentOption.checkYourAnswersLabel = paymentOption
+paymentOption.error.required = Tell is if you will pay for this application using a card or Paypal
+paymentOption.text = We only accept card or PayPal payments on this service.
