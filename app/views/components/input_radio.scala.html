@@ -25,8 +25,8 @@
         inputs: Seq[RadioOption]
 )(implicit messages: Messages)
 
-<div class="form-group">
-    <fieldset class="form-group@if(field.hasErrors){-error}" id="@{field.id}">
+<div class="form-group @if(field.hasErrors){form-group-error}">
+    <fieldset id="@{field.id}">
         <legend>
             <span class="bold-small @if(legendClass.nonEmpty){@{legendClass.get}}">@legend</span>
             @if(hint.nonEmpty){
