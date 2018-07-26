@@ -17,10 +17,12 @@
 package base
 
 import config.FrontendAppConfig
+import helpers.MockMessages
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.Injector
+import play.api.mvc.{AnyContentAsEmpty, Cookie}
 import play.api.test.FakeRequest
 
 trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
@@ -29,9 +31,16 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
   def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
 
-  def messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
+  implicit class FakeRequestWithLanguage[T](request: FakeRequest[T]) {
+    def withLang(code: String): FakeRequest[T] = request
+      .withCookies(Cookie("PLAY_LANG", code)) //only used if a fake application is running
+      .withHeaders("Accept-Language" -> code) //this is the fallback
+  }
 
-  def fakeRequest = FakeRequest("", "")
+  def messagesApi: MessagesApi = MockMessages()
+
+  // to set the language you could use the cookie and set PLAY_LANG or set the header Accept-Language
+  def fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest("", "").withLang("en")
 
   def messages: Messages = messagesApi.preferred(fakeRequest)
 }
