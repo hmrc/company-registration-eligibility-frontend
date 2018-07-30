@@ -25,8 +25,8 @@
         labelClass: Option[String] = None
 )(implicit messages: Messages)
 
-<div class="form-group">
-    <fieldset class="inline @if(field.hasErrors){form-group-error}" id="@{field.id}">
+<div class="form-group @if(field.hasErrors){form-group-error}">
+    <fieldset class="inline" id="@{field.id}">
         <legend>
             <span @if(labelClass.nonEmpty){class="@labelClass"}>@label</span>
             @if(hint.nonEmpty){

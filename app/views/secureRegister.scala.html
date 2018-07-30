@@ -35,6 +35,8 @@
 
     @components.text_with_bullets("secureRegister.text",Seq("secureRegister.bullet1","secureRegister.bullet2"))
 
+    @components.info_dropdown("secureRegister.whywould", Seq("secureRegister.dropdown.p1", "secureRegister.dropdown.p2"))
+
     @helpers.form(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
 
         @components.input_yes_no(

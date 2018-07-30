@@ -14,6 +14,6 @@
  * limitations under the License.
  *@
 
-@()(implicit messages: Messages)
+@(messageKey: String = "site.continue")(implicit messages: Messages)
 
-<button id="submit" class="button">@messages("site.save_and_continue")</button>
+<button id="submit" class="button">@messages(messageKey)</button>
