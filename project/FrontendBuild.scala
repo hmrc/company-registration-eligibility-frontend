@@ -3,6 +3,7 @@ import uk.gov.hmrc.SbtAutoBuildPlugin
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning
 
+
 object FrontendBuild extends Build with MicroService {
 
   val appName = "company-registration-eligibility-frontend"
