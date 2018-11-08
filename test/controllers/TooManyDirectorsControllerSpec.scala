@@ -30,7 +30,7 @@ import views.html.tooManyDirectors
 
 class TooManyDirectorsControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.OrdinarySharesController.onPageLoad(NormalMode)
+  def onwardRoute = routes.ParentCompanyController.onPageLoad()
   def ineligibleRoute = routes.IneligibleController.onPageLoad(TooManyDirectorsId.toString)
 
   val formProvider = new TooManyDirectorsFormProvider()
