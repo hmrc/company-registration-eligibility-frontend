@@ -56,7 +56,7 @@ class Navigator @Inject()() {
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
-    nextOn(TooManyDirectorsId, OrdinarySharesId),
+    nextOn(TooManyDirectorsId, ParentCompanyId),
     OrdinarySharesId -> {
       _.ordinaryShares match {
         case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
