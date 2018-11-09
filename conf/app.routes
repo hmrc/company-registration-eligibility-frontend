@@ -13,14 +13,8 @@ GET        /unauthorised                                controllers.Unauthorised
 GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
 POST       /check-before-you-start                      controllers.BeforeYouStartController.onSubmit()
 
-GET        /company-have-ordinary-shares                controllers.OrdinarySharesController.onPageLoad(mode: Mode = NormalMode)
-POST       /company-have-ordinary-shares                controllers.OrdinarySharesController.onSubmit(mode: Mode = NormalMode)
-
 GET        /register-more-than-five-directors           controllers.TooManyDirectorsController.onPageLoad()
 POST       /register-more-than-five-directors           controllers.TooManyDirectorsController.onSubmit()
-
-GET        /changeOrdinaryShares                        controllers.OrdinarySharesController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeOrdinaryShares                        controllers.OrdinarySharesController.onSubmit(mode: Mode = CheckMode)
 
 GET        /ineligible/paymentOption                    controllers.IneligibleController.onPageLoadPayment()
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)

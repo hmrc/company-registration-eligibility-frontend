@@ -21,14 +21,13 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.routes
 import identifiers._
-import models.{CheckMode, Mode, NormalMode, OrdinaryShares}
+import models.{CheckMode, Mode, NormalMode}
 
 @Singleton
 class Navigator @Inject()() {
 
   private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
     case TooManyDirectorsId => routes.TooManyDirectorsController.onPageLoad()
-    case OrdinarySharesId => routes.OrdinarySharesController.onPageLoad(NormalMode)
     case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
     case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
     case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
@@ -57,12 +56,6 @@ class Navigator @Inject()() {
       }
     },
     nextOn(TooManyDirectorsId, ParentCompanyId),
-    OrdinarySharesId -> {
-      _.ordinaryShares match {
-        case Some(OrdinaryShares.No) => ineligiblePage(OrdinarySharesId)
-        case _ => pageIdToPageLoad(ParentCompanyId)
-      }
-    },
     nextOn(ParentCompanyId, TakingOverBusinessId),
     nextOn(TakingOverBusinessId, CorporateShareholderId),
     nextOn(CorporateShareholderId, SecureRegisterId),
