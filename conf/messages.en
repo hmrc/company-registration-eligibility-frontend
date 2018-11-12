@@ -55,19 +55,6 @@ beforeYouStart.bullet1 = show whether you can use this service to register a lim
 beforeYouStart.bullet2 = take you to another service if you''re not eligible to use this one
 beforeYouStart.submit = Continue to questions
 
-ordinaryShares.title = Will the company have ''ordinary shares''?
-ordinaryShares.heading = Will the company have ''ordinary shares''?
-ordinaryShares.yes = Yes
-ordinaryShares.no = No
-ordinaryShares.dk = I don''t know
-ordinaryShares.checkYourAnswersLabel = Will the company have ''ordinary shares''?
-ordinaryShares.error.required = Tell us if the company will have ordinary shares
-ordinaryShares.p1 = The company must have at least one shareholder with at least one share. For this service, it will need to be an ordinary share.
-ordinaryShares.p2 = We''ll guide you through setting up shareholders and shares later.
-ordinaryShares.whatare = What are ordinary shares?
-ordinaryShares.dropdown = Ordinary shares are the most common type of share. They give shareholders the right to vote on company decisions and to receive dividend payments.
-ordinaryShares.dontknow = The vast majority of companies have ordinary shares. We''ll treat this answer as a ''yes'' and you''ll be able to set up the company with ordinary shares. If you ever find out the company needs different types of shares, you can contact Companies House to change them.
-
 tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
 tooManyDirectors.error.required = Tell us if you want to register more than 5 directors
@@ -77,7 +64,6 @@ ineligible.title = You cannot set up a company with this service
 ineligible.heading = You cannot set up a company with this service
 ineligible.text = To set up a company {0}, you''ll need to use another service.
 ineligible.tooManyDirectors.text = with more than 5 company officers
-ineligible.ordinaryShares.text = that doesn''t have ordinary shares
 ineligible.parentCompany.text = that has a parent company
 ineligible.takingOverBusiness.text = that''s taking over another business
 ineligible.corporateShareholder.text = with a corporate shareholder
