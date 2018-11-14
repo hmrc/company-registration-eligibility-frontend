@@ -37,6 +37,7 @@ site.no = No
 site.yes = Yes
 site.continue = Continue
 site.save_and_continue = Save and continue
+site.createGGWUser = Create Government Gateway user ID
 site.service_name = Set up a limited company and register for Corporation Tax
 site.textarea.char_limit = (Limit is {0} characters)
 
@@ -109,9 +110,10 @@ secureRegister.dropdown.p1              = In rare cases, someone may be a victim
 secureRegister.dropdown.p2              = Individuals who need to protect their information in this way should contact Companies House to find out if they''re eligible.
 
 eligible.title = You can set up a company with this service
-eligible.heading = You can set up a company with this service
-eligible.text = On the next page you will set up an online account for the company you want to register. Use the company''s account details each time you need to sign the company in to GOV.UK.
-eligible.info = You cannot set up multiple companies with the same account. If you have to set up another company, you must create a new account.
+eligible.heading = You will now create a Government Gateway user ID for this company
+eligible.text = Use this user ID whenever you need sign in to manage the company''s taxes online.
+eligible.dropdown = What if I need to set up multiple companies?
+eligible.info = You must create a new Government Gateway user ID for each company. After you have set up one company, return to GOV.UK and repeat the registration process.
 
 paymentOption.title = Are you able to pay for this application using a card or PayPal?
 paymentOption.heading = Are you able to pay for this application using a card or PayPal?
