@@ -30,10 +30,10 @@
 
     @components.text("eligible.text")
 
-    <div class="panel panel-border-wide">@messages("eligible.info")</div>
+    @components.info_dropdown("eligible.dropdown", Seq("eligible.info"))
 
     @form(action = controllers.routes.EligibleController.onSubmit()) {
-        @components.button("site.continue", "submit")
+        @components.button("site.createGGWUser", "submit")
     }
 
 }
