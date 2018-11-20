@@ -98,16 +98,13 @@ corporateShareholder.text = This is a shareholder that''s a corporate body not a
 corporateShareholder.whatis = What is a corporate body?
 corporateShareholder.dropdown = A corporate body is a legal entity, such as a company, club or association, that has legal rights and obligations.
 
-secureRegister.title                    = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
-secureRegister.heading                  = Has anyone on this application ever sent a Secure Register Form asking Companies House to protect their home address information?
+secureRegister.title                    = Are any directors or ''persons with significant control'' on the Companies House secure register?
+secureRegister.heading                  = Are any directors or ''persons with significant control'' on the Companies House secure register?
 secureRegister.checkYourAnswersLabel    = secureRegister
 secureRegister.error.required           = Tell us if Companies House already protects the home address of any company directors
-secureRegister.text                     = This includes any:
-secureRegister.bullet1                  = company directors
-secureRegister.bullet2                  = ''Persons with Significant Control'' (PSCs) - that is, people who have significant influence over the way the company is run
-secureRegister.whywould                 = Why would someone need their information protected?
-secureRegister.dropdown.p1              = In rare cases, someone may be a victim of threatening behaviour or violence and may not want their home address information shown on the public register.
-secureRegister.dropdown.p2              = Individuals who need to protect their information in this way should contact Companies House to find out if they''re eligible.
+secureRegister.text                     = The secure register is for victims of threatening behaviour or violence who cannot risk having their home address information on the public register.
+secureRegister.dropdowntitle            = What is a ''person in significant control''?
+secureRegister.dropdown.p1              = This is someone who has substantial influence over the way the company is run, for example anyone with more than 25% shares or voting rights.
 
 eligible.title = You can set up a company with this service
 eligible.heading = You will now create a Government Gateway user ID for this company
