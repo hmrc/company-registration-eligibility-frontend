@@ -2,7 +2,13 @@
 
 [![Build Status](https://travis-ci.org/hmrc/company-registration-eligibility-frontend.svg)](https://travis-ci.org/hmrc/company-registration-eligibility-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/company-registration-eligibility-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/company-registration-eligibility-frontend/_latestVersion)
 
-This is a placeholder README.md for a new repository
+In order to run the microservice, you must have SBT installed. You should then be able to start the application using:
+
+sbt "run 9972"
+
+To run the tests for the application, you can run: sbt test it:test
+
+or sbt coverage test it:test coverageReport
 
 ### License
 
