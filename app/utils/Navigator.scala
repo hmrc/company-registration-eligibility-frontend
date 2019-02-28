@@ -51,7 +51,7 @@ class Navigator @Inject()() {
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
     PaymentOptionId -> {
       _.paymentOption match {
-        case Some(true) => pageIdToPageLoad(TooManyDirectorsId)
+        case Some(true) => pageIdToPageLoad(ParentCompanyId)
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
