@@ -40,7 +40,6 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "pageIdToPageLoad" should {
     "load a page" when {
       Seq(
-        TooManyDirectorsId -> routes.TooManyDirectorsController.onPageLoad(),
         ParentCompanyId -> routes.ParentCompanyController.onPageLoad(),
         TakingOverBusinessId -> routes.TakingOverBusinessController.onPageLoad(),
         CorporateShareholderId -> routes.CorporateShareholderController.onPageLoad(),
@@ -73,21 +72,21 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "nextOnFalse" should {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
-        val res = navigator.nextOn(TooManyDirectorsId, ParentCompanyId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(TooManyDirectorsId.toString -> JsBoolean(false))))
+        val res = navigator.nextOn(ParentCompanyId, TakingOverBusinessId)
+        val userAnswers = new UserAnswers(CacheMap("id", Map(ParentCompanyId.toString -> JsBoolean(false))))
 
-        res._1 mustBe TooManyDirectorsId
-        res._2(userAnswers) mustBe routes.ParentCompanyController.onPageLoad()
+        res._1 mustBe ParentCompanyId
+        res._2(userAnswers) mustBe routes.TakingOverBusinessController.onPageLoad()
       }
     }
 
     "return an ID and function to the ineligible" when {
       "given a start page id and end page id when the answer provided is true" in {
-        val res = navigator.nextOn(TooManyDirectorsId, ParentCompanyId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(TooManyDirectorsId.toString -> JsBoolean(true))))
+        val res = navigator.nextOn(ParentCompanyId, TakingOverBusinessId)
+        val userAnswers = new UserAnswers(CacheMap("id", Map(ParentCompanyId.toString -> JsBoolean(true))))
 
-        res._1 mustBe TooManyDirectorsId
-        res._2(userAnswers) mustBe routes.IneligibleController.onPageLoad(TooManyDirectorsId.toString)
+        res._1 mustBe ParentCompanyId
+        res._2(userAnswers) mustBe routes.IneligibleController.onPageLoad(ParentCompanyId.toString)
       }
     }
   }

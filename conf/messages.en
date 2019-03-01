@@ -56,15 +56,9 @@ beforeYouStart.bullet1 = show whether you can use this service to register a lim
 beforeYouStart.bullet2 = take you to another service if you''re not eligible to use this one
 beforeYouStart.submit = Continue to questions
 
-tooManyDirectors.title = Do you need to include more than 5 company officers in this application?
-tooManyDirectors.heading = Do you need to include more than 5 company officers in this application?
-tooManyDirectors.error.required = Tell us if you want to register more than 5 directors
-tooManyDirectors.text = Company officers are directors or secretaries who represent the company and make key decisions about how it''s run.
-
 ineligible.title = You cannot set up a company with this service
 ineligible.heading = You cannot set up a company with this service
 ineligible.text = To set up a company {0}, you''ll need to use another service.
-ineligible.tooManyDirectors.text = with more than 5 company officers
 ineligible.parentCompany.text = that has a parent company
 ineligible.takingOverBusiness.text = that''s taking over another business
 ineligible.corporateShareholder.text = with a corporate shareholder

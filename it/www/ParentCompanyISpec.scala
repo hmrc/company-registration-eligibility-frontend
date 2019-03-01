@@ -22,15 +22,15 @@ import identifiers.PaymentOptionId
 import play.api.http.HeaderNames
 import play.api.test.FakeApplication
 
-class TooManyDirectorsISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
+class ParentCompanyISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
 
   override implicit lazy val app = FakeApplication(additionalConfiguration = fakeConfig())
 
   private def client(path: String) = ws.url(s"http://localhost:$port/eligibility-for-setting-up-company$path").withFollowRedirects(false)
 
-  s"GET ${routes.TooManyDirectorsController.onPageLoad().url}" should {
+  s"GET ${routes.ParentCompanyController.onPageLoad().url}" should {
     "redirect if you have no saved data" in {
-      val fResponse = client("/register-more-than-five-directors").get()
+      val fResponse = client("/parent-company").get()
       val response = await(fResponse)
 
       response.status mustBe 303
@@ -38,7 +38,7 @@ class TooManyDirectorsISpec extends IntegrationSpecBase with SessionHelper with 
     "open the page if data is already stored" in {
       cacheSessionData(sessionId, PaymentOptionId.toString, true)
 
-      val fResponse = client("/register-more-than-five-directors").withHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
+      val fResponse = client("/parent-company").withHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
       val response = await(fResponse)
 
       response.status mustBe 200
