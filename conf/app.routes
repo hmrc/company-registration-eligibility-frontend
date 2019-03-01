@@ -13,9 +13,6 @@ GET        /unauthorised                                controllers.Unauthorised
 GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
 POST       /check-before-you-start                      controllers.BeforeYouStartController.onSubmit()
 
-GET        /register-more-than-five-directors           controllers.TooManyDirectorsController.onPageLoad()
-POST       /register-more-than-five-directors           controllers.TooManyDirectorsController.onSubmit()
-
 GET        /ineligible/paymentOption                    controllers.IneligibleController.onPageLoadPayment()
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
 POST       /ineligible                                  controllers.IneligibleController.onSubmit()

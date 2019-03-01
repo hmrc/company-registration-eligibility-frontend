@@ -31,8 +31,6 @@ class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
 
   def parentCompany: Option[Boolean] = cacheMap.getEntry[Boolean](ParentCompanyId.toString)
 
-  def tooManyDirectors: Option[Boolean] = cacheMap.getEntry[Boolean](TooManyDirectorsId.toString)
-
   def paymentOption: Option[Boolean] = cacheMap.getEntry[Boolean](PaymentOptionId.toString)
 
 }
