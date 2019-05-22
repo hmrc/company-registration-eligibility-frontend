@@ -62,9 +62,9 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   }
 
   "taking over business" should {
-    "redirect to coperate shareholders" in {
+    "redirect to secure register page" in {
       val userAnswers = new UserAnswers(CacheMap("id", Map(TakingOverBusinessId.toString -> JsBoolean(false))))
-      navigator.nextPage(TakingOverBusinessId, NormalMode)(userAnswers).url mustBe controllers.routes.CorporateShareholderController.onPageLoad().url
+      navigator.nextPage(TakingOverBusinessId, NormalMode)(userAnswers).url mustBe controllers.routes.SecureRegisterController.onPageLoad().url
 
     }
   }

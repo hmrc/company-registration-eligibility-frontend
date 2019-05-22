@@ -21,7 +21,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.routes
 import identifiers._
-import models.{CheckMode, Mode, NormalMode}
+import models.Mode
 
 @Singleton
 class Navigator @Inject()() {
@@ -50,12 +50,12 @@ class Navigator @Inject()() {
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
     PaymentOptionId -> {
       _.paymentOption match {
-        case Some(true) => pageIdToPageLoad(ParentCompanyId)
+        case Some(true) => pageIdToPageLoad(TakingOverBusinessId)
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
     nextOn(ParentCompanyId, TakingOverBusinessId),
-    nextOn(TakingOverBusinessId, CorporateShareholderId),
+    nextOn(TakingOverBusinessId, SecureRegisterId),
     nextOn(CorporateShareholderId, SecureRegisterId),
     nextOn(SecureRegisterId, EligibleId),
     nextOn(EligibleId, EligibleId)
