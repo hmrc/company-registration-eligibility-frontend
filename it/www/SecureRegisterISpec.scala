@@ -18,27 +18,27 @@ package www
 
 import controllers.routes
 import helpers.{AuthHelper, IntegrationSpecBase, SessionHelper}
-import identifiers.PaymentOptionId
+import identifiers.SecureRegisterId
 import play.api.http.HeaderNames
 import play.api.test.FakeApplication
 
-class ParentCompanyISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
+class SecureRegisterISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
 
   override implicit lazy val app = FakeApplication(additionalConfiguration = fakeConfig())
 
   private def client(path: String) = ws.url(s"http://localhost:$port/eligibility-for-setting-up-company$path").withFollowRedirects(false)
 
-  s"GET ${routes.ParentCompanyController.onPageLoad().url}" should {
+  s"GET ${routes.SecureRegisterController.onPageLoad().url}" should {
     "redirect if you have no saved data" in {
-      val fResponse = client("/parent-company").get()
+      val fResponse = client("/secure-register-form").get()
       val response = await(fResponse)
 
       response.status mustBe 303
     }
     "open the page if data is already stored" in {
-      cacheSessionData(sessionId, PaymentOptionId.toString, true)
+      cacheSessionData(sessionId, SecureRegisterId.toString, true)
 
-      val fResponse = client("/parent-company").withHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
+      val fResponse = client("/secure-register-form").withHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
       val response = await(fResponse)
 
       response.status mustBe 200

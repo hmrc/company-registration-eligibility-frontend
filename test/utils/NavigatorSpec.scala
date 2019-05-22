@@ -40,9 +40,7 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "pageIdToPageLoad" should {
     "load a page" when {
       Seq(
-        ParentCompanyId -> routes.ParentCompanyController.onPageLoad(),
         TakingOverBusinessId -> routes.TakingOverBusinessController.onPageLoad(),
-        CorporateShareholderId -> routes.CorporateShareholderController.onPageLoad(),
         SecureRegisterId -> routes.SecureRegisterController.onPageLoad(),
         EligibleId -> routes.EligibleController.onPageLoad()
       ) foreach { case (id, page) =>
@@ -72,21 +70,21 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "nextOnFalse" should {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
-        val res = navigator.nextOn(ParentCompanyId, TakingOverBusinessId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(ParentCompanyId.toString -> JsBoolean(false))))
+        val res = navigator.nextOn(PaymentOptionId, TakingOverBusinessId)
+        val userAnswers = new UserAnswers(CacheMap("id", Map(PaymentOptionId.toString -> JsBoolean(false))))
 
-        res._1 mustBe ParentCompanyId
+        res._1 mustBe PaymentOptionId
         res._2(userAnswers) mustBe routes.TakingOverBusinessController.onPageLoad()
       }
     }
 
     "return an ID and function to the ineligible" when {
       "given a start page id and end page id when the answer provided is true" in {
-        val res = navigator.nextOn(ParentCompanyId, TakingOverBusinessId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(ParentCompanyId.toString -> JsBoolean(true))))
+        val res = navigator.nextOn(TakingOverBusinessId, SecureRegisterId)
+        val userAnswers = new UserAnswers(CacheMap("id", Map(TakingOverBusinessId.toString -> JsBoolean(true))))
 
-        res._1 mustBe ParentCompanyId
-        res._2(userAnswers) mustBe routes.IneligibleController.onPageLoad(ParentCompanyId.toString)
+        res._1 mustBe TakingOverBusinessId
+        res._2(userAnswers) mustBe routes.IneligibleController.onPageLoad(TakingOverBusinessId.toString)
       }
     }
   }

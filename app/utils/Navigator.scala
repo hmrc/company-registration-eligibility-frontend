@@ -27,9 +27,7 @@ import models.Mode
 class Navigator @Inject()() {
 
   private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
-    case ParentCompanyId => routes.ParentCompanyController.onPageLoad()
     case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
-    case CorporateShareholderId => routes.CorporateShareholderController.onPageLoad()
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
     case PaymentOptionId => routes.EligibleController.onPageLoad()
@@ -54,9 +52,7 @@ class Navigator @Inject()() {
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
-    nextOn(ParentCompanyId, TakingOverBusinessId),
     nextOn(TakingOverBusinessId, SecureRegisterId),
-    nextOn(CorporateShareholderId, SecureRegisterId),
     nextOn(SecureRegisterId, EligibleId),
     nextOn(EligibleId, EligibleId)
   )
