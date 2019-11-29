@@ -16,43 +16,45 @@
 
 package controllers
 
-import javax.inject.Inject
-
-import play.api.data.Form
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import config.FrontendAppConfig
 import connectors.DataCacheConnector
 import controllers.actions._
-import config.FrontendAppConfig
 import forms.PaymentOptionFormProvider
 import identifiers.PaymentOptionId
+import javax.inject.{Inject, Singleton}
 import models.NormalMode
+import play.api.data.Form
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.paymentOption
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
+@Singleton
 class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
-                                         override val messagesApi: MessagesApi,
-                                         dataCacheConnector: DataCacheConnector,
-                                         navigator: Navigator,
-                                         identify: CacheIdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: PaymentOptionFormProvider) extends FrontendController with I18nSupport {
+                                        dataCacheConnector: DataCacheConnector,
+                                        navigator: Navigator,
+                                        identify: SessionAction,
+                                        getData: DataRetrievalAction,
+                                        requireData: DataRequiredAction,
+                                        formProvider: PaymentOptionFormProvider,
+                                        controllerComponents: MessagesControllerComponents
+                                       )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad() = (identify andThen getData) {
+  def onPageLoad(): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
-      val preparedForm = request.userAnswers flatMap(_.paymentOption) match {
+      val preparedForm = request.userAnswers flatMap (_.paymentOption) match {
         case None => form
         case Some(value) => form.fill(value)
       }
       Ok(paymentOption(appConfig, preparedForm, NormalMode))
   }
 
-  def onSubmit() = (identify andThen getData).async {
+  def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>

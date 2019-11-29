@@ -16,20 +16,19 @@
 
 package config
 
-import com.google.inject.{Inject, Singleton}
-import play.api.{Configuration, Environment}
-import play.api.i18n.Lang
 import controllers.routes
-import uk.gov.hmrc.play.config.ServicesConfig
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.Lang
+import play.api.mvc.Call
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.language.LanguageUtils
 
 @Singleton
-class FrontendAppConfig @Inject() (override val runModeConfiguration: Configuration, environment: Environment) extends ServicesConfig {
+class FrontendAppConfig @Inject()(config: ServicesConfig, languageUtils: LanguageUtils) {
 
-  override protected def mode = environment.mode
+  private def loadConfig(key: String) = config.getString(key)
 
-  private def loadConfig(key: String) = runModeConfiguration.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
-
-  private lazy val contactHost = runModeConfiguration.getString("contact-frontend.host").getOrElse("")
+  private lazy val contactHost = config.getString("contact-frontend.host")
   private val contactFormServiceIdentifier = "companyregistrationeligibilityfrontend"
 
   lazy val analyticsToken = loadConfig(s"google-analytics.token")
@@ -42,18 +41,23 @@ class FrontendAppConfig @Inject() (override val runModeConfiguration: Configurat
 
   private val configRoot = "microservice.services"
 
-  lazy val compRegFEURL     = loadConfig(s"$configRoot.company-registration-frontend.url")
-  lazy val compRegFEURI     = loadConfig(s"$configRoot.company-registration-frontend.uri")
-  lazy val postSignInUrl    = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
-  lazy val feedbackUrl      = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
+  lazy val compRegFEURL = loadConfig(s"$configRoot.company-registration-frontend.url")
+  lazy val compRegFEURI = loadConfig(s"$configRoot.company-registration-frontend.uri")
+  lazy val postSignInUrl = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
+  lazy val feedbackUrl = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
 
-  lazy val webincsUrl       = getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
+  lazy val webincsUrl = config.getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
 
   lazy val ggMakeAccountUrl = loadConfig(s"$configRoot.gg-reg-fe.url")
 
-  lazy val languageTranslationEnabled = runModeConfiguration.getBoolean("microservice.services.features.welsh-translation").getOrElse(true)
-  def languageMap: Map[String, Lang] = Map(
-    "english" -> Lang("en"),
-    "cymraeg" -> Lang("cy"))
-  def routeToSwitchLanguage = (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
+  lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = true)
+
+  def languageMap: Map[String, Lang] = languageUtils.onlyAvailableLanguages(
+    Map(
+      "english" -> Lang("en"),
+      "cymraeg" -> Lang("cy")
+    )
+  )
+
+  def routeToSwitchLanguage: String => Call = (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
 }

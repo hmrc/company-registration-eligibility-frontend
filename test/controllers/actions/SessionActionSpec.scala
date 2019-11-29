@@ -17,22 +17,20 @@
 package controllers.actions
 
 import base.SpecBase
-import play.api.mvc.Controller
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.SessionKeys
-
-import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 class SessionActionSpec extends SpecBase {
 
-  class Harness(action: CacheIdentifierAction) extends Controller {
+  class Harness(action: SessionAction) extends FrontendController(messagesControllerComponents) {
     def onPageLoad() = action { request => Ok }
   }
 
   "Session Action" when {
     "there's no active session" must {
       "redirect to the session expired page" in {
-        val sessionAction = new SessionActionImpl(frontendAppConfig)
+        val sessionAction = new SessionAction(frontendAppConfig, messagesControllerComponents)
         val controller = new Harness(sessionAction)
         val result = controller.onPageLoad()(fakeRequest)
         status(result) mustBe SEE_OTHER
@@ -41,11 +39,11 @@ class SessionActionSpec extends SpecBase {
     }
     "there's an active session" must {
       "perform the action" in {
-        val sessionAction = new SessionActionImpl(frontendAppConfig)
+        val sessionAction = new SessionAction(frontendAppConfig, messagesControllerComponents)
         val controller = new Harness(sessionAction)
         val request = fakeRequest.withSession(SessionKeys.sessionId -> "foo")
         val result = controller.onPageLoad()(request)
-        status(result) mustBe 200
+        status(result) mustBe OK
       }
     }
   }

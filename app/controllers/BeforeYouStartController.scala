@@ -16,22 +16,20 @@
 
 package controllers
 
-import javax.inject.Inject
-
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import controllers.actions._
 import config.FrontendAppConfig
-import play.api.mvc.{Action, AnyContent}
+import controllers.actions._
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.beforeYouStart
 
-import scala.concurrent.Future
-
+@Singleton
 class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
-                                         override val messagesApi: MessagesApi,
-                                         identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
+                                         identify: SessionAction,
+                                         controllerComponents: MessagesControllerComponents) extends FrontendController(controllerComponents) with I18nSupport {
 
-  def onPageLoad = (identify) {
+  def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
       Ok(beforeYouStart(appConfig))
   }

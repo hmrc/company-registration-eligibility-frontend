@@ -16,30 +16,32 @@
 
 package controllers
 
-import javax.inject.Inject
-
-import play.api.data.Form
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import config.FrontendAppConfig
 import connectors.DataCacheConnector
 import controllers.actions._
-import config.FrontendAppConfig
 import forms.TakingOverBusinessFormProvider
 import identifiers.TakingOverBusinessId
+import javax.inject.{Inject, Singleton}
 import models.NormalMode
+import play.api.data.Form
+import play.api.i18n.I18nSupport
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.takingOverBusiness
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
+@Singleton
 class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
-                                         override val messagesApi: MessagesApi,
-                                         dataCacheConnector: DataCacheConnector,
-                                         navigator: Navigator,
-                                         identify: CacheIdentifierAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
-                                         formProvider: TakingOverBusinessFormProvider) extends FrontendController with I18nSupport {
+                                             dataCacheConnector: DataCacheConnector,
+                                             navigator: Navigator,
+                                             identify: SessionAction,
+                                             getData: DataRetrievalAction,
+                                             requireData: DataRequiredAction,
+                                             formProvider: TakingOverBusinessFormProvider,
+                                             controllerComponents: MessagesControllerComponents
+                                            )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 

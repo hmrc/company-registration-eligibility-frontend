@@ -16,9 +16,9 @@
 
 package controllers
 
-import uk.gov.hmrc.http.cache.client.CacheMap
 import base.SpecBase
 import controllers.actions.FakeDataRetrievalAction
+import uk.gov.hmrc.http.cache.client.CacheMap
 
 trait ControllerSpecBase extends SpecBase {
 
@@ -26,7 +26,8 @@ trait ControllerSpecBase extends SpecBase {
 
   def emptyCacheMap = CacheMap(cacheMapId, Map())
 
-  def getEmptyCacheMap = new FakeDataRetrievalAction(Some(emptyCacheMap))
+  def getEmptyCacheMap = new FakeDataRetrievalAction(Some(emptyCacheMap), messagesControllerComponents, sessionRepository, cascadeUpsert)
 
-  def dontGetAnyData = new FakeDataRetrievalAction(None)
+  def dontGetAnyData = new FakeDataRetrievalAction(None, messagesControllerComponents, sessionRepository, cascadeUpsert)
+
 }

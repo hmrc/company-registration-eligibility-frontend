@@ -17,13 +17,16 @@
 package connectors
 
 import play.api.libs.json.Format
+import repositories.SessionRepository
 import uk.gov.hmrc.http.cache.client.CacheMap
-
-import scala.concurrent.Future
+import utils.CascadeUpsert
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-object FakeDataCacheConnector extends DataCacheConnector {
+
+class FakeDataCacheConnector(sessionRepository: SessionRepository, cascadeUpsert: CascadeUpsert) extends DataCacheConnector(sessionRepository, cascadeUpsert) {
+
   override def save[A](cacheId: String, key: String, value: A)(implicit fmt: Format[A]): Future[CacheMap] = Future(CacheMap(cacheId, Map()))
 
   override def remove(cacheId: String, key: String): Future[Boolean] = ???
@@ -38,3 +41,4 @@ object FakeDataCacheConnector extends DataCacheConnector {
 
   override def replaceInCollection[A](cacheId: String, collectionKey: String, index: Int, item: A)(implicit fmt: Format[A]): Future[CacheMap] = Future(CacheMap(cacheId, Map()))
 }
+

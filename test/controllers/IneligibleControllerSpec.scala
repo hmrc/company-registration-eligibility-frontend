@@ -19,13 +19,14 @@ package controllers
 import controllers.actions._
 import play.api.test.Helpers._
 import views.html.ineligible
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IneligibleControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = routes.IndexController.onPageLoad()
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new IneligibleController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)
+    new IneligibleController(frontendAppConfig, messagesControllerComponents, new FakeSessionAction(frontendAppConfig, messagesControllerComponents))
 
   def viewAsString() = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
 

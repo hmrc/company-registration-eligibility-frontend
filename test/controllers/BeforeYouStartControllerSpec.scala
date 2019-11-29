@@ -22,29 +22,28 @@ import views.html.beforeYouStart
 
 class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.PaymentOptionController.onPageLoad()
-
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new BeforeYouStartController(frontendAppConfig, messagesApi, FakeCacheIdentifierAction)
-
-  def viewAsString() = beforeYouStart(frontendAppConfig)(fakeRequest, messages).toString
+  object Controller extends BeforeYouStartController(
+      frontendAppConfig,
+      new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+      messagesControllerComponents
+    )
 
   "BeforeYouStart Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = controller().onPageLoad(fakeRequest)
+      val result = Controller.onPageLoad(fakeRequest)
 
       status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString()
+      contentAsString(result) mustBe beforeYouStart(frontendAppConfig)(fakeRequest, messages).toString
     }
 
     "redirect to the next page when valid data is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody()
 
-      val result = controller().onSubmit()(postRequest)
+      val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(onwardRoute.url)
+      redirectLocation(result) mustBe Some(routes.PaymentOptionController.onPageLoad().url)
     }
 
   }

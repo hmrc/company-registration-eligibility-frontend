@@ -1,7 +1,4 @@
 import sbt._
-import uk.gov.hmrc.SbtAutoBuildPlugin
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
-import uk.gov.hmrc.versioning.SbtGitVersioning
 
 object FrontendBuild extends Build with MicroService {
 
@@ -14,26 +11,23 @@ private object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val playHealthVersion = "3.14.0-play-25"
+  private val playHealthVersion = "3.14.0-play-26"
   private val logbackJsonLoggerVersion = "3.1.0"
-  private val govukTemplateVersion = "5.36.0-play-25"
-  private val playUiVersion = "7.40.0-play-25"
-  private val hmrcTestVersion = "3.9.0-play-25"
-  private val scalaTestVersion = "3.0.4"
-  private val scalaTestPlusPlayVersion = "2.0.1"
+  private val govukTemplateVersion = "5.36.0-play-26"
+  private val playUiVersion = "8.3.0-play-26"
+  private val hmrcTestVersion = "3.9.0-play-26"
+  private val scalaTestVersion = "3.0.8"
+  private val scalaTestPlusPlayVersion = "3.1.2"
   private val pegdownVersion = "1.6.0"
   private val mockitoAllVersion = "2.0.2-beta"
-  private val httpCachingClientVersion = "8.4.0-play-25"
-  private val simpleReactivemongoVersion = "7.20.0-play-25"
+  private val httpCachingClientVersion = "9.0.0-play-26"
+  private val simpleReactivemongoVersion = "7.21.0-play-26"
   private val playConditionalFormMappingVersion = "0.2.0"
-  private val playLanguageVersion = "3.4.0"
-  private val bootstrapVersion = "4.13.0"
-  private val scalacheckVersion = "1.13.4"
-  private val jsoupVersion = "1.11.2"
-  private val scoverageVersion = "1.3.1"
-  private val wireMockVersion = "2.6.0"
-  private val reactivemongoTestVersion = "4.15.0-play-25"
-  private val playWhitelistVersion     = "2.0.0"
+  private val playLanguageVersion = "4.2.0-play-26"
+  private val bootstrapVersion = "1.3.0"
+  private val wireMockVersion = "2.25.1"
+  private val reactivemongoTestVersion = "4.15.0-play-26"
+  private val scalacheckVersion = "1.14.2"
 
   val compile = Seq(
     ws,
@@ -44,7 +38,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
     "uk.gov.hmrc" %% "play-conditional-form-mapping" % playConditionalFormMappingVersion,
-    "uk.gov.hmrc" %% "bootstrap-play-25" % bootstrapVersion,
+    "uk.gov.hmrc" %% "bootstrap-play-26" % bootstrapVersion,
     "uk.gov.hmrc" %% "play-language" % playLanguageVersion
   )
 
@@ -74,7 +68,7 @@ private object AppDependencies {
     def apply() = new TestDependencies {
       override lazy val test = testDeps("it")
     }.test ++ Seq(
-      "com.github.tomakehurst" % "wiremock" % wireMockVersion % "it",
+      "com.github.tomakehurst" % "wiremock-jre8" % wireMockVersion % "it",
       "uk.gov.hmrc"           %% "reactivemongo-test" % reactivemongoTestVersion % "it",
       "uk.gov.hmrc"           %% "hmrctest" % hmrcTestVersion % "it",
       "org.scalatestplus.play"  %% "scalatestplus-play" % scalaTestPlusPlayVersion % "it"

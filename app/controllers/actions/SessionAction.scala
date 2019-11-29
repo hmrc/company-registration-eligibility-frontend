@@ -16,29 +16,36 @@
 
 package controllers.actions
 
+import config.FrontendAppConfig
 import controllers.routes
 import javax.inject.{Inject, Singleton}
-import models.requests.{DataRequest, OptionalDataRequest}
+import models.requests.CacheIdentifierRequest
+import play.api.mvc.{ActionBuilder, AnyContent, BodyParser, MessagesControllerComponents, Request, Result}
 import play.api.mvc.Results.Redirect
-import play.api.mvc.{ActionRefiner, AnyContent, BodyParser, MessagesControllerComponents, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DataRequiredAction @Inject()(controllerComponents: MessagesControllerComponents) extends ActionRefiner[OptionalDataRequest, DataRequest] {
+class SessionAction @Inject()(config: FrontendAppConfig,
+                              controllerComponents: MessagesControllerComponents
+                             ) extends ActionBuilder[CacheIdentifierRequest, AnyContent] {
 
-  override protected def executionContext: ExecutionContext = controllerComponents.executionContext
+  implicit override protected val executionContext: ExecutionContext = controllerComponents.executionContext
 
-  def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
+  override def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
-  override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] = {
+  override def invokeBlock[A](request: Request[A], block: CacheIdentifierRequest[A] => Future[Result]): Future[Result] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
 
-    request.userAnswers match {
-      case None => Future.successful(Left(Redirect(routes.SessionExpiredController.onPageLoad())))
-      case Some(data) => Future.successful(Right(DataRequest(request.request, request.internalId, data)))
+    hc.sessionId match {
+      case Some(session) =>
+        block(CacheIdentifierRequest(request, session.value))
+      case None =>
+        Future.successful(
+          Redirect(routes.SessionExpiredController.onPageLoad())
+        )
     }
   }
 }

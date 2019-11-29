@@ -19,25 +19,22 @@ package filters
 import java.util.UUID
 
 import akka.stream.Materializer
-import com.google.inject.Inject
+import javax.inject.{Inject, Singleton}
 import play.api.http.HeaderNames
 import play.api.mvc._
 import uk.gov.hmrc.http.{SessionKeys, HeaderNames => HMRCHeaderNames}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SessionIdFilter (
-                        override val mat: Materializer,
-                        uuid: => UUID,
-                        implicit val ec: ExecutionContext
-                      ) extends Filter {
+@Singleton
+class SessionIdFilter(override val mat: Materializer, uuid: => UUID, implicit val ec: ExecutionContext) extends Filter {
 
   @Inject
   def this(mat: Materializer, ec: ExecutionContext) {
     this(mat, UUID.randomUUID(), ec)
   }
 
-  override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] = {
+  override def apply(f: RequestHeader => Future[Result])(rh: RequestHeader): Future[Result] = {
 
     lazy val sessionId: String = s"session-$uuid"
 
