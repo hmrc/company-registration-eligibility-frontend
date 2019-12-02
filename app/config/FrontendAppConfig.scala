@@ -21,10 +21,9 @@ import javax.inject.{Inject, Singleton}
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import uk.gov.hmrc.play.language.LanguageUtils
 
 @Singleton
-class FrontendAppConfig @Inject()(config: ServicesConfig, languageUtils: LanguageUtils) {
+class FrontendAppConfig @Inject()(config: ServicesConfig) {
 
   private def loadConfig(key: String) = config.getString(key)
 
@@ -50,13 +49,11 @@ class FrontendAppConfig @Inject()(config: ServicesConfig, languageUtils: Languag
 
   lazy val ggMakeAccountUrl = loadConfig(s"$configRoot.gg-reg-fe.url")
 
-  lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = true)
+  lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
 
-  def languageMap: Map[String, Lang] = languageUtils.onlyAvailableLanguages(
-    Map(
-      "english" -> Lang("en"),
-      "cymraeg" -> Lang("cy")
-    )
+  def languageMap: Map[String, Lang] = Map(
+    "english" -> Lang("en"),
+    "cymraeg" -> Lang("cy")
   )
 
   def routeToSwitchLanguage: String => Call = (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
