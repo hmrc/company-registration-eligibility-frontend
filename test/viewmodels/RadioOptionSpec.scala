@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils
+package viewmodels
 
 import base.SpecBase
 

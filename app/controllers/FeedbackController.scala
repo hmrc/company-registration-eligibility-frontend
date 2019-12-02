@@ -16,25 +16,21 @@
 
 package controllers
 
-import javax.inject.Inject
-
 import config.FrontendAppConfig
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
-class FeedbackControllerImpl @Inject()(val appConfig: FrontendAppConfig,
-                                       override val messagesApi: MessagesApi) extends FeedbackController {
-  val feedbackUrl       = appConfig.feedbackUrl
-  val frontendUrl       = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
-}
+@Singleton
+class FeedbackController @Inject()(appConfig: FrontendAppConfig,
+                                   controllerComponents: MessagesControllerComponents
+                                  ) extends FrontendController(controllerComponents) with I18nSupport {
 
-trait FeedbackController extends FrontendController with I18nSupport {
-  val appConfig : FrontendAppConfig
-  val frontendUrl : String
-  val feedbackUrl : String
+  val feedbackUrl = appConfig.feedbackUrl
+  val frontendUrl = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
 
   def show: Action[AnyContent] = Action.async {
     implicit request =>

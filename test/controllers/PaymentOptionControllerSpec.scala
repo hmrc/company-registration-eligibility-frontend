@@ -16,35 +16,42 @@
 
 package controllers
 
-import play.api.data.Form
-import play.api.libs.json.JsBoolean
-import uk.gov.hmrc.http.cache.client.CacheMap
-import utils.FakeNavigator
 import connectors.FakeDataCacheConnector
 import controllers.actions._
-import play.api.test.Helpers._
 import forms.PaymentOptionFormProvider
 import identifiers.PaymentOptionId
 import models.NormalMode
+import play.api.data.Form
+import play.api.libs.json.JsBoolean
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
+import utils.FakeNavigator
 import views.html.paymentOption
 
-class PaymentOptionControllerSpec extends ControllerSpecBase {
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  def onwardRoute = routes.IndexController.onPageLoad()
+class PaymentOptionControllerSpec extends ControllerSpecBase {
 
   val formProvider = new PaymentOptionFormProvider()
   val form = formProvider()
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new PaymentOptionController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(desiredRoute = onwardRoute), FakeCacheIdentifierAction,
-      dataRetrievalAction, new DataRequiredActionImpl, formProvider)
+  object Controller extends PaymentOptionController(
+    frontendAppConfig,
+    new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+    new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+    new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+    getEmptyCacheMap,
+    new DataRequiredAction(messagesControllerComponents),
+    formProvider,
+    messagesControllerComponents
+  )
 
   def viewAsString(form: Form[_] = form) = paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "PaymentOption Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = controller().onPageLoad()(fakeRequest)
+      val result = Controller.onPageLoad()(fakeRequest)
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
@@ -52,9 +59,20 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
 
     "populate the view correctly on a GET when the question has previously been answered" in {
       val validData = Map(PaymentOptionId.toString -> JsBoolean(true))
-      val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)))
+      val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
 
-      val result = controller(getRelevantData).onPageLoad()(fakeRequest)
+      object Controller extends PaymentOptionController(
+        frontendAppConfig,
+        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        getRelevantData,
+        new DataRequiredAction(messagesControllerComponents),
+        formProvider,
+        messagesControllerComponents
+      )
+
+      val result = Controller.onPageLoad()(fakeRequest)
 
       contentAsString(result) mustBe viewAsString(form.fill(true))
     }
@@ -62,34 +80,57 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     "redirect to the next page when valid data is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
 
-      val result = controller().onSubmit()(postRequest)
+      val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(onwardRoute.url)
+      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad().url)
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "invalid value"))
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val result = controller().onSubmit()(postRequest)
+      val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe BAD_REQUEST
       contentAsString(result) mustBe viewAsString(boundForm)
     }
 
     "redirect to Session Expired for a GET if no existing data is found" in {
-      val result = controller(dontGetAnyData).onPageLoad()(fakeRequest)
+
+      object Controller extends PaymentOptionController(
+        frontendAppConfig,
+        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        dontGetAnyData,
+        new DataRequiredAction(messagesControllerComponents),
+        formProvider,
+        messagesControllerComponents
+      )
+
+      val result = Controller.onPageLoad()(fakeRequest)
 
       status(result) mustBe OK
     }
 
     "redirect to Session Expired for a POST if no existing data is found" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
-      val result = controller(dontGetAnyData).onSubmit()(postRequest)
+
+      object Controller extends PaymentOptionController(
+        frontendAppConfig,
+        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        dontGetAnyData,
+        new DataRequiredAction(messagesControllerComponents),
+        formProvider,
+        messagesControllerComponents
+      )
+      val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(onwardRoute.url)
+      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad().url)
     }
   }
 }

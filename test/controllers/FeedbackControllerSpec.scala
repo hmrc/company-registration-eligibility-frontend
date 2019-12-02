@@ -18,12 +18,13 @@ package controllers
 
 import controllers.actions._
 import play.api.test.Helpers._
-import views.html.eligible
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 class FeedbackControllerSpec extends ControllerSpecBase {
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new FeedbackControllerImpl(frontendAppConfig, messagesApi) {
+  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap): FeedbackController =
+    new FeedbackController(frontendAppConfig, messagesControllerComponents) {
       override val feedbackUrl     = "feUr"
       override val frontendUrl     = "frUr"
     }

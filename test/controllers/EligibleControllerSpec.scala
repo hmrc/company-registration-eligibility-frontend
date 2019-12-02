@@ -19,24 +19,24 @@ package controllers
 import controllers.actions._
 import play.api.test.Helpers._
 import views.html.eligible
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class EligibleControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = routes.EligibleController.onPageLoad()
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new EligibleControllerImpl(frontendAppConfig, messagesApi, FakeCacheIdentifierAction) {
-      override val postSignInUri     = "/psiuri"
-      override val companyRegURI     = "/uri"
-      override val ggMakeAccountUrl  = "ggMa"
-    }
+  object Controller extends EligibleController(
+    frontendAppConfig,
+    messagesControllerComponents,
+    new FakeSessionAction(frontendAppConfig, messagesControllerComponents)
+  )
 
   def viewAsString() = eligible(frontendAppConfig)(fakeRequest, messages).toString
 
   "Eligible Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = controller().onPageLoad(fakeRequest)
+      val result = Controller.onPageLoad(fakeRequest)
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
@@ -45,11 +45,11 @@ class EligibleControllerSpec extends ControllerSpecBase {
     "redirect to GG create account URL when the user hits submit" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody()
 
-      val result = controller().onSubmit()(postRequest)
+      val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result).get must include("ggMa/government-gateway-registration-frontend")
-      redirectLocation(result).get must include("continue=%2Furi%2Fpsiuri")
+      redirectLocation(result).get must include(s"${frontendAppConfig.ggMakeAccountUrl}/government-gateway-registration-frontend")
+      redirectLocation(result).get must include("continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in")
     }
 
   }

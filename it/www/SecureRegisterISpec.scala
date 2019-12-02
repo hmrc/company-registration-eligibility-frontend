@@ -19,12 +19,16 @@ package www
 import controllers.routes
 import helpers.{AuthHelper, IntegrationSpecBase, SessionHelper}
 import identifiers.SecureRegisterId
+import play.api.Application
 import play.api.http.HeaderNames
-import play.api.test.FakeApplication
+import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.libs.crypto.DefaultCookieSigner
 
 class SecureRegisterISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
 
-  override implicit lazy val app = FakeApplication(additionalConfiguration = fakeConfig())
+  override implicit lazy val app: Application = new GuiceApplicationBuilder().configure(fakeConfig()).build()
+
+  override val cookieSigner: DefaultCookieSigner = app.injector.instanceOf[DefaultCookieSigner]
 
   private def client(path: String) = ws.url(s"http://localhost:$port/eligibility-for-setting-up-company$path").withFollowRedirects(false)
 

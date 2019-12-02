@@ -20,6 +20,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.Html
 import base.SpecBase
+import play.api.i18n.Lang
 
 trait ViewSpecBase extends SpecBase {
 

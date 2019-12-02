@@ -17,37 +17,30 @@
 package controllers
 
 import java.net.URLEncoder
-import javax.inject.Inject
 
 import config.FrontendAppConfig
 import controllers.actions._
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.eligible
 
-class EligibleControllerImpl @Inject()(val appConfig: FrontendAppConfig,
-                                       override val messagesApi: MessagesApi,
-                                       val identify: CacheIdentifierAction) extends EligibleController {
-  val postSignInUri     = appConfig.postSignInUrl
-  val ggMakeAccountUrl  = appConfig.ggMakeAccountUrl
-  val companyRegURI     = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
-}
+@Singleton
+class EligibleController @Inject()(appConfig: FrontendAppConfig,
+                                   controllerComponents: MessagesControllerComponents,
+                                   identify: SessionAction
+                                  ) extends FrontendController(controllerComponents) with I18nSupport {
 
-trait EligibleController extends FrontendController with I18nSupport {
-  val appConfig : FrontendAppConfig
-  val companyRegURI : String
-  val ggMakeAccountUrl : String
-  val postSignInUri : String
-  val identify : CacheIdentifierAction
-
-  private[controllers] def buildCreateAccountURL: String = {
-    val crfePostSignIn = s"$companyRegURI$postSignInUri"
+  private val redirectionUrl = {
+    val companyRegURI = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
+    val crfePostSignIn = s"$companyRegURI${appConfig.postSignInUrl}"
     val ggrf = "government-gateway-registration-frontend"
     val accountType = "accountType=organisation"
     val origin = "origin=company-registration-frontend"
-    val continueURL = s"continue=${URLEncoder.encode(s"$crfePostSignIn","UTF-8")}"
-    s"$ggMakeAccountUrl/$ggrf?$accountType&$continueURL&$origin"
+    val continueURL = s"continue=${URLEncoder.encode(s"$crfePostSignIn", "UTF-8")}"
+
+    s"${appConfig.ggMakeAccountUrl}/$ggrf?$accountType&$continueURL&$origin"
   }
 
   def onPageLoad: Action[AnyContent] = identify {
@@ -55,7 +48,9 @@ trait EligibleController extends FrontendController with I18nSupport {
       Ok(eligible(appConfig))
   }
 
-  def onSubmit: Action[AnyContent] = Action { implicit request =>
-    Redirect(buildCreateAccountURL)
+  def onSubmit: Action[AnyContent] = Action {
+    implicit request =>
+      Redirect(redirectionUrl)
   }
+
 }

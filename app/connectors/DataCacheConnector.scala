@@ -16,16 +16,16 @@
 
 package connectors
 
-import com.google.inject.{ImplementedBy, Inject}
+import javax.inject.{Inject, Singleton}
 import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.http.cache.client.CacheMap
 import repositories.SessionRepository
 import utils.CascadeUpsert
-import scala.concurrent.ExecutionContext.Implicits.global
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class DataCacheConnectorImpl @Inject()(val sessionRepository: SessionRepository, val cascadeUpsert: CascadeUpsert) extends DataCacheConnector {
+@Singleton
+class DataCacheConnector @Inject()(sessionRepository: SessionRepository, cascadeUpsert: CascadeUpsert)(implicit ec: ExecutionContext) {
 
   def save[A](cacheId: String, key: String, value: A)(implicit fmt: Format[A]): Future[CacheMap] = {
     sessionRepository().get(cacheId).flatMap { optionalCacheMap =>
@@ -83,21 +83,4 @@ class DataCacheConnectorImpl @Inject()(val sessionRepository: SessionRepository,
       }
     }
   }
-}
-
-@ImplementedBy(classOf[DataCacheConnectorImpl])
-trait DataCacheConnector {
-  def save[A](cacheId: String, key: String, value: A)(implicit fmt: Format[A]): Future[CacheMap]
-
-  def remove(cacheId: String, key: String): Future[Boolean]
-
-  def fetch(cacheId: String): Future[Option[CacheMap]]
-
-  def getEntry[A](cacheId: String, key: String)(implicit fmt: Format[A]): Future[Option[A]]
-
-  def addToCollection[A](cacheId: String, collectionKey: String, value: A)(implicit fmt: Format[A]): Future[CacheMap]
-
-  def removeFromCollection[A](cacheId: String, collectionKey: String, item: A)(implicit fmt: Format[A]): Future[CacheMap]
-
-  def replaceInCollection[A](cacheId: String, collectionKey: String, index: Int, item: A)(implicit fmt: Format[A]): Future[CacheMap]
 }

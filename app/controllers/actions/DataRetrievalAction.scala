@@ -16,21 +16,26 @@
 
 package controllers.actions
 
-import com.google.inject.Inject
-import play.api.mvc.ActionTransformer
+import play.api.mvc.{ActionTransformer, AnyContent, BodyParser, MessagesControllerComponents}
 import connectors.DataCacheConnector
+import javax.inject.{Inject, Singleton}
 import utils.UserAnswers
 import models.requests.{CacheIdentifierRequest, OptionalDataRequest}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class DataRetrievalActionImpl @Inject()(val dataCacheConnector: DataCacheConnector) extends DataRetrievalAction {
+@Singleton
+class DataRetrievalAction @Inject()(dataCacheConnector: DataCacheConnector,
+                                    controllerComponents: MessagesControllerComponents) extends ActionTransformer[CacheIdentifierRequest, OptionalDataRequest] {
+
+  override protected implicit val executionContext: ExecutionContext = controllerComponents.executionContext
+
+  def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
   override protected def transform[A](request: CacheIdentifierRequest[A]): Future[OptionalDataRequest[A]] = {
-    implicit val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
 
     dataCacheConnector.fetch(request.cacheId).map {
       case None => OptionalDataRequest(request.request, request.cacheId, None)
@@ -38,5 +43,3 @@ class DataRetrievalActionImpl @Inject()(val dataCacheConnector: DataCacheConnect
     }
   }
 }
-
-trait DataRetrievalAction extends ActionTransformer[CacheIdentifierRequest, OptionalDataRequest]

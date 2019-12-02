@@ -16,25 +16,25 @@
 
 package controllers
 
-import javax.inject.Inject
-
 import config.FrontendAppConfig
 import controllers.actions._
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.{ineligible, ineligible_payment}
 
+@Singleton
 class IneligibleController @Inject()(appConfig: FrontendAppConfig,
-                                     override val messagesApi: MessagesApi,
-                                     identify: CacheIdentifierAction) extends FrontendController with I18nSupport {
+                                     controllerComponents: MessagesControllerComponents,
+                                     identify: SessionAction) extends FrontendController(controllerComponents) with I18nSupport {
 
-  def onPageLoad(inelligibleType: String) = identify {
+  def onPageLoad(inelligibleType: String): Action[AnyContent] = identify {
     implicit request =>
       Ok(ineligible(appConfig, inelligibleType))
   }
 
-  def onPageLoadPayment() = identify {
+  def onPageLoadPayment(): Action[AnyContent] = identify {
     implicit request =>
       Ok(ineligible_payment(appConfig))
   }

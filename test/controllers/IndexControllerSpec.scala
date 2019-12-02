@@ -17,13 +17,12 @@
 package controllers
 
 import play.api.test.Helpers._
-import views.html.index
 
 class IndexControllerSpec extends ControllerSpecBase {
 
   "Index Controller" must {
     "return 200 for a GET" in {
-      val result = new IndexController(frontendAppConfig, messagesApi).onPageLoad()(fakeRequest)
+      val result = new IndexController(frontendAppConfig, messagesControllerComponents).onPageLoad()(fakeRequest)
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.BeforeYouStartController.onPageLoad().url)
     }

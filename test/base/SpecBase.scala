@@ -19,19 +19,28 @@ package base
 import config.FrontendAppConfig
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.inject.Injector
+import play.api.mvc._
 import play.api.test.FakeRequest
+import repositories.SessionRepository
+import utils.CascadeUpsert
 
 trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
-  def injector: Injector = app.injector
+  lazy val injector: Injector = app.injector
 
   def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
 
-  def messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
+  def messagesApi: MessagesApi = messagesControllerComponents.messagesApi
 
-  def fakeRequest = FakeRequest("", "")
+  def fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
   def messages: Messages = messagesApi.preferred(fakeRequest)
+
+  def messagesControllerComponents: MessagesControllerComponents = injector.instanceOf[MessagesControllerComponents]
+
+  lazy val cascadeUpsert: CascadeUpsert = injector.instanceOf[CascadeUpsert]
+
+  lazy val sessionRepository: SessionRepository = injector.instanceOf[SessionRepository]
 }
