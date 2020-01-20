@@ -12,21 +12,21 @@ private object AppDependencies {
   import play.core.PlayVersion
 
   private val playHealthVersion = "3.14.0-play-26"
-  private val logbackJsonLoggerVersion = "3.1.0"
-  private val govukTemplateVersion = "5.36.0-play-26"
-  private val playUiVersion = "8.3.0-play-26"
+  private val logbackJsonLoggerVersion = "4.6.0"
+  private val govukTemplateVersion = "5.48.0-play-26"
+  private val playUiVersion = "8.7.0-play-26"
   private val hmrcTestVersion = "3.9.0-play-26"
   private val scalaTestVersion = "3.0.8"
   private val scalaTestPlusPlayVersion = "3.1.2"
   private val pegdownVersion = "1.6.0"
   private val mockitoAllVersion = "2.0.2-beta"
   private val httpCachingClientVersion = "9.0.0-play-26"
-  private val simpleReactivemongoVersion = "7.21.0-play-26"
-  private val playConditionalFormMappingVersion = "0.2.0"
+  private val simpleReactivemongoVersion = "7.22.0-play-26"
+  private val playConditionalFormMappingVersion = "1.2.0-play-26"
   private val playLanguageVersion = "4.2.0-play-26"
   private val bootstrapVersion = "1.3.0"
   private val wireMockVersion = "2.25.1"
-  private val reactivemongoTestVersion = "4.15.0-play-26"
+  private val reactivemongoTestVersion = "4.16.0-play-26"
   private val scalacheckVersion = "1.14.2"
 
   val compile = Seq(
