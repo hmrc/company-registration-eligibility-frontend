@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.featureswitch.{FeatureSwitching, TakeOversAllowed}
 import connectors.FakeDataCacheConnector
 import controllers.actions._
 import forms.TakingOverBusinessFormProvider
@@ -30,7 +31,7 @@ import views.html.takingOverBusiness
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TakingOverBusinessControllerSpec extends ControllerSpecBase {
+class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
   def onwardRoute = routes.IndexController.onPageLoad()
 
@@ -53,10 +54,20 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase {
   "TakingOverBusiness Controller" must {
 
     "return OK and the correct view for a GET" in {
+      disable(TakeOversAllowed)
       val result = Controller.onPageLoad()(fakeRequest)
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
+    }
+
+    "redirect for a GET when the TakeOversAllowed feature is on" in {
+      enable(TakeOversAllowed)
+      val result = Controller.onPageLoad()(fakeRequest)
+
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some("/eligibility-for-setting-up-company/secure-register-form")
+      disable(TakeOversAllowed)
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {

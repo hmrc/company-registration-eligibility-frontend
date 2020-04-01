@@ -17,6 +17,7 @@
 package controllers
 
 import config.FrontendAppConfig
+import config.featureswitch.{FeatureSwitching, TakeOversAllowed}
 import connectors.DataCacheConnector
 import controllers.actions._
 import forms.TakingOverBusinessFormProvider
@@ -41,18 +42,24 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
                                              requireData: DataRequiredAction,
                                              formProvider: TakingOverBusinessFormProvider,
                                              controllerComponents: MessagesControllerComponents
-                                            )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
 
+                                            )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport with FeatureSwitching {
   val form: Form[Boolean] = formProvider()
 
   def onPageLoad() = (identify andThen getData andThen requireData) {
-    implicit request =>
-      val preparedForm = request.userAnswers.takingOverBusiness match {
-        case None => form
-        case Some(value) => form.fill(value)
+    implicit request => {
+      if (isEnabled(TakeOversAllowed)) {
+        Redirect(routes.SecureRegisterController.onPageLoad())
+      } else {
+        val preparedForm = request.userAnswers.takingOverBusiness match {
+          case None => form
+          case Some(value) => form.fill(value)
+        }
+        Ok(takingOverBusiness(appConfig, preparedForm, NormalMode))
       }
-      Ok(takingOverBusiness(appConfig, preparedForm, NormalMode))
+    }
   }
+
 
   def onSubmit() = (identify andThen getData andThen requireData).async {
     implicit request =>
