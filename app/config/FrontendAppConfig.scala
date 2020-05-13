@@ -51,6 +51,8 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) {
 
   lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
 
+  def accessibilityStatementRoute(pageUri: String) = s"$compRegFEURL$compRegFEURI/accessibility-statement?pageUri=$pageUri"
+
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
