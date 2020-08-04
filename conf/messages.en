@@ -1,11 +1,14 @@
+## Check Your Answers
 checkYourAnswers.title                      = Check Your Answers
 checkYourAnswers.heading                    = Check Your Answers
 checkYourAnswers.guidance                   = Guidance for check your answers
 
+## Date
 date.day                                    = Day
 date.month                                  = Month
 date.year                                   = Year
 
+## Error
 error.boolean                               = Please give an answer
 error.invalid_date                          = Give a correct date
 error.date.day_blank                        = Enter a day
@@ -20,14 +23,17 @@ error.number                                = Please enter a valid number
 error.required                              = Please enter a value
 error.summary.title                         = This page has errors
 
+## Index
 index.title                                 = company-registration-eligibility-frontend
 index.heading                               = company-registration-eligibility-frontend
 index.guidance                              = Welcome to your new frontend. Please see the README file for a guide to getting started.
 
+## Session Expired
 session_expired.title                       = For your security, this service has been reset
 session_expired.heading                     = For your security, this service has been reset
 session_expired.guidance                    = The details you have given have been deleted because you did not continue the service for 1 hour.
 
+## Site
 site.back                                   = Back
 site.delete                                 = Remove
 site.edit                                   = Change
@@ -41,14 +47,17 @@ site.createGGWUser                          = Create Government Gateway user ID
 site.service_name                           = Set up a limited company and register for Corporation Tax
 site.textarea.char_limit                    = (Limit is {0} characters)
 
+## Common
 common.feedbackFirst                        = This is a new service - your
 common.feedbackSecond                       = feedback
 common.feedbackThird                        = will help us to improve it.
 common.feedbackLinkText                     = feedback
 
+## Unauthorised
 unauthorised.title                          = You can''t access this service with this account
 unauthorised.heading                        = You can''t access this service with this account
 
+##Before You Start
 beforeYouStart.title                        = Check before you start
 beforeYouStart.heading                      = Check before you start
 beforeYouStart.text                         = We''re going to ask some questions. Your answers will:
@@ -56,6 +65,7 @@ beforeYouStart.bullet1                      = show whether you can use this serv
 beforeYouStart.bullet2                      = take you to another service if you''re not eligible to use this one
 beforeYouStart.submit                       = Continue to questions
 
+## Ineligible
 ineligible.title                            = You cannot set up a company with this service
 ineligible.heading                          = You cannot set up a company with this service
 ineligible.text                             = To set up a company {0}, you''ll need to use another service.
@@ -64,6 +74,7 @@ ineligible.secureRegister.text              = when one of its directors or secre
 ineligible.payment.text                     = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit                           = Use other service
 
+## Taking Over Business
 takingOverBusiness.title                    = Is the new company taking over another business?
 takingOverBusiness.heading                  = Is the new company taking over another business?
 takingOverBusiness.checkYourAnswersLabel    = takingOverBusiness
@@ -76,6 +87,7 @@ takingOverBusiness.whatis                   = What is a sole trader or partnersh
 takingOverBusiness.dropdown.p1              = A sole trader is someone who''s self-employed and is the only owner of their business.
 takingOverBusiness.dropdown.p2              = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
 
+## Secure Register
 secureRegister.title                        = Are any directors or ''persons with significant control'' on the Companies House secure register?
 secureRegister.heading                      = Are any directors or ''persons with significant control'' on the Companies House secure register?
 secureRegister.checkYourAnswersLabel        = secureRegister
@@ -84,12 +96,14 @@ secureRegister.text                         = The secure register is for victims
 secureRegister.dropdowntitle                = What is a ''person in significant control''?
 secureRegister.dropdown.p1                  = This is someone who has substantial influence over the way the company is run, for example anyone with more than 25% shares or voting rights.
 
-eligible.title                              = You can set up a company with this service
+## Eligible
+eligible.title                              = You will now create a Government Gateway user ID for this company
 eligible.heading                            = You will now create a Government Gateway user ID for this company
 eligible.text                               = Use this user ID whenever you need sign in to manage the company''s taxes online.
 eligible.dropdown                           = What if I need to set up multiple companies?
 eligible.info                               = You must create a new Government Gateway user ID for each company. After you have set up one company, return to GOV.UK and repeat the registration process.
 
+## Payment Option
 paymentOption.title                         = Are you able to pay for this application using a card or PayPal?
 paymentOption.heading                       = Are you able to pay for this application using a card or PayPal?
 paymentOption.checkYourAnswersLabel         = paymentOption
