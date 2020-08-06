@@ -22,7 +22,7 @@ error.non_numeric                           = Give a value using only numbers
 error.number                                = Please enter a valid number
 error.required                              = Please enter a value
 error.summary.title                         = This page has errors
-error.title-prefix                          = Error:
+error.title-prefix                          = 'Error: '
 
 ## Index
 index.title                                 = company-registration-eligibility-frontend
