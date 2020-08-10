@@ -46,6 +46,7 @@ site.continue                               = Continue
 site.save_and_continue                      = Save and continue
 site.createGGWUser                          = Create Government Gateway user ID
 site.service_name                           = Set up a limited company and register for Corporation Tax
+site.govuk.label                            = GOV.UK
 site.textarea.char_limit                    = (Limit is {0} characters)
 
 ## Common

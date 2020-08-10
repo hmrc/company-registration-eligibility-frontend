@@ -20,31 +20,33 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import config.featureswitch.FeatureSwitch
 import controllers.ControllerSpecBase
+import org.jsoup.Jsoup
 import play.api.test.CSRFTokenHelper._
 import play.api.test.Helpers._
-import org.jsoup.Jsoup
 
 
 class FeatureSwitchControllerSpec extends ControllerSpecBase {
   implicit val system = ActorSystem("test")
+
   implicit def mat: Materializer = ActorMaterializer()
+
   object Controller extends FeatureSwitchController(
     frontendAppConfig,
     messagesControllerComponents
   )
 
 
-"handOffFeatureSwitch" should {
+  "handOffFeatureSwitch" should {
 
-  "return OK and the correct view for a GET" in {
+    "return OK and the correct view for a GET" in {
 
-    val fs = Map(FeatureSwitch("feature-switch.takeovers-allowed") -> false)
+      val fs = Map(FeatureSwitch("feature-switch.takeovers-allowed") -> false)
 
-    val result = Controller.show(fakeRequest.withCSRFToken)
-    val page = Jsoup.parse(contentAsString(result))
-    status(result) mustBe OK
-    page.title() mustBe "Feature switch"
-    page.getElementById("feature-switch.takeovers-allowed").attr("value") mustBe "true"
+      val result = Controller.show(fakeRequest.withCSRFToken)
+      val page = Jsoup.parse(contentAsString(result))
+      status(result) mustBe OK
+      page.title() must include("Feature switch")
+      page.getElementById("feature-switch.takeovers-allowed").attr("value") mustBe "true"
+    }
   }
-}
 }
