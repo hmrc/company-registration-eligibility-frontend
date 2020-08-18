@@ -33,15 +33,31 @@
 
         @components.error_summary(form.errors)
 
-        @components.heading("paymentOption.heading")
+        <div class="form-group @if(form("value").hasErrors){form-group-error}">
+            <fieldset class="inline" id="value">
+                <legend>
+                    @components.heading("paymentOption.heading")
+                </legend>
+                @components.text("paymentOption.text")
+                @form("value").errors.map { error =>
+                <span class="error-notification" id="error-message-value-input">@messages(error.message, error.args: _*)</span>
+                }
+                <div class="multiple-choice">
+                    <input id="value-yes" type="radio" name="value" value="true" @if(form("value").value.contains("true")){checked="checked"} />
+                    <label for="value-yes" data-target>
+                        @messages("site.yes")
+                    </label>
+                </div>
 
-        @components.text("paymentOption.text")
+                <div class="multiple-choice">
+                    <input id="value-no" type="radio" name="value" value="false" @if(form("value").value.contains("false")){checked="checked"} />
+                    <label for="value-no" data-target>
+                        @messages("site.no")
+                    </label>
+                </div>
 
-        @components.input_yes_no(
-            field = form("value"),
-            label = messages("paymentOption.heading"),
-            labelClass = Some("visually-hidden")
-        )
+            </fieldset>
+        </div>
 
         @components.submit_button()
     }
