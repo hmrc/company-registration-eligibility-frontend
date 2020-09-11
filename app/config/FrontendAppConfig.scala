@@ -51,6 +51,10 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) {
 
   lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
 
+  lazy val commonFooterUrl = "https://www.tax.service.gov.uk/register-your-company/cookies-privacy-terms"
+
+  lazy val helpFooterUrl = "https://www.gov.uk/help"
+
   def accessibilityStatementRoute(pageUri: String) = s"$compRegFEURL$compRegFEURI/accessibility-statement?pageUri=$pageUri"
 
   def languageMap: Map[String, Lang] = Map(

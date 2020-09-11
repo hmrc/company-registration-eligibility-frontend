@@ -55,6 +55,13 @@ common.feedbackSecond                       = feedback
 common.feedbackThird                        = will help us to improve it.
 common.feedbackLinkText                     = feedback
 
+## Footer
+footer.links.cookies.text                   = Cookies
+footer.links.privacy_policy.text            = Privacy policy
+footer.links.terms_and_conditions.text      = Terms and conditions
+footer.links.help_page.text                 = Help using GOV.UK
+footer.links.accessibility.text             = Accessibility
+
 ## Unauthorised
 unauthorised.title                          = You can''t access this service with this account
 unauthorised.heading                        = You can''t access this service with this account
