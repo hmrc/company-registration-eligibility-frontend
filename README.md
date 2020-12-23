@@ -4,7 +4,7 @@
 
 In order to run the microservice, you must have SBT installed. You should then be able to start the application using:
 
-sbt "run 9972"
+sbt "run 9972 -Dapplication.router=testOnlyDoNotUseInAppConf.Routes"
 
 To run the tests for the application, you can run: sbt test it:test
 
