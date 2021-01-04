@@ -13,7 +13,7 @@ private object AppDependencies {
 
   private val logbackJsonLoggerVersion = "4.8.0"
   private val govukTemplateVersion = "5.55.0-play-26"
-  private val playUiVersion = "8.11.0-play-26"
+  private val playUiVersion = "8.19.0-play-26"
   private val hmrcTestVersion = "3.9.0-play-26"
   private val scalaTestVersion = "3.0.8"
   private val scalaTestPlusPlayVersion = "3.1.2"
