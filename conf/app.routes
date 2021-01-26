@@ -11,7 +11,7 @@ GET        /this-service-has-been-reset                 controllers.SessionExpir
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
 GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
-POST       /check-before-you-start                      controllers.BeforeYouStartController.onSubmit()
+
 
 GET        /ineligible/paymentOption                    controllers.IneligibleController.onPageLoadPayment()
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
@@ -24,7 +24,7 @@ GET        /secure-register-form                        controllers.SecureRegist
 POST       /secure-register-form                        controllers.SecureRegisterController.onSubmit()
 
 GET        /set-up-company                              controllers.EligibleController.onPageLoad()
-POST       /set-up-company                              controllers.EligibleController.onSubmit()
+
 
 GET        /feedback                                    controllers.FeedbackController.show()
 

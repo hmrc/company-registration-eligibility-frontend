@@ -16,7 +16,8 @@
 
 @(
 messageKey: String = "",
-href: String
+href: String,
+bid: String = ""
 )(implicit messages: Messages)
 
-<a href="@href" role="button" class="button">@messages(messageKey)</a>
+<a href="@href" role="button" id="@bid" class="button">@messages(messageKey)</a>
