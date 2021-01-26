@@ -20,7 +20,8 @@ import config.FrontendAppConfig
 import controllers.routes
 import javax.inject.{Inject, Singleton}
 import models.requests.CacheIdentifierRequest
-import play.api.mvc.{ActionBuilder, AnyContent, BodyParser, MessagesControllerComponents, Request, Result}
+import play.api.libs.json.Json
+import play.api.mvc.{ActionBuilder, ActionFunction, AnyContent, BodyParser, MessagesControllerComponents, Request, Result}
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
@@ -30,14 +31,14 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class SessionAction @Inject()(config: FrontendAppConfig,
                               controllerComponents: MessagesControllerComponents
-                             ) extends ActionBuilder[CacheIdentifierRequest, AnyContent] {
+                             ) extends ActionBuilder[CacheIdentifierRequest, AnyContent] with ActionFunction[Request, CacheIdentifierRequest] {
 
   implicit override protected val executionContext: ExecutionContext = controllerComponents.executionContext
 
   override def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
   override def invokeBlock[A](request: Request[A], block: CacheIdentifierRequest[A] => Future[Result]): Future[Result] = {
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSessionAndRequest(request.headers, Some(request.session),Some(request))
 
     hc.sessionId match {
       case Some(session) =>

@@ -45,7 +45,7 @@ class EligibleController @Inject()(appConfig: FrontendAppConfig,
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
-      Ok(eligible(appConfig))
+      Ok(eligible(appConfig,redirectionUrl))
   }
 
   def onSubmit: Action[AnyContent] = Action {

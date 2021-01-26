@@ -22,8 +22,8 @@ import views.html.eligible
 class EligibleViewSpec extends ViewBehaviours {
 
   val messageKeyPrefix = "eligible"
-
-  def createView = () => eligible(frontendAppConfig)(fakeRequest, messages)
+  val redirectionUrl="http://localhost:8571/government-gateway-registration-frontend?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
+  def createView = () => eligible(frontendAppConfig,redirectionUrl)(fakeRequest, messages)
 
   "Eligible view" must {
     behave like normalPage(createView, messageKeyPrefix)
