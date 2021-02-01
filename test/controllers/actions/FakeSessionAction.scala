@@ -16,14 +16,12 @@
 
 package controllers.actions
 
-import config.FrontendAppConfig
 import models.requests.CacheIdentifierRequest
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FakeSessionAction(appConfig: FrontendAppConfig,
-                        controllerComponents: MessagesControllerComponents) extends SessionAction(appConfig, controllerComponents) {
+class FakeSessionAction(controllerComponents: MessagesControllerComponents) extends SessionAction(controllerComponents) {
 
   override val executionContext: ExecutionContext = controllerComponents.executionContext
 

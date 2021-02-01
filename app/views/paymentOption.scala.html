@@ -15,42 +15,41 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html._
-@import controllers.routes._
-@import models.Mode
+@import uk.gov.hmrc.play.views.html.helpers.form
 @import views.helpers.TitleHelper.title
+@import models.Mode
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(appConfig: FrontendAppConfig, paymentOptionForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = title(messages("paymentOption.title"), form),
+    title = title(messages("paymentOption.title"), paymentOptionForm),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @helpers.form(action = PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
+    @form(action = routes.PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
 
         @components.back_link()
 
-        @components.error_summary(form.errors)
+        @components.error_summary(paymentOptionForm.errors)
 
-        <div class="form-group @if(form("value").hasErrors){form-group-error}">
+        <div class="form-group @if(paymentOptionForm("value").hasErrors){form-group-error}">
             <fieldset class="inline" id="value">
                 <legend>
                     @components.heading("paymentOption.heading")
                 </legend>
                 @components.text("paymentOption.text")
-                @form("value").errors.map { error =>
+                @paymentOptionForm("value").errors.map { error =>
                 <span class="error-notification" id="error-message-value-input">@messages(error.message, error.args: _*)</span>
                 }
                 <div class="multiple-choice">
-                    <input id="value-yes" type="radio" name="value" value="true" @if(form("value").value.contains("true")){checked="checked"} />
+                    <input id="value-yes" type="radio" name="value" value="true" @if(paymentOptionForm("value").value.contains("true")){checked="checked"} />
                     <label for="value-yes" data-target>
                         @messages("site.yes")
                     </label>
                 </div>
 
                 <div class="multiple-choice">
-                    <input id="value-no" type="radio" name="value" value="false" @if(form("value").value.contains("false")){checked="checked"} />
+                    <input id="value-no" type="radio" name="value" value="false" @if(paymentOptionForm("value").value.contains("false")){checked="checked"} />
                     <label for="value-no" data-target>
                         @messages("site.no")
                     </label>

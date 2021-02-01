@@ -25,8 +25,11 @@ class IneligibleControllerSpec extends ControllerSpecBase {
 
   def onwardRoute = routes.IndexController.onPageLoad()
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new IneligibleController(frontendAppConfig, messagesControllerComponents, new FakeSessionAction(frontendAppConfig, messagesControllerComponents))
+  def controller() = new IneligibleController(
+    frontendAppConfig,
+    messagesControllerComponents,
+    new FakeSessionAction(messagesControllerComponents)
+  )
 
   def viewAsString() = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
 

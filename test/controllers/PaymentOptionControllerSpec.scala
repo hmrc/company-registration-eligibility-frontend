@@ -39,9 +39,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
     new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
-    new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+    new FakeSessionAction(messagesControllerComponents),
     getEmptyCacheMap,
-    new DataRequiredAction(messagesControllerComponents),
     formProvider,
     messagesControllerComponents
   )
@@ -65,9 +64,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
-        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        new FakeSessionAction(messagesControllerComponents),
         getRelevantData,
-        new DataRequiredAction(messagesControllerComponents),
         formProvider,
         messagesControllerComponents
       )
@@ -102,9 +100,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
-        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
-        new DataRequiredAction(messagesControllerComponents),
         formProvider,
         messagesControllerComponents
       )
@@ -121,9 +118,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
-        new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+        new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
-        new DataRequiredAction(messagesControllerComponents),
         formProvider,
         messagesControllerComponents
       )

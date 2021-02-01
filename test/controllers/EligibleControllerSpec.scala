@@ -28,9 +28,9 @@ class EligibleControllerSpec extends ControllerSpecBase {
   object Controller extends EligibleController(
     frontendAppConfig,
     messagesControllerComponents,
-    new FakeSessionAction(frontendAppConfig, messagesControllerComponents)
+    new FakeSessionAction(messagesControllerComponents)
   )
-  val redirectionUrl="http://localhost:8571/government-gateway-registration-frontend?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
+  val redirectionUrl = "http://localhost:8571/government-gateway-registration-frontend?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
   def viewAsString() = eligible(frontendAppConfig,redirectionUrl)(fakeRequest, messages).toString
 
   "Eligible Controller" must {
