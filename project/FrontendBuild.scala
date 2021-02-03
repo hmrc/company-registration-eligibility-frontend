@@ -23,7 +23,7 @@ private object AppDependencies {
   private val simpleReactivemongoVersion = "7.30.0-play-26"
   private val playConditionalFormMappingVersion = "1.5.0-play-26"
   private val playLanguageVersion = "4.3.0-play-26"
-  private val bootstrapVersion = "2.2.0"
+  private val bootstrapVersion = "3.4.0"
   private val wireMockVersion = "2.25.1"
   private val reactivemongoTestVersion = "4.21.0-play-26"
   private val scalacheckVersion = "1.14.2"
@@ -36,7 +36,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
     "uk.gov.hmrc" %% "play-conditional-form-mapping" % playConditionalFormMappingVersion,
-    "uk.gov.hmrc" %% "bootstrap-play-26" % bootstrapVersion,
+    "uk.gov.hmrc" %% "bootstrap-frontend-play-26" % bootstrapVersion,
     "uk.gov.hmrc" %% "play-language" % playLanguageVersion
   )
 

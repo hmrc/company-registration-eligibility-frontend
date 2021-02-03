@@ -15,21 +15,22 @@
  */
 
 package controllers
+import play.filters.csrf._
 
 import config.FrontendAppConfig
 import connectors.DataCacheConnector
 import controllers.actions._
 import forms.PaymentOptionFormProvider
 import identifiers.PaymentOptionId
-import javax.inject.{Inject, Singleton}
 import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.paymentOption
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -38,7 +39,6 @@ class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
                                         navigator: Navigator,
                                         identify: SessionAction,
                                         getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
                                         formProvider: PaymentOptionFormProvider,
                                         controllerComponents: MessagesControllerComponents
                                        )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
@@ -57,9 +57,9 @@ class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
   def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
       form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
+        formWithErrors =>
           Future.successful(BadRequest(paymentOption(appConfig, formWithErrors, NormalMode))),
-        (value) =>
+        value =>
           dataCacheConnector.save[Boolean](request.internalId, PaymentOptionId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(new UserAnswers(cacheMap))))
       )

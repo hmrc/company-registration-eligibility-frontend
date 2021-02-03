@@ -24,7 +24,7 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
   object Controller extends BeforeYouStartController(
       frontendAppConfig,
-      new FakeSessionAction(frontendAppConfig, messagesControllerComponents),
+      new FakeSessionAction(messagesControllerComponents),
       messagesControllerComponents
     )
 

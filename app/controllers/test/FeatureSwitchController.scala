@@ -22,10 +22,9 @@ import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.test.feature_switch
 import config.featureswitch.FeatureSwitch.switches
-import controllers.test.routes.FeatureSwitchController
 import scala.collection.immutable.ListMap
 import scala.concurrent.Future
 
@@ -41,7 +40,7 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
   private def view(switchNames: Map[FeatureSwitch, Boolean])(implicit request: Request[_]): Html =
     feature_switch(
       switchNames = switchNames,
-      FeatureSwitchController.submit()
+      routes.FeatureSwitchController.submit()
     )
 
 
@@ -64,6 +63,6 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
 
     )
 
-    Future.successful(Redirect(FeatureSwitchController.show()))
+    Future.successful(Redirect(routes.FeatureSwitchController.show()))
   }
 }
