@@ -16,14 +16,15 @@
 
 package views
 
+import play.twirl.api.Html
 import views.behaviours.ViewBehaviours
 import views.html.ineligible
 
 class IneligibleViewSpec extends ViewBehaviours {
 
-  val messageKeyPrefix = "ineligible"
+  val messageKeyPrefix: String = "ineligible"
 
-  def createView = () => ineligible(frontendAppConfig, "foo")(fakeRequest, messages)
+  def createView: () => Html = () => ineligible(frontendAppConfig, "foo")(fakeRequest, messages)
 
   "Ineligible view" must {
     behave like normalPage(createView, messageKeyPrefix)

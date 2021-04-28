@@ -15,7 +15,6 @@
  */
 
 package controllers
-import play.filters.csrf._
 
 import config.FrontendAppConfig
 import connectors.DataCacheConnector

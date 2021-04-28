@@ -24,6 +24,7 @@ import identifiers.TakingOverBusinessId
 import models.NormalMode
 import play.api.data.Form
 import play.api.libs.json.JsBoolean
+import play.api.mvc.Call
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import utils.FakeNavigator
@@ -33,10 +34,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
-  def onwardRoute = routes.IndexController.onPageLoad()
+  def onwardRoute: Call = routes.IndexController.onPageLoad()
 
-  val formProvider = new TakingOverBusinessFormProvider()
-  val form = formProvider()
+  val formProvider: TakingOverBusinessFormProvider = new TakingOverBusinessFormProvider()
+  val form: Form[Boolean] = formProvider()
 
   object Controller extends TakingOverBusinessController(
     frontendAppConfig,
@@ -49,7 +50,7 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
     messagesControllerComponents
   )
 
-  def viewAsString(form: Form[_] = form) = takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "TakingOverBusiness Controller" must {
 

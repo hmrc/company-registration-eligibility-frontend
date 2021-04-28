@@ -16,12 +16,13 @@
 
 package views
 
+import play.twirl.api.Html
 import views.behaviours.ViewBehaviours
 import views.html.session_expired
 
 class SessionExpiredViewSpec extends ViewBehaviours {
 
-  def view = () => session_expired(frontendAppConfig)(fakeRequest, messages)
+  def view: () => Html = () => session_expired(frontendAppConfig)(fakeRequest, messages)
 
   "Session Expired view" must {
 

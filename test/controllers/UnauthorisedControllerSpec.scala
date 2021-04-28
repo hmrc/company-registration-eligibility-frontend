@@ -18,7 +18,6 @@ package controllers
 
 import play.api.test.Helpers._
 import views.html.unauthorised
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class UnauthorisedControllerSpec extends ControllerSpecBase {
 

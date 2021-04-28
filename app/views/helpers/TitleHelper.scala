@@ -21,6 +21,10 @@ import play.api.i18n.Messages
 
 object TitleHelper {
   def title(titleMessage: String, form: Form[_])(implicit messages: Messages): String =
-    if(form.hasErrors) messages("error.title-prefix") + titleMessage
-    else titleMessage
+    if (form.hasErrors) {
+      messages("error.title-prefix") + titleMessage
+    }
+    else {
+      titleMessage
+    }
 }

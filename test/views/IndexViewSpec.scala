@@ -16,12 +16,13 @@
 
 package views
 
+import play.twirl.api.Html
 import views.behaviours.ViewBehaviours
 import views.html.index
 
 class IndexViewSpec extends ViewBehaviours {
 
-  def view = () => index(frontendAppConfig)(fakeRequest, messages)
+  def view: () => Html = () => index(frontendAppConfig)(fakeRequest, messages)
 
   "Index view" must {
 

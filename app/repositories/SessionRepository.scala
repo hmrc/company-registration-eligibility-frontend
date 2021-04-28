@@ -16,20 +16,20 @@
 
 package repositories
 
-import javax.inject.{Inject, Singleton}
-
 import org.joda.time.{DateTime, DateTimeZone}
+import play.api.libs.json.{Format, JsValue, Json, OFormat}
 import play.api.{Configuration, Logger}
-import play.api.libs.json.{JsValue, Json}
-import play.modules.reactivemongo.MongoDbConnection
+import play.modules.reactivemongo.ReactiveMongoComponent
 import reactivemongo.api.DefaultDB
 import reactivemongo.api.indexes.{Index, IndexType}
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
 import reactivemongo.play.json.ImplicitBSONHandlers._
+import reactivemongo.play.json.JsObjectDocumentWriter
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.mongo.ReactiveRepository
 import uk.gov.hmrc.mongo.json.ReactiveMongoFormats
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -38,19 +38,19 @@ case class DatedCacheMap(id: String,
                          lastUpdated: DateTime = DateTime.now(DateTimeZone.UTC))
 
 object DatedCacheMap {
-  implicit val dateFormat = ReactiveMongoFormats.dateTimeFormats
-  implicit val formats = Json.format[DatedCacheMap]
+  implicit val dateFormat: Format[DateTime] = ReactiveMongoFormats.dateTimeFormats
+  implicit val formats: OFormat[DatedCacheMap] = Json.format[DatedCacheMap]
 
   def apply(cacheMap: CacheMap): DatedCacheMap = DatedCacheMap(cacheMap.id, cacheMap.data)
 }
 
 class ReactiveMongoRepository(config: Configuration, mongo: () => DefaultDB)
-  extends ReactiveRepository[DatedCacheMap, BSONObjectID](config.getString("appName").get, mongo, DatedCacheMap.formats) {
+  extends ReactiveRepository[DatedCacheMap, BSONObjectID](config.get[String]("appName"), mongo, DatedCacheMap.formats) {
 
-  val fieldName = "lastUpdated"
-  val createdIndexName = "userAnswersExpiry"
-  val expireAfterSeconds = "expireAfterSeconds"
-  val timeToLiveInSeconds: Int = config.getInt("mongodb.timeToLiveInSeconds").get
+  val fieldName: String = "lastUpdated"
+  val createdIndexName: String = "userAnswersExpiry"
+  val expireAfterSeconds: String = "expireAfterSeconds"
+  val timeToLiveInSeconds: Int = config.get[Int]("mongodb.timeToLiveInSeconds")
 
   createIndex(fieldName, createdIndexName, timeToLiveInSeconds)
 
@@ -72,21 +72,19 @@ class ReactiveMongoRepository(config: Configuration, mongo: () => DefaultDB)
     val cmDocument = Json.toJson(DatedCacheMap(cm))
     val modifier = BSONDocument("$set" -> cmDocument)
 
-    collection.update(selector, modifier, upsert = true).map { lastError =>
+    collection.update.one(selector, modifier, upsert = true).map { lastError =>
       lastError.ok
     }
   }
 
   def get(id: String): Future[Option[CacheMap]] =
-    collection.find(Json.obj("id" -> id)).one[CacheMap]
+    collection.find(Json.obj("id" -> id), Some(Json.obj())).one[CacheMap]
 }
 
 @Singleton
-class SessionRepository @Inject()(config: Configuration) {
+class SessionRepository @Inject()(config: Configuration, reactiveMongoComponent: ReactiveMongoComponent) {
 
-  class DbConnection extends MongoDbConnection
-
-  private lazy val sessionRepository = new ReactiveMongoRepository(config, new DbConnection().db)
+  private lazy val sessionRepository: ReactiveMongoRepository = new ReactiveMongoRepository(config, reactiveMongoComponent.mongoConnector.db)
 
   def apply(): ReactiveMongoRepository = sessionRepository
 }

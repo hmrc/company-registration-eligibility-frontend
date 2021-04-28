@@ -16,17 +16,15 @@
 
 package controllers
 
-import controllers.actions._
 import play.api.test.Helpers._
-import scala.concurrent.ExecutionContext.Implicits.global
 
 
 class FeedbackControllerSpec extends ControllerSpecBase {
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap): FeedbackController =
+  def controller: FeedbackController =
     new FeedbackController(frontendAppConfig, messagesControllerComponents) {
-      override val feedbackUrl     = "feUr"
-      override val frontendUrl     = "frUr"
+      override val feedbackUrl = "feUr"
+      override val frontendUrl = "frUr"
     }
 
   "Eligible Controller" must {
@@ -34,7 +32,7 @@ class FeedbackControllerSpec extends ControllerSpecBase {
     "redirect to company registration feedback submission on show" in {
       val req = fakeRequest.withFormUrlEncodedBody()
 
-      val result = controller().show()(req)
+      val result = controller.show()(req)
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result).get must include("frUrfeUr")

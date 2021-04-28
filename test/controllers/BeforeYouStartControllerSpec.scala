@@ -23,13 +23,12 @@ import views.html.beforeYouStart
 class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
   object Controller extends BeforeYouStartController(
-      frontendAppConfig,
-      new FakeSessionAction(messagesControllerComponents),
-      messagesControllerComponents
-    )
+    frontendAppConfig,
+    new FakeSessionAction(messagesControllerComponents),
+    messagesControllerComponents
+  )
 
   "BeforeYouStart Controller" must {
-
     "return OK and the correct view for a GET" in {
       val result = Controller.onPageLoad(fakeRequest)
 
@@ -45,8 +44,8 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.PaymentOptionController.onPageLoad().url)
     }
-
   }
+
 }
 
 

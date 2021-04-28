@@ -25,11 +25,7 @@ trait Enumerable[A] {
 
 object Enumerable {
 
-  def apply[A](entries: (String, A)*): Enumerable[A] =
-    new Enumerable[A] {
-      override def withName(str: String): Option[A] =
-        entries.toMap.get(str)
-     }
+  def apply[A](entries: (String, A)*): Enumerable[A] = (str: String) => entries.toMap.get(str)
 
   trait Implicits {
 
@@ -41,11 +37,12 @@ object Enumerable {
           }.getOrElse(JsError("error.invalid"))
         case _ =>
           JsError("error.invalid")
-       }
+      }
     }
 
-    implicit def writes[A : Enumerable]: Writes[A] = {
+    implicit def writes[A: Enumerable]: Writes[A] = {
       Writes(value => JsString(value.toString))
     }
   }
+
 }

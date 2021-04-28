@@ -18,11 +18,12 @@ package controllers
 
 import config.FrontendAppConfig
 import controllers.actions._
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.{ineligible, ineligible_payment}
+
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class IneligibleController @Inject()(appConfig: FrontendAppConfig,
@@ -39,7 +40,7 @@ class IneligibleController @Inject()(appConfig: FrontendAppConfig,
       Ok(ineligible_payment(appConfig))
   }
 
-  def onSubmit: Action[AnyContent] = Action { implicit request =>
+  def onSubmit: Action[AnyContent] = Action {
     Redirect(appConfig.webincsUrl)
   }
 }

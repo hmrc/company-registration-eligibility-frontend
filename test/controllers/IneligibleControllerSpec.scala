@@ -17,13 +17,13 @@
 package controllers
 
 import controllers.actions._
+import play.api.mvc.Call
 import play.api.test.Helpers._
 import views.html.ineligible
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class IneligibleControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.IndexController.onPageLoad()
+  def onwardRoute: Call = routes.IndexController.onPageLoad()
 
   def controller() = new IneligibleController(
     frontendAppConfig,
@@ -31,7 +31,7 @@ class IneligibleControllerSpec extends ControllerSpecBase {
     new FakeSessionAction(messagesControllerComponents)
   )
 
-  def viewAsString() = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
+  def viewAsString(): String = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
 
   "Ineligible Controller" must {
 

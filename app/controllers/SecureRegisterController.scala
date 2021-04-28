@@ -21,7 +21,6 @@ import connectors.DataCacheConnector
 import controllers.actions._
 import forms.SecureRegisterFormProvider
 import identifiers.SecureRegisterId
-import javax.inject.{Inject, Singleton}
 import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
@@ -30,6 +29,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.secureRegister
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -59,7 +59,7 @@ class SecureRegisterController @Inject()(appConfig: FrontendAppConfig,
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(secureRegister(appConfig, formWithErrors, NormalMode))),
-        (value) =>
+        value =>
           dataCacheConnector.save[Boolean](request.internalId, SecureRegisterId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(SecureRegisterId, NormalMode)(new UserAnswers(cacheMap))))
       )

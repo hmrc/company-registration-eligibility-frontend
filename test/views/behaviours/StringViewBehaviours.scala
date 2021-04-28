@@ -21,19 +21,18 @@ import play.twirl.api.HtmlFormat
 
 trait StringViewBehaviours extends QuestionViewBehaviours[String] {
 
-  val answer = "answer"
+  val answer: String = "answer"
 
-  def stringPage(createView: (Form[String]) => HtmlFormat.Appendable,
+  def stringPage(createView: Form[String] => HtmlFormat.Appendable,
                  messageKeyPrefix: String,
-                 expectedFormAction: String,
-                 expectedHintKey: Option[String] = None) = {
+                 expectedHintKey: Option[String] = None): Unit = {
 
     "behave like a page with a string value field" when {
       "rendered" must {
 
         "contain a label for the value" in {
           val doc = asDocument(createView(form))
-          val expectedHintText = expectedHintKey map(k => messages(k))
+          val expectedHintText = expectedHintKey map (k => messages(k))
           assertContainsLabel(doc, "value", messages(s"$messageKeyPrefix.heading"), expectedHintText)
         }
 

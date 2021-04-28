@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package helpers
 
 import akka.util.Timeout
-import itutil.WiremockHelper
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.PlaySpec
@@ -29,15 +28,15 @@ import scala.concurrent.duration._
 
 trait IntegrationSpecBase
   extends PlaySpec
-  with GuiceOneServerPerSuite
-  with ScalaFutures
-  with IntegrationPatience
-  with WiremockHelper
-  with BeforeAndAfterEach
-  with BeforeAndAfterAll
-  with FutureAwaits
-  with DefaultAwaitTimeout
-  with MongoSpecSupport with FakeConfig {
+    with GuiceOneServerPerSuite
+    with ScalaFutures
+    with IntegrationPatience
+    with WiremockHelper
+    with BeforeAndAfterEach
+    with BeforeAndAfterAll
+    with FutureAwaits
+    with DefaultAwaitTimeout
+    with MongoSpecSupport with FakeConfig {
 
   val mockPort = 11111
   val mockHost = "localhost"

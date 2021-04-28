@@ -17,43 +17,44 @@
 package config
 
 import controllers.routes
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class FrontendAppConfig @Inject()(config: ServicesConfig) {
 
   private def loadConfig(key: String) = config.getString(key)
 
-  private lazy val contactHost = config.getString("contact-frontend.host")
-  private val contactFormServiceIdentifier = "companyregistrationeligibilityfrontend"
+  private lazy val contactHost: String = config.getString("contact-frontend.host")
+  private val contactFormServiceIdentifier: String = "companyregistrationeligibilityfrontend"
 
-  lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
+  lazy val reportAProblemPartialUrl: String = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
+  lazy val reportAProblemNonJSUrl: String = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
 
-  lazy val loginUrl = loadConfig("urls.login")
-  lazy val loginContinueUrl = loadConfig("urls.loginContinue")
+  lazy val loginUrl: String = loadConfig("urls.login")
+  lazy val loginContinueUrl: String = loadConfig("urls.loginContinue")
 
-  private val configRoot = "microservice.services"
+  private val configRoot: String = "microservice.services"
 
-  lazy val compRegFEURL = loadConfig(s"$configRoot.company-registration-frontend.url")
-  lazy val compRegFEURI = loadConfig(s"$configRoot.company-registration-frontend.uri")
-  lazy val postSignInUrl = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
-  lazy val feedbackUrl = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
+  lazy val compRegFEURL: String = loadConfig(s"$configRoot.company-registration-frontend.url")
+  lazy val compRegFEURI: String = loadConfig(s"$configRoot.company-registration-frontend.uri")
+  lazy val postSignInUrl: String = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
+  lazy val feedbackUrl: String = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
 
-  lazy val webincsUrl = config.getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
+  lazy val webincsUrl: String = config.getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
 
-  lazy val ggMakeAccountUrl = loadConfig(s"$configRoot.gg-reg-fe.url")
+  lazy val ggMakeAccountUrl: String = loadConfig(s"$configRoot.gg-reg-fe.url")
 
-  lazy val languageTranslationEnabled = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
+  lazy val languageTranslationEnabled: Boolean = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
 
-  lazy val commonFooterUrl = "https://www.tax.service.gov.uk/register-your-company/cookies-privacy-terms"
+  lazy val commonFooterUrl: String = "https://www.tax.service.gov.uk/register-your-company/cookies-privacy-terms"
 
-  lazy val helpFooterUrl = "https://www.gov.uk/help"
+  lazy val helpFooterUrl: String = "https://www.gov.uk/help"
 
-  def accessibilityStatementRoute(pageUri: String) = s"$compRegFEURL$compRegFEURI/accessibility-statement?pageUri=$pageUri"
+  def accessibilityStatementRoute(pageUri: String): String = s"$compRegFEURL$compRegFEURI/accessibility-statement?pageUri=$pageUri"
 
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

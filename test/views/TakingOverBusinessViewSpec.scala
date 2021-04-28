@@ -16,27 +16,27 @@
 
 package views
 
-import play.api.data.Form
-import controllers.routes
 import forms.TakingOverBusinessFormProvider
-import views.behaviours.YesNoViewBehaviours
 import models.NormalMode
+import play.api.data.Form
+import play.twirl.api.Html
+import views.behaviours.YesNoViewBehaviours
 import views.html.takingOverBusiness
 
 class TakingOverBusinessViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "takingOverBusiness"
+  val messageKeyPrefix: String = "takingOverBusiness"
 
-  val form = new TakingOverBusinessFormProvider()()
+  val form: Form[Boolean] = new TakingOverBusinessFormProvider()()
 
-  def createView = () => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm = (form: Form[_]) => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
   "TakingOverBusiness view" must {
 
     behave like normalPage(createView, messageKeyPrefix)
 
-    behave like yesNoPage(createViewUsingForm, messageKeyPrefix, routes.TakingOverBusinessController.onSubmit().url)
+    behave like yesNoPage(createViewUsingForm, messageKeyPrefix)
   }
 }

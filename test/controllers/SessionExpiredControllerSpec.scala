@@ -18,7 +18,6 @@ package controllers
 
 import play.api.test.Helpers._
 import views.html.session_expired
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class SessionExpiredControllerSpec extends ControllerSpecBase {
 
