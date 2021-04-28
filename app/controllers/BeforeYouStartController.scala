@@ -18,11 +18,12 @@ package controllers
 
 import config.FrontendAppConfig
 import controllers.actions._
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.beforeYouStart
+
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
@@ -34,7 +35,7 @@ class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
       Ok(beforeYouStart(appConfig))
   }
 
-  def onSubmit: Action[AnyContent] = Action { implicit request =>
+  def onSubmit: Action[AnyContent] = Action {
     Redirect(controllers.routes.PaymentOptionController.onPageLoad())
   }
 }

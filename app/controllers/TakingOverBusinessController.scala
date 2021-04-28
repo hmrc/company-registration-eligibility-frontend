@@ -22,15 +22,15 @@ import connectors.DataCacheConnector
 import controllers.actions._
 import forms.TakingOverBusinessFormProvider
 import identifiers.TakingOverBusinessId
-import javax.inject.{Inject, Singleton}
 import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
-import play.api.mvc.MessagesControllerComponents
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.takingOverBusiness
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -46,7 +46,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
                                             )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport with FeatureSwitching {
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad() = (identify andThen getData andThen requireData) {
+  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request => {
       if (isEnabled(TakeOversAllowed)) {
         Redirect(routes.SecureRegisterController.onPageLoad())
@@ -61,12 +61,12 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
   }
 
 
-  def onSubmit() = (identify andThen getData andThen requireData).async {
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(takingOverBusiness(appConfig, formWithErrors, NormalMode))),
-        (value) =>
+        value =>
           dataCacheConnector.save[Boolean](request.internalId, TakingOverBusinessId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(TakingOverBusinessId, NormalMode)(new UserAnswers(cacheMap))))
       )

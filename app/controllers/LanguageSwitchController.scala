@@ -17,19 +17,18 @@
 package controllers
 
 import config.FrontendAppConfig
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc.MessagesControllerComponents
+import play.api.mvc.ControllerComponents
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
+
+import javax.inject.{Inject, Singleton}
 
 
 @Singleton
-class LanguageSwitchController @Inject()(configuration: Configuration,
-                                         appConfig: FrontendAppConfig,
-                                         controllerComponents: MessagesControllerComponents,
+class LanguageSwitchController @Inject()(appConfig: FrontendAppConfig,
+                                         controllerComponents: ControllerComponents,
                                          languageUtils: LanguageUtils
-                                        ) extends LanguageController(configuration, languageUtils, controllerComponents) with I18nSupport {
+                                        ) extends LanguageController(languageUtils, controllerComponents) with I18nSupport {
 
   override def fallbackURL: String = routes.IndexController.onPageLoad().url
 

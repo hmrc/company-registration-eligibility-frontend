@@ -17,24 +17,26 @@
 package controllers
 
 import controllers.actions._
+import play.api.mvc.Call
 import play.api.test.Helpers._
 import views.html.eligible
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class EligibleControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.EligibleController.onPageLoad()
+  def onwardRoute: Call = routes.EligibleController.onPageLoad()
 
   object Controller extends EligibleController(
     frontendAppConfig,
     messagesControllerComponents,
     new FakeSessionAction(messagesControllerComponents)
   )
-  val redirectionUrl = "http://localhost:8571/government-gateway-registration-frontend?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
-  def viewAsString() = eligible(frontendAppConfig,redirectionUrl)(fakeRequest, messages).toString
+
+  val redirectionUrl: String = "http://localhost:8571/government-gateway-registration-frontend" +
+    "?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
+
+  def viewAsString(): String = eligible(frontendAppConfig, redirectionUrl)(fakeRequest, messages).toString
 
   "Eligible Controller" must {
-
     "return OK and the correct view for a GET" in {
       val result = Controller.onPageLoad(fakeRequest)
 
@@ -51,8 +53,8 @@ class EligibleControllerSpec extends ControllerSpecBase {
       redirectLocation(result).get must include(s"${frontendAppConfig.ggMakeAccountUrl}/government-gateway-registration-frontend")
       redirectLocation(result).get must include("continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in")
     }
-
   }
+
 }
 
 

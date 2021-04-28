@@ -16,12 +16,12 @@
 
 package utils
 
-import javax.inject.{Inject, Singleton}
-
-import play.api.mvc.Call
 import controllers.routes
 import identifiers._
 import models.Mode
+import play.api.mvc.Call
+
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class Navigator @Inject()() {
@@ -36,7 +36,7 @@ class Navigator @Inject()() {
 
   private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
 
-  private[utils] def nextOn(fromPage: Identifier, toPage: Identifier, condition : Boolean = false): (Identifier, UserAnswers => Call) = {
+  private[utils] def nextOn(fromPage: Identifier, toPage: Identifier, condition: Boolean = false): (Identifier, UserAnswers => Call) = {
     fromPage -> {
       _.getAnswer(fromPage) match {
         case Some(`condition`) => pageIdToPageLoad(toPage)

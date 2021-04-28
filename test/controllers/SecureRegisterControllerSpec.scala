@@ -23,6 +23,7 @@ import identifiers.SecureRegisterId
 import models.NormalMode
 import play.api.data.Form
 import play.api.libs.json.JsBoolean
+import play.api.mvc.Call
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import utils.FakeNavigator
@@ -32,10 +33,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class SecureRegisterControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute = routes.IndexController.onPageLoad()
+  def onwardRoute: Call = routes.IndexController.onPageLoad()
 
-  lazy val formProvider = new SecureRegisterFormProvider()
-  lazy val form = formProvider()
+  lazy val formProvider: SecureRegisterFormProvider = new SecureRegisterFormProvider()
+  lazy val form: Form[Boolean] = formProvider()
 
   object Controller extends SecureRegisterController(
     frontendAppConfig,
@@ -48,7 +49,7 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     messagesControllerComponents
   )
 
-  def viewAsString(form: Form[_] = form) = secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "SecureRegister Controller" must {
 

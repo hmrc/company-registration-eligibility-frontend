@@ -16,12 +16,13 @@
 
 package views
 
+import play.twirl.api.Html
 import views.behaviours.ViewBehaviours
 import views.html.unauthorised
 
 class UnauthorisedViewSpec extends ViewBehaviours {
 
-  def view = () => unauthorised(frontendAppConfig)(fakeRequest, messages)
+  def view: () => Html = () => unauthorised(frontendAppConfig)(fakeRequest, messages)
 
   "Unauthorised view" must {
 

@@ -17,23 +17,23 @@
 package controllers.test
 
 import config.FrontendAppConfig
+import config.featureswitch.FeatureSwitch.switches
 import config.featureswitch.{FeatureSwitch, FeatureSwitching}
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.test.feature_switch
-import config.featureswitch.FeatureSwitch.switches
+
+import javax.inject.{Inject, Singleton}
 import scala.collection.immutable.ListMap
 import scala.concurrent.Future
 
 
-
 @Singleton
 class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
-                                         controllerComponents: MessagesControllerComponents
-                                        ) extends FrontendController(controllerComponents) with FeatureSwitching with I18nSupport {
+                                        controllerComponents: MessagesControllerComponents
+                                       ) extends FrontendController(controllerComponents) with FeatureSwitching with I18nSupport {
 
   implicit val config: FrontendAppConfig = appConfig
 
@@ -58,8 +58,12 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
     val frontendFeatureSwitches = submittedData flatMap FeatureSwitch.get
 
     switches.foreach(fs =>
-      if (frontendFeatureSwitches.contains(fs)) {enable(fs)}
-      else {disable(fs)}
+      if (frontendFeatureSwitches.contains(fs)) {
+        enable(fs)
+      }
+      else {
+        disable(fs)
+      }
 
     )
 

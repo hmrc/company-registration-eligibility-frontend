@@ -17,13 +17,11 @@
 package controllers.actions
 
 import controllers.routes
-import javax.inject.{Inject, Singleton}
 import models.requests.{DataRequest, OptionalDataRequest}
 import play.api.mvc.Results.Redirect
-import play.api.mvc.{ActionRefiner, AnyContent, BodyParser, MessagesControllerComponents, Result}
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import play.api.mvc._
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -33,12 +31,10 @@ class DataRequiredAction @Inject()(controllerComponents: MessagesControllerCompo
 
   def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
-  override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] = {
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
-
+  override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] =
     request.userAnswers match {
       case None => Future.successful(Left(Redirect(routes.SessionExpiredController.onPageLoad())))
       case Some(data) => Future.successful(Right(DataRequest(request.request, request.internalId, data)))
     }
-  }
+
 }

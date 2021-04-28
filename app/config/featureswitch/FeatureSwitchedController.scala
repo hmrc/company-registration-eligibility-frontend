@@ -26,7 +26,11 @@ trait FeatureSwitchedController extends FeatureSwitching {
     "The feature switches [" + (featureSwitches filterNot isEnabled map (_.name) mkString ", ") + "] are required to be enabled for this url."
 
   protected def featureEnabled[T](func: => T): T =
-    if (featureSwitches forall isEnabled) func
-    else throw new NotFoundException(featureSwitchError)
+    if (featureSwitches forall isEnabled) {
+      func
+    }
+    else {
+      throw new NotFoundException(featureSwitchError)
+    }
 
 }

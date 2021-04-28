@@ -20,7 +20,7 @@ import base.SpecBase
 import controllers.routes
 import identifiers._
 import models._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.JsBoolean
 import uk.gov.hmrc.http.cache.client.CacheMap
 

@@ -17,6 +17,7 @@
 package controllers.actions
 
 import base.SpecBase
+import play.api.mvc.{Action, AnyContent}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -24,7 +25,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 class SessionActionSpec extends SpecBase {
 
   class Harness(action: SessionAction) extends FrontendController(messagesControllerComponents) {
-    def onPageLoad() = action { request => Ok }
+    def onPageLoad(): Action[AnyContent] = action { _ => Ok }
   }
 
   "Session Action" when {

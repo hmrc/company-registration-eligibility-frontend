@@ -16,27 +16,27 @@
 
 package views
 
-import play.api.data.Form
-import controllers.routes
 import forms.SecureRegisterFormProvider
-import views.behaviours.YesNoViewBehaviours
 import models.NormalMode
+import play.api.data.Form
+import play.twirl.api.Html
+import views.behaviours.YesNoViewBehaviours
 import views.html.secureRegister
 
 class SecureRegisterViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "secureRegister"
+  val messageKeyPrefix: String = "secureRegister"
 
-  val form = new SecureRegisterFormProvider()()
+  val form: Form[Boolean] = new SecureRegisterFormProvider()()
 
-  def createView = () => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm = (form: Form[_]) => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
   "SecureRegister view" must {
 
     behave like normalPage(createView, messageKeyPrefix)
 
-    behave like yesNoPage(createViewUsingForm, messageKeyPrefix, routes.SecureRegisterController.onSubmit().url)
+    behave like yesNoPage(createViewUsingForm, messageKeyPrefix)
   }
 }

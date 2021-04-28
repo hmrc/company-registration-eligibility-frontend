@@ -32,8 +32,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class PaymentOptionControllerSpec extends ControllerSpecBase {
 
-  val formProvider = new PaymentOptionFormProvider()
-  val form = formProvider()
+  val formProvider: PaymentOptionFormProvider = new PaymentOptionFormProvider()
+  val form: Form[Boolean] = formProvider()
 
   object Controller extends PaymentOptionController(
     frontendAppConfig,
@@ -45,7 +45,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     messagesControllerComponents
   )
 
-  def viewAsString(form: Form[_] = form) = paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "PaymentOption Controller" must {
 

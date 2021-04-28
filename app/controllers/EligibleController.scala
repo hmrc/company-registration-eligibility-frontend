@@ -16,15 +16,15 @@
 
 package controllers
 
-import java.net.URLEncoder
-
 import config.FrontendAppConfig
 import controllers.actions._
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.eligible
+
+import java.net.URLEncoder
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class EligibleController @Inject()(appConfig: FrontendAppConfig,
@@ -45,11 +45,10 @@ class EligibleController @Inject()(appConfig: FrontendAppConfig,
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
-      Ok(eligible(appConfig,redirectionUrl))
+      Ok(eligible(appConfig, redirectionUrl))
   }
 
   def onSubmit: Action[AnyContent] = Action {
-    implicit request =>
       Redirect(redirectionUrl)
   }
 

@@ -19,21 +19,20 @@
 @(field: Field,
   radioOptions: Seq[RadioOption],
   hiddenElem: Seq[(String, Html)],
-  args: (Symbol, Any)*)(implicit lang: play.api.i18n.Lang, messages: Messages)
+  args: (Symbol, Any)*)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
 
-@elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
+@elements = @{FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@elements.args.get('_groupClass)@if(elements.hasErrors){ form-group-error}}
-@labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
-@idHidden = @{ elements.args.get('_idHidden).getOrElse("")}
-@classHidden = @{ elements.args.get('_classHidden).getOrElse("") }
+@labelAfter = @{ elements.args.getOrElse('_labelAfter, false).asInstanceOf[Boolean] }
+@classHidden = @{ elements.args.getOrElse('_classHidden, "") }
 
 <fieldset class="form-group @fieldsetClass" id="@{field.id}"
-@if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)}>
-@if(elements.args.get('_legend).isDefined) {
-    <legend @if(elements.args.get('_legendClass).isDefined) {class="@elements.args.get('_legendClass)"}>
+@if(elements.args.contains('_fieldsetAttributes)) {@elements.args.get('_fieldsetAttributes)}>
+@if(elements.args.contains('_legend)) {
+    <legend @if(elements.args.contains('_legendClass)) {class="@elements.args.get('_legendClass)"}>
         @elements.args.get('_legend)
     </legend>
 }
@@ -77,10 +76,9 @@
             </label>
         </div>
     }
-    @if(hiddenElem.find(_._1 == input.value).nonEmpty){
+    @if(hiddenElem.exists(_._1 == input.value)){
         <div id="@hiddenElem.find(_._1 == input.value).get._1-hidden" class="@classHidden">
             @hiddenElem.find(_._1 == input.value).get._2
         </div>
     }
 }
-</fieldset>

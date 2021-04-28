@@ -16,15 +16,16 @@
 
 package controllers
 
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
+import javax.inject.{Inject, Singleton}
+
 @Singleton
 class IndexController @Inject()(controllerComponents: MessagesControllerComponents) extends FrontendController(controllerComponents) with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = Action { implicit request =>
+  def onPageLoad: Action[AnyContent] = Action {
     Redirect(routes.BeforeYouStartController.onPageLoad())
   }
 }

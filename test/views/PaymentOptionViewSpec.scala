@@ -16,27 +16,27 @@
 
 package views
 
-import play.api.data.Form
-import controllers.routes
 import forms.PaymentOptionFormProvider
-import views.behaviours.YesNoViewBehaviours
 import models.NormalMode
+import play.api.data.Form
+import play.twirl.api.Html
+import views.behaviours.YesNoViewBehaviours
 import views.html.paymentOption
 
 class PaymentOptionViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "paymentOption"
+  val messageKeyPrefix: String = "paymentOption"
 
-  val form = new PaymentOptionFormProvider()()
+  val form: Form[Boolean] = new PaymentOptionFormProvider()()
 
-  def createView = () => paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm = (form: Form[_]) => paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
   "PaymentOption view" must {
 
     behave like normalPage(createView, messageKeyPrefix)
 
-    behave like yesNoPage(createViewUsingForm, messageKeyPrefix, routes.PaymentOptionController.onSubmit().url)
+    behave like yesNoPage(createViewUsingForm, messageKeyPrefix)
   }
 }

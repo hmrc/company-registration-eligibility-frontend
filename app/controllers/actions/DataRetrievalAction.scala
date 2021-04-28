@@ -16,14 +16,12 @@
 
 package controllers.actions
 
-import play.api.mvc.{ActionTransformer, AnyContent, BodyParser, MessagesControllerComponents}
 import connectors.DataCacheConnector
-import javax.inject.{Inject, Singleton}
-import utils.UserAnswers
 import models.requests.{CacheIdentifierRequest, OptionalDataRequest}
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import play.api.mvc.{ActionTransformer, AnyContent, BodyParser, MessagesControllerComponents}
+import utils.UserAnswers
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -34,12 +32,10 @@ class DataRetrievalAction @Inject()(dataCacheConnector: DataCacheConnector,
 
   def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
-  override protected def transform[A](request: CacheIdentifierRequest[A]): Future[OptionalDataRequest[A]] = {
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
-
+  override protected def transform[A](request: CacheIdentifierRequest[A]): Future[OptionalDataRequest[A]] =
     dataCacheConnector.fetch(request.cacheId).map {
       case None => OptionalDataRequest(request.request, request.cacheId, None)
       case Some(data) => OptionalDataRequest(request.request, request.cacheId, Some(new UserAnswers(data)))
     }
-  }
+
 }

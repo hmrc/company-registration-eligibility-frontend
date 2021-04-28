@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package itutil
+package helpers
 
 import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.admin.model.ListStubMappingsResult
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
+import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.libs.ws.WSClient
+import play.api.libs.ws.{WSClient, WSRequest}
 
 object WiremockHelper {
-  val wiremockPort = 11111
-  val wiremockHost = "localhost"
-  val url = s"http://$wiremockHost:$wiremockPort"
+  val wiremockPort: Int = 11111
+  val wiremockHost: String = "localhost"
+  val url: String = s"http://$wiremockHost:$wiremockPort"
 }
 
 trait WiremockHelper {
@@ -34,25 +37,25 @@ trait WiremockHelper {
 
   import WiremockHelper._
 
-  lazy val ws = app.injector.instanceOf(classOf[WSClient])
+  lazy val ws: WSClient = app.injector.instanceOf(classOf[WSClient])
 
-  val wmConfig = wireMockConfig().port(wiremockPort) //.notifier(new ConsoleNotifier(true))
-  val wireMockServer = new WireMockServer(wmConfig)
+  val wmConfig: WireMockConfiguration = wireMockConfig().port(wiremockPort)
+  val wireMockServer: WireMockServer = new WireMockServer(wmConfig)
 
-  def startWiremock() = {
+  def startWiremock(): Unit = {
     wireMockServer.start()
     WireMock.configureFor(wiremockHost, wiremockPort)
   }
 
-  def stopWiremock() = wireMockServer.stop()
+  def stopWiremock(): Unit = wireMockServer.stop()
 
-  def resetWiremock() = WireMock.reset()
+  def resetWiremock(): Unit = WireMock.reset()
 
-  def buildClient(path: String) = ws.url(s"http://localhost:$port/register-your-company$path").withFollowRedirects(false)
+  def buildClient(path: String): WSRequest = ws.url(s"http://localhost:$port/register-your-company$path").withFollowRedirects(false)
 
-  def listAllStubs = listAllStubMappings
+  def listAllStubs: ListStubMappingsResult = listAllStubMappings
 
-  def stubGet(url: String, status: Integer, body: String) =
+  def stubGet(url: String, status: Integer, body: String): StubMapping =
     stubFor(get(urlMatching(url))
       .willReturn(
         aResponse().
@@ -61,7 +64,7 @@ trait WiremockHelper {
       )
     )
 
-  def stubPost(url: String, status: Integer, responseBody: String) =
+  def stubPost(url: String, status: Integer, responseBody: String): StubMapping =
     stubFor(post(urlMatching(url))
       .willReturn(
         aResponse().
@@ -70,7 +73,7 @@ trait WiremockHelper {
       )
     )
 
-  def stubPut(url: String, status: Integer, responseBody: String) =
+  def stubPut(url: String, status: Integer, responseBody: String): StubMapping =
     stubFor(put(urlMatching(url))
       .willReturn(
         aResponse().
