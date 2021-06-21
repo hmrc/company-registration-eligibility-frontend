@@ -78,7 +78,7 @@
     <div class="phase-banner">
         <p>
             <strong class="phase-tag">BETA</strong>
-            <span>@Messages("common.feedbackFirst") <a href="@controllers.routes.FeedbackController.show">@Messages("common.feedbackSecond")</a> @Messages("common.feedbackThird")</span>
+            <span>@Messages("common.feedbackFirst") <a href="https://www.tax.service.gov.uk/contact/beta-feedback?service=SCRS">@Messages("common.feedbackSecond")</a> @Messages("common.feedbackThird")</span>
         </p>
     </div>
 
@@ -94,7 +94,7 @@
     }
 }
 
-@getHelpForm = @{uiHelpers.reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = {<div class="report-error"><a href="https://www.tax.service.gov.uk/contact/report-technical-problem?service=SCRS">@Messages("report.a.problem.link")</a></div>}
 
 @content = {
     @uiLayouts.main_content(

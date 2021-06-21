@@ -25,8 +25,5 @@ POST       /secure-register-form                        controllers.SecureRegist
 
 GET        /set-up-company                              controllers.EligibleController.onPageLoad()
 
-
-GET        /feedback                                    controllers.FeedbackController.show()
-
 GET        /card-paypal                                 controllers.PaymentOptionController.onPageLoad()
 POST       /card-paypal                                 controllers.PaymentOptionController.onSubmit()
