@@ -31,9 +31,6 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) {
   private lazy val contactHost: String = config.getString("contact-frontend.host")
   private val contactFormServiceIdentifier: String = "companyregistrationeligibilityfrontend"
 
-  lazy val reportAProblemPartialUrl: String = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  lazy val reportAProblemNonJSUrl: String = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-
   lazy val loginUrl: String = loadConfig("urls.login")
   lazy val loginContinueUrl: String = loadConfig("urls.loginContinue")
 
@@ -42,7 +39,6 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) {
   lazy val compRegFEURL: String = loadConfig(s"$configRoot.company-registration-frontend.url")
   lazy val compRegFEURI: String = loadConfig(s"$configRoot.company-registration-frontend.uri")
   lazy val postSignInUrl: String = loadConfig(s"$configRoot.company-registration-frontend.postSignInUrl")
-  lazy val feedbackUrl: String = loadConfig(s"$configRoot.company-registration-frontend.feedbackUrl")
 
   lazy val webincsUrl: String = config.getConfString("coho-service.web-incs", throw new Exception("Couldn't get webincs URL"))
 
