@@ -21,7 +21,7 @@ error.integer                               = Give an answer in whole numbers
 error.non_numeric                           = Give a value using only numbers
 error.number                                = Please enter a valid number
 error.required                              = Please enter a value
-error.summary.title                         = There is a problem
+error.summary.title                         = This page has errors
 error.title-prefix                          = 'Error: '
 
 ## Index
@@ -80,7 +80,7 @@ ineligible.heading                          = You cannot set up a company with t
 ineligible.text                             = To set up a company {0}, you''ll need to use another service.
 ineligible.takingOverBusiness.text          = that''s taking over another business
 ineligible.secureRegister.text              = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
-ineligible.payment.text                     = To use this service, you need to pay for the application using a credit or debit card.
+ineligible.payment.text                     = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit                           = Use other service
 
 ## Taking Over Business
@@ -113,8 +113,8 @@ eligible.dropdown                           = What if I need to set up multiple 
 eligible.info                               = You must create a new Government Gateway user ID for each company. After you have set up one company, return to GOV.UK and repeat the registration process.
 
 ## Payment Option
-paymentOption.title                         = Are you able to pay for this application using a credit or debit card?
-paymentOption.heading                       = Are you able to pay for this application using a credit or debit card?
+paymentOption.title                         = Are you able to pay for this application using a card or PayPal?
+paymentOption.heading                       = Are you able to pay for this application using a card or PayPal?
 paymentOption.checkYourAnswersLabel         = paymentOption
-paymentOption.error.required                = Select yes if you are able to pay using a credit or debit card
-paymentOption.text                          = We only accept card payments on this service.
+paymentOption.error.required                = Tell is if you will pay for this application using a card or Paypal
+paymentOption.text                          = We only accept card or PayPal payments on this service.
