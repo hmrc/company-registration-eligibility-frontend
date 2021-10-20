@@ -116,5 +116,5 @@ eligible.info                               = You must create a new Government G
 paymentOption.title                         = Are you able to pay for this application using a card or PayPal?
 paymentOption.heading                       = Are you able to pay for this application using a card or PayPal?
 paymentOption.checkYourAnswersLabel         = paymentOption
-paymentOption.error.required                = Tell is if you will pay for this application using a card or Paypal
+paymentOption.error.required                = Tell us if you will pay for this application using a card or PayPal
 paymentOption.text                          = We only accept card or PayPal payments on this service.
