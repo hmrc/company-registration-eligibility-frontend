@@ -26,10 +26,11 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class UnauthorisedController @Inject()(appConfig: FrontendAppConfig,
-                                       controllerComponents: MessagesControllerComponents
+                                       controllerComponents: MessagesControllerComponents,
+                                       view: unauthorised
                                       ) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(unauthorised(appConfig))
+    Ok(view(appConfig))
   }
 }

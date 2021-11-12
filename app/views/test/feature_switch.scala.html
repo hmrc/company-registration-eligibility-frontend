@@ -17,11 +17,12 @@
 @import helper._
 @import config.FrontendAppConfig
 @import config.featureswitch.FeatureSwitch
-@import views.html.main_template
+
+@this(mainTemplate: main_template)
 
 @(switchNames: Map[FeatureSwitch, Boolean], action: Call)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@main_template(title = Messages("Feature switch"),appConfig=appConfig) {
+@mainTemplate(title = Messages("Feature switch"),appConfig=appConfig) {
     <form method="@action.method" action="@action.url">
         @CSRF.formField
         <fieldset>

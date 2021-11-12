@@ -22,18 +22,23 @@ import views.html.beforeYouStart
 
 class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
+  val view: beforeYouStart = app.injector.instanceOf[beforeYouStart]
+
   object Controller extends BeforeYouStartController(
     frontendAppConfig,
     new FakeSessionAction(messagesControllerComponents),
-    messagesControllerComponents
+    messagesControllerComponents,
+    view
   )
+
+  def viewAsString() = view(frontendAppConfig)(fakeRequest, messages).toString
 
   "BeforeYouStart Controller" must {
     "return OK and the correct view for a GET" in {
       val result = Controller.onPageLoad(fakeRequest)
 
       status(result) mustBe OK
-      contentAsString(result) mustBe beforeYouStart(frontendAppConfig)(fakeRequest, messages).toString
+      contentAsString(result) mustBe viewAsString
     }
 
     "redirect to the next page when valid data is submitted" in {

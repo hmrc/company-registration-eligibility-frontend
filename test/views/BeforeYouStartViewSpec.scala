@@ -23,8 +23,9 @@ import views.html.beforeYouStart
 class BeforeYouStartViewSpec extends ViewBehaviours {
 
   val messageKeyPrefix = "beforeYouStart"
+  val view: beforeYouStart = app.injector.instanceOf[beforeYouStart]
 
-  def createView: () => Html = () => beforeYouStart(frontendAppConfig)(fakeRequest, messages)
+  def createView: () => Html = () => view(frontendAppConfig)(fakeRequest, messages)
 
   "BeforeYouStart view" must {
     behave like normalPage(createView, messageKeyPrefix)

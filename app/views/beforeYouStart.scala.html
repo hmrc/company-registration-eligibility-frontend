@@ -16,19 +16,26 @@
 
 @import config.FrontendAppConfig
 
+@this(backLink: components.back_link,
+      heading: components.heading,
+      textWithBullets: components.text_with_bullets,
+      buttonLink: components.button_link,
+      mainTemplate: main_template)
+
+
 @(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("beforeYouStart.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.back_link()
+    @backLink()
 
-    @components.heading("beforeYouStart.heading")
+    @heading("beforeYouStart.heading")
 
-    @components.text_with_bullets("beforeYouStart.text", Seq("beforeYouStart.bullet1", "beforeYouStart.bullet2"))
+    @textWithBullets("beforeYouStart.text", Seq("beforeYouStart.bullet1", "beforeYouStart.bullet2"))
 
-    @components.button_link("beforeYouStart.submit",controllers.routes.PaymentOptionController.onPageLoad().url,"continue")
+    @buttonLink("beforeYouStart.submit",controllers.routes.PaymentOptionController.onPageLoad().url,"continue")
 
 }

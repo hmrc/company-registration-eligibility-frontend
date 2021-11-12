@@ -15,23 +15,30 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html.helpers.{form}
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+
+@this(formWithCSRF: FormWithCSRF,
+      backLink: components.back_link,
+      heading: components.heading,
+      text: components.text,
+      button: components.button,
+      mainTemplate: main_template)
 
 @(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("ineligible.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.back_link()
+    @backLink()
 
-    @components.heading("ineligible.heading")
+    @heading("ineligible.heading")
 
-    @components.text("ineligible.payment.text")
+    @text("ineligible.payment.text")
 
-    @form(action = controllers.routes.IneligibleController.onSubmit()) {
-        @components.button("ineligible.submit", "submit")
+    @formWithCSRF(action = controllers.routes.IneligibleController.onSubmit()) {
+        @button("ineligible.submit", "submit")
     }
 
 }

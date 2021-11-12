@@ -26,12 +26,13 @@ import views.html.takingOverBusiness
 class TakingOverBusinessViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix: String = "takingOverBusiness"
+  val view: takingOverBusiness = app.injector.instanceOf[takingOverBusiness]
 
   val form: Form[Boolean] = new TakingOverBusinessFormProvider()()
 
-  def createView: () => Html = () => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
   "TakingOverBusiness view" must {
 

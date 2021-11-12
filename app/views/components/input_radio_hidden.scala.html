@@ -16,6 +16,8 @@
 
 @import viewmodels.RadioOption
 
+@this()
+
 @(field: Field,
   radioOptions: Seq[RadioOption],
   hiddenElem: Seq[(String, Html)],
@@ -36,7 +38,7 @@
         @elements.args.get('_legend)
     </legend>
 }
-@elements.errors.map{error => <span class="error-notification">@Messages(error)</span>}
+@elements.errors.map{error => <span class="error-notification">@messages(error.toString)</span>}
 
 @radioOptions.map { input =>
     @defining(s"${elements.field.name}-${input.value.toLowerCase.replace(" ","_")}")  { inputId =>

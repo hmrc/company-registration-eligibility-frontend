@@ -15,29 +15,37 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 @import views.helpers.TitleHelper.title
 @import models.Mode
 
+@this(formWithCSRF: FormWithCSRF,
+      backLink: components.back_link,
+      heading: components.heading,
+      errorSummary: components.error_summary,
+      text: components.text,
+      submitButton: components.submit_button,
+      mainTemplate: main_template)
+
 @(appConfig: FrontendAppConfig, paymentOptionForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = title(messages("paymentOption.title"), paymentOptionForm),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @form(action = routes.PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
+    @formWithCSRF(action = routes.PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @backLink()
 
-        @components.error_summary(paymentOptionForm.errors)
+        @errorSummary(paymentOptionForm.errors)
 
         <div class="form-group @if(paymentOptionForm("value").hasErrors){form-group-error}">
             <fieldset class="inline" id="value">
                 <legend>
-                    @components.heading("paymentOption.heading")
+                    @heading("paymentOption.heading")
                 </legend>
-                @components.text("paymentOption.text")
+                @text("paymentOption.text")
                 @paymentOptionForm("value").errors.map { error =>
                 <span class="error-notification" id="error-message-value-input">@messages(error.message, error.args: _*)</span>
                 }
@@ -58,6 +66,6 @@
             </fieldset>
         </div>
 
-        @components.submit_button()
+        @submitButton()
     }
 }

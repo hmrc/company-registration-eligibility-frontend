@@ -39,7 +39,8 @@ class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
                                         identify: SessionAction,
                                         getData: DataRetrievalAction,
                                         formProvider: PaymentOptionFormProvider,
-                                        controllerComponents: MessagesControllerComponents
+                                        controllerComponents: MessagesControllerComponents,
+                                        view: paymentOption
                                        )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
@@ -50,14 +51,14 @@ class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
         case None => form
         case Some(value) => form.fill(value)
       }
-      Ok(paymentOption(appConfig, preparedForm, NormalMode))
+      Ok(view(appConfig, preparedForm, NormalMode))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(paymentOption(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(view(appConfig, formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, PaymentOptionId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(new UserAnswers(cacheMap))))

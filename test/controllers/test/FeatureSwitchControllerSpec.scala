@@ -22,16 +22,18 @@ import controllers.ControllerSpecBase
 import org.jsoup.Jsoup
 import play.api.test.CSRFTokenHelper._
 import play.api.test.Helpers._
+import views.html.test.feature_switch
 
 
 class FeatureSwitchControllerSpec extends ControllerSpecBase {
   implicit val system: ActorSystem = ActorSystem("test")
 
   implicit def mat: Materializer = ActorMaterializer()
-
+  val view: feature_switch = app.injector.instanceOf[feature_switch]
   object Controller extends FeatureSwitchController(
     frontendAppConfig,
-    messagesControllerComponents
+    messagesControllerComponents,
+    view
   )
 
   "handOffFeatureSwitch" should {

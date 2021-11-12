@@ -26,10 +26,11 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class SessionExpiredController @Inject()(appConfig: FrontendAppConfig,
-                                         controllerComponents: MessagesControllerComponents
+                                         controllerComponents: MessagesControllerComponents,
+                                         view: session_expired
                                         ) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(session_expired(appConfig))
+    Ok(view(appConfig))
   }
 }

@@ -38,6 +38,8 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
   lazy val formProvider: SecureRegisterFormProvider = new SecureRegisterFormProvider()
   lazy val form: Form[Boolean] = formProvider()
 
+  val view: secureRegister = app.injector.instanceOf[secureRegister]
+
   object Controller extends SecureRegisterController(
     frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
@@ -46,10 +48,11 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     getEmptyCacheMap,
     new DataRequiredAction(messagesControllerComponents),
     formProvider,
-    messagesControllerComponents
+    messagesControllerComponents,
+    view
   )
 
-  def viewAsString(form: Form[_] = form): String = secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "SecureRegister Controller" must {
 
@@ -72,7 +75,8 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
         getRelevantData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -109,7 +113,8 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
         dontGetAnyData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -129,7 +134,8 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
         dontGetAnyData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
       val result = Controller.onSubmit()(postRequest)
 
