@@ -41,8 +41,8 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
                                              getData: DataRetrievalAction,
                                              requireData: DataRequiredAction,
                                              formProvider: TakingOverBusinessFormProvider,
-                                             controllerComponents: MessagesControllerComponents
-
+                                             controllerComponents: MessagesControllerComponents,
+                                             view: takingOverBusiness
                                             )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport with FeatureSwitching {
   val form: Form[Boolean] = formProvider()
 
@@ -55,7 +55,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
           case None => form
           case Some(value) => form.fill(value)
         }
-        Ok(takingOverBusiness(appConfig, preparedForm, NormalMode))
+        Ok(view(appConfig, preparedForm, NormalMode))
       }
     }
   }
@@ -65,7 +65,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(takingOverBusiness(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(view(appConfig, formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, TakingOverBusinessId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(TakingOverBusinessId, NormalMode)(new UserAnswers(cacheMap))))

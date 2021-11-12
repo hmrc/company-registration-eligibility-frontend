@@ -16,20 +16,27 @@
 
 @import config.FrontendAppConfig
 
+@this(backLink: components.back_link,
+      heading: components.heading,
+      text: components.text,
+      buttonLink: components.button_link,
+      infoDropdown: components.info_dropdown,
+      mainTemplate: main_template)
+
 @(appConfig: FrontendAppConfig,redirectionUrl:String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("eligible.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.back_link()
+    @backLink()
 
-    @components.heading("eligible.heading")
+    @heading("eligible.heading")
 
-    @components.text("eligible.text")
+    @text("eligible.text")
 
-    @components.info_dropdown("eligible.dropdown", Seq("eligible.info"))
+    @infoDropdown("eligible.dropdown", Seq("eligible.info"))
 
-    @components.button_link("site.createGGWUser",redirectionUrl)
+    @buttonLink("site.createGGWUser",redirectionUrl)
 }

@@ -21,11 +21,12 @@ import views.behaviours.ViewBehaviours
 import views.html.unauthorised
 
 class UnauthorisedViewSpec extends ViewBehaviours {
+  val view: unauthorised = app.injector.instanceOf[unauthorised]
 
-  def view: () => Html = () => unauthorised(frontendAppConfig)(fakeRequest, messages)
+  def createView: () => Html = () => view(frontendAppConfig)(fakeRequest, messages)
 
   "Unauthorised view" must {
 
-    behave like normalPage(view, "unauthorised")
+    behave like normalPage(createView, "unauthorised")
   }
 }

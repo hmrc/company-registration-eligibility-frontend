@@ -32,13 +32,14 @@ import scala.concurrent.Future
 
 @Singleton
 class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
-                                        controllerComponents: MessagesControllerComponents
+                                        controllerComponents: MessagesControllerComponents,
+                                        view: feature_switch
                                        ) extends FrontendController(controllerComponents) with FeatureSwitching with I18nSupport {
 
   implicit val config: FrontendAppConfig = appConfig
 
   private def view(switchNames: Map[FeatureSwitch, Boolean])(implicit request: Request[_]): Html =
-    feature_switch(
+    view(
       switchNames = switchNames,
       routes.FeatureSwitchController.submit()
     )

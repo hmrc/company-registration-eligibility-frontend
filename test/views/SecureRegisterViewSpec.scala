@@ -26,12 +26,12 @@ import views.html.secureRegister
 class SecureRegisterViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix: String = "secureRegister"
-
+  val view: secureRegister = app.injector.instanceOf[secureRegister]
   val form: Form[Boolean] = new SecureRegisterFormProvider()()
 
-  def createView: () => Html = () => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => secureRegister(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
 
   "SecureRegister view" must {
 

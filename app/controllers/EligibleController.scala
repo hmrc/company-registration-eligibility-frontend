@@ -29,7 +29,8 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class EligibleController @Inject()(appConfig: FrontendAppConfig,
                                    controllerComponents: MessagesControllerComponents,
-                                   identify: SessionAction
+                                   identify: SessionAction,
+                                   view: eligible
                                   ) extends FrontendController(controllerComponents) with I18nSupport {
 
   private val redirectionUrl = {
@@ -45,7 +46,7 @@ class EligibleController @Inject()(appConfig: FrontendAppConfig,
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
-      Ok(eligible(appConfig, redirectionUrl))
+      Ok(view(appConfig, redirectionUrl))
   }
 
   def onSubmit: Action[AnyContent] = Action {

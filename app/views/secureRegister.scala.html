@@ -16,35 +16,46 @@
 
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.play.views.html._
+@import views.helpers.TitleHelper.title
 @import controllers.routes._
 @import models.Mode
-@import views.helpers.TitleHelper.title
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+
+@this(formWithCSRF: FormWithCSRF,
+      backLink: components.back_link,
+      heading: components.heading,
+      errorSummary: components.error_summary,
+      infoDropdown: components.info_dropdown,
+      inputYesNo: components.input_yes_no,
+      submitButton: components.submit_button,
+      text: components.text,
+      mainTemplate: main_template)
 
 @(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-    @main_template(
+    @mainTemplate(
         title = title(messages("secureRegister.title"), form),
         appConfig = appConfig,
         bodyClasses = None) {
 
-        @components.back_link()
+        @backLink()
 
-        @components.error_summary(form.errors)
+        @errorSummary(form.errors)
 
-        @components.heading("secureRegister.heading")
+        @heading("secureRegister.heading")
 
-        @components.text("secureRegister.text")
+        @text("secureRegister.text")
 
-        @components.info_dropdown("secureRegister.dropdowntitle", Seq("secureRegister.dropdown.p1"))
+        @infoDropdown("secureRegister.dropdowntitle", Seq("secureRegister.dropdown.p1"))
 
-        @helpers.form(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
+        @formWithCSRF(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
 
-            @components.input_yes_no(
+            @inputYesNo(
                 field = form("value"),
                 label = messages("secureRegister.heading"),
                 labelClass = Some("visually-hidden")
             )
 
-            @components.submit_button()
+            @submitButton()
         }
     }

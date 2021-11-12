@@ -28,16 +28,19 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class IneligibleController @Inject()(appConfig: FrontendAppConfig,
                                      controllerComponents: MessagesControllerComponents,
-                                     identify: SessionAction) extends FrontendController(controllerComponents) with I18nSupport {
+                                     identify: SessionAction,
+                                     ineligibleView: ineligible,
+                                     ineligiblePaymentView: ineligible_payment
+                                    ) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad(ineligibleType: String): Action[AnyContent] = identify {
     implicit request =>
-      Ok(ineligible(appConfig, ineligibleType))
+      Ok(ineligibleView(appConfig, ineligibleType))
   }
 
   def onPageLoadPayment(): Action[AnyContent] = identify {
     implicit request =>
-      Ok(ineligible_payment(appConfig))
+      Ok(ineligiblePaymentView(appConfig))
   }
 
   def onSubmit: Action[AnyContent] = Action {

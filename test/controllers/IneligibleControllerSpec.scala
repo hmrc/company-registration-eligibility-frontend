@@ -19,19 +19,24 @@ package controllers
 import controllers.actions._
 import play.api.mvc.Call
 import play.api.test.Helpers._
-import views.html.ineligible
+import views.html.{ineligible, ineligible_payment}
 
 class IneligibleControllerSpec extends ControllerSpecBase {
 
   def onwardRoute: Call = routes.IndexController.onPageLoad()
 
+  val viewIneligible: ineligible = app.injector.instanceOf[ineligible]
+  val viewIneligiblePayment: ineligible_payment = app.injector.instanceOf[ineligible_payment]
+
   def controller() = new IneligibleController(
     frontendAppConfig,
     messagesControllerComponents,
-    new FakeSessionAction(messagesControllerComponents)
+    new FakeSessionAction(messagesControllerComponents),
+    viewIneligible,
+    viewIneligiblePayment
   )
 
-  def viewAsString(): String = ineligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
+  def viewAsString(): String = viewIneligible(frontendAppConfig, "foo")(fakeRequest, messages).toString
 
   "Ineligible Controller" must {
 

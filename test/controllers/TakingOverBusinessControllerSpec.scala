@@ -38,6 +38,7 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
 
   val formProvider: TakingOverBusinessFormProvider = new TakingOverBusinessFormProvider()
   val form: Form[Boolean] = formProvider()
+  val view: takingOverBusiness = app.injector.instanceOf[takingOverBusiness]
 
   object Controller extends TakingOverBusinessController(
     frontendAppConfig,
@@ -47,10 +48,11 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
     getEmptyCacheMap,
     new DataRequiredAction(messagesControllerComponents),
     formProvider,
-    messagesControllerComponents
+    messagesControllerComponents,
+    view
   )
 
-  def viewAsString(form: Form[_] = form): String = takingOverBusiness(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "TakingOverBusiness Controller" must {
 
@@ -83,7 +85,8 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
         getRelevantData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -119,7 +122,8 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
         dontGetAnyData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -137,7 +141,8 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
         dontGetAnyData,
         new DataRequiredAction(messagesControllerComponents),
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))

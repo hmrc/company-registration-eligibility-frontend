@@ -35,6 +35,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
   val formProvider: PaymentOptionFormProvider = new PaymentOptionFormProvider()
   val form: Form[Boolean] = formProvider()
 
+  val view: paymentOption = app.injector.instanceOf[paymentOption]
+
   object Controller extends PaymentOptionController(
     frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
@@ -42,10 +44,11 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     new FakeSessionAction(messagesControllerComponents),
     getEmptyCacheMap,
     formProvider,
-    messagesControllerComponents
+    messagesControllerComponents,
+    view
   )
 
-  def viewAsString(form: Form[_] = form): String = paymentOption(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
 
   "PaymentOption Controller" must {
 
@@ -67,7 +70,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         new FakeSessionAction(messagesControllerComponents),
         getRelevantData,
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -103,7 +107,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
 
       val result = Controller.onPageLoad()(fakeRequest)
@@ -121,7 +126,8 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
         formProvider,
-        messagesControllerComponents
+        messagesControllerComponents,
+        view
       )
       val result = Controller.onSubmit()(postRequest)
 

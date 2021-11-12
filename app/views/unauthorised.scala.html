@@ -16,13 +16,17 @@
 
 @import config.FrontendAppConfig
 
+@this(heading: components.heading,
+      mainTemplate: main_template)
+
+
 @(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("unauthorised.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.heading("unauthorised.heading")
+    @heading("unauthorised.heading")
 
 }
