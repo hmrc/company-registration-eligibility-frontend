@@ -23,7 +23,7 @@ import views.html.{ineligible, ineligible_payment}
 
 class IneligibleControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute: Call = routes.IndexController.onPageLoad()
+  def onwardRoute: Call = routes.IndexController.onPageLoad
 
   val viewIneligible: ineligible = app.injector.instanceOf[ineligible]
   val viewIneligiblePayment: ineligible_payment = app.injector.instanceOf[ineligible_payment]

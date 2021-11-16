@@ -58,5 +58,5 @@ class Navigator @Inject()() {
   )
 
   def nextPage(id: Identifier, mode: Mode): UserAnswers => Call =
-    routeMap.getOrElse(id, _ => routes.IndexController.onPageLoad())
+    routeMap.getOrElse(id, _ => routes.IndexController.onPageLoad)
 }

@@ -34,7 +34,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
-  def onwardRoute: Call = routes.IndexController.onPageLoad()
+  def onwardRoute: Call = routes.IndexController.onPageLoad
 
   val formProvider: TakingOverBusinessFormProvider = new TakingOverBusinessFormProvider()
   val form: Form[Boolean] = formProvider()
@@ -129,7 +129,7 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
       val result = Controller.onPageLoad()(fakeRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
     }
 
     "redirect to Session Expired for a POST if no existing data is found" in {
@@ -149,7 +149,7 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
       val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
     }
   }
 }
