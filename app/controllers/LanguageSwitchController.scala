@@ -30,7 +30,7 @@ class LanguageSwitchController @Inject()(appConfig: FrontendAppConfig,
                                          languageUtils: LanguageUtils
                                         ) extends LanguageController(languageUtils, controllerComponents) with I18nSupport {
 
-  override def fallbackURL: String = routes.IndexController.onPageLoad().url
+  override def fallbackURL: String = routes.IndexController.onPageLoad.url
 
   override def languageMap: Map[String, Lang] = appConfig.languageMap
 

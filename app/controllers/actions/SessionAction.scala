@@ -42,7 +42,7 @@ class SessionAction @Inject()(controllerComponents: MessagesControllerComponents
         block(CacheIdentifierRequest(request, session.value))
       case None =>
         Future.successful(
-          Redirect(routes.SessionExpiredController.onPageLoad())
+          Redirect(routes.SessionExpiredController.onPageLoad)
         )
     }
   }

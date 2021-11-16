@@ -41,7 +41,7 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
   private def view(switchNames: Map[FeatureSwitch, Boolean])(implicit request: Request[_]): Html =
     view(
       switchNames = switchNames,
-      routes.FeatureSwitchController.submit()
+      routes.FeatureSwitchController.submit
     )
 
 
@@ -68,6 +68,6 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
 
     )
 
-    Future.successful(Redirect(routes.FeatureSwitchController.show()))
+    Future.successful(Redirect(routes.FeatureSwitchController.show))
   }
 }

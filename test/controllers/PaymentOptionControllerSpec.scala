@@ -40,7 +40,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
   object Controller extends PaymentOptionController(
     frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-    new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+    new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
     new FakeSessionAction(messagesControllerComponents),
     getEmptyCacheMap,
     formProvider,
@@ -66,7 +66,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       object Controller extends PaymentOptionController(
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         getRelevantData,
         formProvider,
@@ -85,7 +85,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
@@ -103,7 +103,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       object Controller extends PaymentOptionController(
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
         formProvider,
@@ -122,7 +122,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       object Controller extends PaymentOptionController(
         frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad()),
+        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
         formProvider,
@@ -132,7 +132,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
   }
 }
