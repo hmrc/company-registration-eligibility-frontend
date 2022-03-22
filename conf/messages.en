@@ -1,3 +1,7 @@
+
+service.name                                = Set up a limited company and register for Corporation Tax
+getpagehelp.linkText                        = Is this page not working properly? (opens in new tab)
+
 ## Check Your Answers
 checkYourAnswers.title                      = Check Your Answers
 checkYourAnswers.heading                    = Check Your Answers
@@ -118,3 +122,8 @@ paymentOption.heading                       = Are you able to pay for this appli
 paymentOption.checkYourAnswersLabel         = paymentOption
 paymentOption.error.required                = Tell us if you will pay for this application using a card or PayPal
 paymentOption.text                          = We only accept card or PayPal payments on this service.
+
+## Feature switch page
+feature.title                               = Feature switch
+feature.submit                              = Update global settings
+feature.heading                             = Which features would you like to have enabled?

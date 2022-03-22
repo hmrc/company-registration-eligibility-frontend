@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,27 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import views.helpers.TitleHelper.titleNoForm
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
-@this(formWithCSRF: FormWithCSRF,
-      backLink: components.back_link,
-      heading: components.heading,
-      text: components.text,
-      button: components.button,
-      mainTemplate: main_template)
 
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+@this(layout: views.html.layouts.layout,
+      formWithCSRF: FormWithCSRF,
+      heading: components.h1,
+      text: components.p,
+      button: components.button
+      )
 
-@mainTemplate(
-    title = messages("ineligible.title"),
-    appConfig = appConfig,
-    bodyClasses = None) {
+@()(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-    @backLink()
+    @layout(pageTitle = Some(titleNoForm(messages("ineligible.title"))), backLink = true) {
 
     @heading("ineligible.heading")
 
-    @text("ineligible.payment.text")
+    @text{@messages("ineligible.payment.text")}
 
     @formWithCSRF(action = controllers.routes.IneligibleController.onSubmit()) {
-        @button("ineligible.submit", "submit")
+        @button("ineligible.submit")
     }
 
 }

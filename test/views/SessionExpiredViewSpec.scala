@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import views.html.session_expired
 
 class SessionExpiredViewSpec extends ViewBehaviours {
   val view: session_expired = app.injector.instanceOf[session_expired]
-  def createvView: () => Html = () => view(frontendAppConfig)(fakeRequest, messages)
+  def createvView: () => Html = () => view()(fakeRequest, messages, frontendAppConfig)
 
   "Session Expired view" must {
 

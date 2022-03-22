@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,57 +15,37 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 @import views.helpers.TitleHelper.title
 @import models.Mode
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
-@this(formWithCSRF: FormWithCSRF,
-      backLink: components.back_link,
+
+@this(layout: views.html.layouts.layout,
+      formWithCSRF: FormWithCSRF,
+      inputYesNo: components.input_yes_no,
       heading: components.heading,
       errorSummary: components.error_summary,
-      text: components.text,
-      submitButton: components.submit_button,
-      mainTemplate: main_template)
+      p: components.p,
+      submitButton: components.submit_button
+      )
 
-@(appConfig: FrontendAppConfig, paymentOptionForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(paymentOptionForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@mainTemplate(
-    title = title(messages("paymentOption.title"), paymentOptionForm),
-    appConfig = appConfig,
-    bodyClasses = None) {
+    @layout(pageTitle = Some(title(messages("paymentOption.title"),paymentOptionForm)), backLink = true) {
+
+    @errorSummary(paymentOptionForm.errors,Some(Map("value" -> "-yes")))
+
+    @heading("paymentOption.heading")
+
+    @p{@messages("paymentOption.text")}
 
     @formWithCSRF(action = routes.PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
-
-        @backLink()
-
-        @errorSummary(paymentOptionForm.errors)
-
-        <div class="form-group @if(paymentOptionForm("value").hasErrors){form-group-error}">
-            <fieldset class="inline" id="value">
-                <legend>
-                    @heading("paymentOption.heading")
-                </legend>
-                @text("paymentOption.text")
-                @paymentOptionForm("value").errors.map { error =>
-                <span class="error-notification" id="error-message-value-input">@messages(error.message, error.args: _*)</span>
-                }
-                <div class="multiple-choice">
-                    <input id="value-yes" type="radio" name="value" value="true" @if(paymentOptionForm("value").value.contains("true")){checked="checked"} />
-                    <label for="value-yes" data-target>
-                        @messages("site.yes")
-                    </label>
-                </div>
-
-                <div class="multiple-choice">
-                    <input id="value-no" type="radio" name="value" value="false" @if(paymentOptionForm("value").value.contains("false")){checked="checked"} />
-                    <label for="value-no" data-target>
-                        @messages("site.no")
-                    </label>
-                </div>
-
-            </fieldset>
-        </div>
-
+        @inputYesNo(
+            form = paymentOptionForm,
+            headingKey = "paymentOption.heading",
+            isPageHeading = false,
+            classes = "govuk-visually-hidden"
+        )
         @submitButton()
-    }
+}
 }

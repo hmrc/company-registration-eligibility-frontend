@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,11 @@ import views.html.session_expired
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class SessionExpiredController @Inject()(appConfig: FrontendAppConfig,
-                                         controllerComponents: MessagesControllerComponents,
+class SessionExpiredController @Inject()(controllerComponents: MessagesControllerComponents,
                                          view: session_expired
-                                        ) extends FrontendController(controllerComponents) with I18nSupport {
+                                        )(implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(view(appConfig))
+    Ok(view())
   }
 }

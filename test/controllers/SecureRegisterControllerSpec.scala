@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
   val view: secureRegister = app.injector.instanceOf[secureRegister]
 
   object Controller extends SecureRegisterController(
-    frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
     new FakeNavigator(desiredRoute = onwardRoute),
     new FakeSessionAction(messagesControllerComponents),
@@ -52,7 +51,7 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest, messages, frontendAppConfig).toString
 
   "SecureRegister Controller" must {
 
@@ -68,7 +67,6 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
       val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
 
       object Controller extends SecureRegisterController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
@@ -106,7 +104,6 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     "redirect to Session Expired for a GET if no existing data is found" in {
 
       object Controller extends SecureRegisterController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
@@ -127,7 +124,6 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
 
       object Controller extends SecureRegisterController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),

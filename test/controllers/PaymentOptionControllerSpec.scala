@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
   val view: paymentOption = app.injector.instanceOf[paymentOption]
 
   object Controller extends PaymentOptionController(
-    frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
     new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
     new FakeSessionAction(messagesControllerComponents),
@@ -48,7 +47,7 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest, messages, frontendAppConfig).toString
 
   "PaymentOption Controller" must {
 
@@ -64,7 +63,6 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
 
       object Controller extends PaymentOptionController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
@@ -101,7 +99,6 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
     "redirect to Session Expired for a GET if no existing data is found" in {
 
       object Controller extends PaymentOptionController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
@@ -120,7 +117,6 @@ class PaymentOptionControllerSpec extends ControllerSpecBase {
       val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
 
       object Controller extends PaymentOptionController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),

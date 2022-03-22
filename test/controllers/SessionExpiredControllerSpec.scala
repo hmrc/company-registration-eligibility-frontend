@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ class SessionExpiredControllerSpec extends ControllerSpecBase {
 
   val view: session_expired = app.injector.instanceOf[session_expired]
 
-  object Controller extends SessionExpiredController(frontendAppConfig, messagesControllerComponents, view)
+  object Controller extends SessionExpiredController(messagesControllerComponents, view)
 
   "SessionExpired Controller" must {
     "return 200 for a GET" in {
@@ -33,7 +33,7 @@ class SessionExpiredControllerSpec extends ControllerSpecBase {
 
     "return the correct view for a GET" in {
       val result = Controller.onPageLoad()(fakeRequest)
-      contentAsString(result) mustBe view(frontendAppConfig)(fakeRequest, messages).toString
+      contentAsString(result) mustBe view()(fakeRequest, messages, frontendAppConfig).toString
     }
   }
 }

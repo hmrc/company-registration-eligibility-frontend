@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,15 +33,14 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
-                                        dataCacheConnector: DataCacheConnector,
+class PaymentOptionController @Inject()(dataCacheConnector: DataCacheConnector,
                                         navigator: Navigator,
                                         identify: SessionAction,
                                         getData: DataRetrievalAction,
                                         formProvider: PaymentOptionFormProvider,
                                         controllerComponents: MessagesControllerComponents,
                                         view: paymentOption
-                                       )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
+                                       )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
@@ -51,14 +50,14 @@ class PaymentOptionController @Inject()(appConfig: FrontendAppConfig,
         case None => form
         case Some(value) => form.fill(value)
       }
-      Ok(view(appConfig, preparedForm, NormalMode))
+      Ok(view(preparedForm, NormalMode))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, PaymentOptionId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(new UserAnswers(cacheMap))))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
   val view: takingOverBusiness = app.injector.instanceOf[takingOverBusiness]
 
   object Controller extends TakingOverBusinessController(
-    frontendAppConfig,
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
     new FakeNavigator(desiredRoute = onwardRoute),
     new FakeSessionAction(messagesControllerComponents),
@@ -52,7 +51,7 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest, messages, frontendAppConfig).toString
 
   "TakingOverBusiness Controller" must {
 
@@ -78,7 +77,6 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
       val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
 
       object Controller extends TakingOverBusinessController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
@@ -115,7 +113,6 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
 
     "redirect to Session Expired for a GET if no existing data is found" in {
       object Controller extends TakingOverBusinessController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
@@ -134,7 +131,6 @@ class TakingOverBusinessControllerSpec extends ControllerSpecBase with FeatureSw
 
     "redirect to Session Expired for a POST if no existing data is found" in {
       object Controller extends TakingOverBusinessController(
-        frontendAppConfig,
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),

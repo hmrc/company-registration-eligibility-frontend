@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,15 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(dropdownKey: String, dropdownContentList : Seq[String])(implicit messages: Messages)
+@this(
+    details: GovukDetails
+)
 
-<div class="form-group">
-    <details>
-        <summary><span class="summary">@Messages(dropdownKey)</span></summary>
-        <div class="panel panel-border-narrow">
-            @for(content <- dropdownContentList) {
-            <p>@Messages(content)</p>
-            }
-        </div>
-    </details>
-</div>
+@(summary: String, content: Html)(implicit messages: Messages)
+
+@details(Details(
+        summary = Text{messages(summary)},
+        content = HtmlContent(content)
+))

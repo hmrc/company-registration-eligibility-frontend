@@ -14,22 +14,14 @@
 	There is potential for this to be included in HMRC Assets Frontend with a modifier class so that it doesn't break any services using the template, but those with longer names can use the modifier class to adjust their header.
 */
 
-@media (min-width: 769px) {
-	#global-header.with-proposition .header-wrapper .header-global {
-	    width: 20%;
-	    min-width: 185px;
-	}	
+
+.govuk-header__logo {
+	width: 20%;
 }
 
-@media (min-width: 769px) {
-	#global-header.with-proposition .header-wrapper .header-proposition {
-	    width: 80%;
+@media (max-width: 769px) {
+	.govuk-header__logo {
+		width: 100%;
 	}
-}
-
-#global-header-bar {
-  max-width: 1020px;
-  height: 10px;
-  background-color: #005ea5;
 }
 

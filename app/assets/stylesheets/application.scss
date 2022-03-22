@@ -1,0 +1,11 @@
+$govuk-assets-path: "/eligibility-for-setting-up-company/assets/lib/govuk-frontend/govuk/assets/";
+$hmrc-assets-path: "/eligibility-for-setting-up-company/assets/lib/hmrc-frontend/hmrc/";
+
+@import "lib/govuk-frontend/govuk/all";
+@import "lib/hmrc-frontend/hmrc/all";
+@import "header-adjust";
+
+.app-reference-number {
+  display: block;
+  font-weight: bold;
+}

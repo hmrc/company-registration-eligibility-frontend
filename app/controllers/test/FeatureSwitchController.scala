@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,14 @@ package controllers.test
 
 import config.FrontendAppConfig
 import config.featureswitch.FeatureSwitch.switches
-import config.featureswitch.{FeatureSwitch, FeatureSwitching}
+import config.featureswitch.{FeatureSwitch, FeatureSwitching, TakeOversAllowed}
+import forms.FeatureSwitchForm
 import play.api.i18n.I18nSupport
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
-import play.twirl.api.Html
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.test.feature_switch
-
 import javax.inject.{Inject, Singleton}
-import scala.collection.immutable.ListMap
+import models.FeatureSwitchModel
 import scala.concurrent.Future
 
 
@@ -38,16 +37,12 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
 
   implicit val config: FrontendAppConfig = appConfig
 
-  private def view(switchNames: Map[FeatureSwitch, Boolean])(implicit request: Request[_]): Html =
-    view(
-      switchNames = switchNames,
-      routes.FeatureSwitchController.submit
-    )
-
-
   def show: Action[AnyContent] = Action { implicit request =>
-    val featureSwitches = ListMap(switches.toSeq sortBy (_.displayText) map (switch => switch -> isEnabled(switch)): _*)
-    Ok(view(featureSwitches))
+  Ok(view(FeatureSwitchForm.form.fill(
+    FeatureSwitchModel(
+      takeOversAllowedEnabled = isEnabled(TakeOversAllowed)
+    )
+  )))
   }
 
   def submit: Action[AnyContent] = Action.async { implicit req =>

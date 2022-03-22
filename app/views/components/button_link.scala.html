@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(
-messageKey: String = "",
-href: String,
-bid: String = ""
-)(implicit messages: Messages)
+@this(
+button: GovukButton
+)
 
-<a href="@href" role="button" id="@bid" class="button">@messages(messageKey)</a>
+@(messageKey: String, href: Option[String])(implicit messages: Messages)
+
+@button(Button(
+attributes = Map("id" -> "continue"),
+content = Text(messages(messageKey)),
+href = href,
+preventDoubleClick = true
+))

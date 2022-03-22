@@ -32,6 +32,17 @@ lazy val microservice = Project(appName, file("."))
   .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
   .settings(integrationTestSettings())
   .settings(
+    RoutesKeys.routesImport ++= Seq("models._"),
+    TwirlKeys.templateImports ++= Seq(
+      "uk.gov.hmrc.govukfrontend.views.html.components._",
+      "uk.gov.hmrc.govukfrontend.views.html.components.implicits._",
+      "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
+      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
+      "uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._",
+      "views.helpers._"
+    )
+  )
+  .settings(
     // concatenate js
     Concat.groups := Seq(
       "javascripts/companyregistrationeligibilityfrontend-app.js" -> group(Seq("javascripts/show-hide-content.js", "javascripts/companyregistrationeligibilityfrontend.js"))

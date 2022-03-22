@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,12 @@ import play.api.i18n.Messages
 object TitleHelper {
   def title(titleMessage: String, form: Form[_])(implicit messages: Messages): String =
     if (form.hasErrors) {
-      messages("error.title-prefix") + titleMessage
+      messages("error.title-prefix") + s"$titleMessage - ${messages("site.service_name")} - ${messages("site.govuk.label")}"
     }
     else {
       titleMessage
     }
+
+  def titleNoForm(title: String, section: Option[String] = None, titleMessageArgs: Seq[String] = Seq())(implicit messages: Messages): String =
+    s"${messages(title, titleMessageArgs:_*)} - ${section.fold("")(messages(_) + " - ")}${messages("site.service_name")} - ${messages("site.govuk.label")}"
 }

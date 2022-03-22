@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,48 +15,50 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html._
 @import controllers.routes._
 @import models.Mode
 @import views.helpers.TitleHelper.title
-@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 
-@this(formWithCSRF: FormWithCSRF,
-      backLink: components.back_link,
-      heading: components.heading,
+
+@this(layout: views.html.layouts.layout,
+      formWithCSRF: FormWithCSRF,
+      heading: components.h1,
+      p: components.p,
       errorSummary: components.error_summary,
       infoDropdown: components.info_dropdown,
       textWithBullets: components.text_with_bullets,
       inputYesNo: components.input_yes_no,
-      submitButton: components.submit_button,
-      mainTemplate: main_template)
+      submitButton: components.submit_button
+      )
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@mainTemplate(
-    title = title(messages("takingOverBusiness.title"), form),
-    appConfig = appConfig,
-    bodyClasses = None) {
+    @layout(pageTitle = Some(title(messages("takingOverBusiness.title"), form)), backLink = true) {
 
-    @backLink()
-
-    @errorSummary(form.errors)
+    @errorSummary(form.errors,Some(Map("value" -> "-yes")))
 
     @heading("takingOverBusiness.heading")
 
     @textWithBullets("takingOverBusiness.text", Seq("takingOverBusiness.bullet1", "takingOverBusiness.bullet2", "takingOverBusiness.bullet3"))
 
-    @infoDropdown("takingOverBusiness.whatis", Seq("takingOverBusiness.dropdown.p1", "takingOverBusiness.dropdown.p2"))
+    @infoDropdown("takingOverBusiness.whatis", content)
 
     @formWithCSRF(action = TakingOverBusinessController.onSubmit(), 'autoComplete -> "off") {
 
         @inputYesNo(
-            field = form("value"),
-            label = messages("takingOverBusiness.heading"),
-            labelClass = Some("visually-hidden")
+            form = form,
+            headingKey = "takingOverBusiness.heading",
+            isPageHeading = false,
+            classes = "govuk-visually-hidden"
         )
 
         @submitButton()
     }
+}
+
+@content = {
+@p{ @messages("takingOverBusiness.dropdown.p1") }
+@p{ @messages("takingOverBusiness.dropdown.p2") }
 }

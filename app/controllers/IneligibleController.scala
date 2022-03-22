@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,21 +26,20 @@ import views.html.{ineligible, ineligible_payment}
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class IneligibleController @Inject()(appConfig: FrontendAppConfig,
-                                     controllerComponents: MessagesControllerComponents,
+class IneligibleController @Inject()(controllerComponents: MessagesControllerComponents,
                                      identify: SessionAction,
                                      ineligibleView: ineligible,
                                      ineligiblePaymentView: ineligible_payment
-                                    ) extends FrontendController(controllerComponents) with I18nSupport {
+                                    )(implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad(ineligibleType: String): Action[AnyContent] = identify {
     implicit request =>
-      Ok(ineligibleView(appConfig, ineligibleType))
+      Ok(ineligibleView(ineligibleType))
   }
 
   def onPageLoadPayment(): Action[AnyContent] = identify {
     implicit request =>
-      Ok(ineligiblePaymentView(appConfig))
+      Ok(ineligiblePaymentView())
   }
 
   def onSubmit: Action[AnyContent] = Action {
