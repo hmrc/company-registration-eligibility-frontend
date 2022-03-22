@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ class TakingOverBusinessViewSpec extends YesNoViewBehaviours {
 
   val form: Form[Boolean] = new TakingOverBusinessFormProvider()()
 
-  def createView: () => Html = () => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView: () => Html = () => view(form, NormalMode)(fakeRequest, messages, frontendAppConfig)
 
-  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(form, NormalMode)(fakeRequest, messages, frontendAppConfig)
 
   "TakingOverBusiness view" must {
 

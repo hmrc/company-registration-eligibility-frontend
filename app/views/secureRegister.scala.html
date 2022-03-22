@@ -15,47 +15,47 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.play.views.html._
 @import views.helpers.TitleHelper.title
 @import controllers.routes._
 @import models.Mode
-@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
-@this(formWithCSRF: FormWithCSRF,
-      backLink: components.back_link,
-      heading: components.heading,
+
+@this(layout: views.html.layouts.layout,
+      formWithCSRF: FormWithCSRF,
+      heading: components.h1,
       errorSummary: components.error_summary,
       infoDropdown: components.info_dropdown,
       inputYesNo: components.input_yes_no,
       submitButton: components.submit_button,
-      text: components.text,
-      mainTemplate: main_template)
+      text: components.p
+      )
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-    @mainTemplate(
-        title = title(messages("secureRegister.title"), form),
-        appConfig = appConfig,
-        bodyClasses = None) {
+    @layout(pageTitle = Some(title(messages("secureRegister.title"),form)), backLink = true) {
 
-        @backLink()
-
-        @errorSummary(form.errors)
+        @errorSummary(form.errors,Some(Map("value" -> "-yes")))
 
         @heading("secureRegister.heading")
 
-        @text("secureRegister.text")
+        @text{@messages("secureRegister.text")}
 
-        @infoDropdown("secureRegister.dropdowntitle", Seq("secureRegister.dropdown.p1"))
+        @infoDropdown(messages("secureRegister.dropdowntitle"), detailsContent)
 
         @formWithCSRF(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
 
             @inputYesNo(
-                field = form("value"),
-                label = messages("secureRegister.heading"),
-                labelClass = Some("visually-hidden")
+                form = form,
+                headingKey = "secureRegister.heading",
+                isPageHeading = false,
+                classes = "govuk-visually-hidden"
             )
 
             @submitButton()
         }
+    }
+
+@detailsContent = {
+    @text{ @messages("secureRegister.dropdown.p1") }
     }

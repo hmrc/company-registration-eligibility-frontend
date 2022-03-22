@@ -27,11 +27,10 @@ import java.net.URLEncoder
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class EligibleController @Inject()(appConfig: FrontendAppConfig,
-                                   controllerComponents: MessagesControllerComponents,
+class EligibleController @Inject()(controllerComponents: MessagesControllerComponents,
                                    identify: SessionAction,
                                    view: eligible
-                                  ) extends FrontendController(controllerComponents) with I18nSupport {
+                                  )(implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   private val redirectionUrl = {
     val companyRegURI = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
@@ -46,7 +45,7 @@ class EligibleController @Inject()(appConfig: FrontendAppConfig,
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
-      Ok(view(appConfig, redirectionUrl))
+      Ok(view(redirectionUrl))
   }
 
   def onSubmit: Action[AnyContent] = Action {

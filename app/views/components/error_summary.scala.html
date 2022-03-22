@@ -14,21 +14,27 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(errors: Seq[FormError])(implicit messages: Messages)
+@this(errorSummary: GovukErrorSummary)
+
+@(errors: Seq[FormError], errorFieldSuffix: Option[Map[String, String]] = None, errorId: Option[String] = None)(implicit messages: Messages)
+
 @if(errors.nonEmpty) {
-    <div class="error-summary error-summary--show" role="group" aria-labelledby="error-summary-heading" tabindex="-1">
-
-        <h2 class="heading-small" id="error-summary-heading">
-            @messages("error.summary.title")
-        </h2>
-
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{error.key}">@messages(error.message, error.args:_*)</a></li>
-            }
-        </ul>
-
-    </div>
+    @defining(errors.map { error =>
+        val suffix = errorFieldSuffix.fold("")(suffix => suffix.getOrElse(error.key, "")) match{
+            case "" => ""
+            case someSuffix => s"$someSuffix"
+        }
+        val id = errorId.getOrElse(error.key + suffix)
+        ErrorLink(
+            href = Some(s"#$id"),
+            content = Text(messages(error.message, error.args:_*))
+        )
+    }) { errorLinks =>
+        @errorSummary(ErrorSummary(
+            errorList = errorLinks,
+            title = Text(messages("error.summary.title"))
+        ))
+    }
 }

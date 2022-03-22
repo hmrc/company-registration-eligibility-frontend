@@ -34,8 +34,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
-                                             dataCacheConnector: DataCacheConnector,
+class TakingOverBusinessController @Inject()(dataCacheConnector: DataCacheConnector,
                                              navigator: Navigator,
                                              identify: SessionAction,
                                              getData: DataRetrievalAction,
@@ -43,7 +42,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
                                              formProvider: TakingOverBusinessFormProvider,
                                              controllerComponents: MessagesControllerComponents,
                                              view: takingOverBusiness
-                                            )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport with FeatureSwitching {
+                                            )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport with FeatureSwitching {
   val form: Form[Boolean] = formProvider()
 
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -55,7 +54,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
           case None => form
           case Some(value) => form.fill(value)
         }
-        Ok(view(appConfig, preparedForm, NormalMode))
+        Ok(view(preparedForm, NormalMode))
       }
     }
   }
@@ -65,7 +64,7 @@ class TakingOverBusinessController @Inject()(appConfig: FrontendAppConfig,
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, TakingOverBusinessId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(TakingOverBusinessId, NormalMode)(new UserAnswers(cacheMap))))

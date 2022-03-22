@@ -14,8 +14,8 @@
  * limitations under the License.
  *@
 
-@this()
+@this(p: components.p)
 
 @(textKey: String, variationKey: String)(implicit messages: Messages)
 
-<p>@messages(textKey, messages(variationKey))</p>
+@p{@messages(textKey, messages(variationKey))}

@@ -15,28 +15,29 @@
  *@
 
 @import config.FrontendAppConfig
+@import views.helpers.TitleHelper.titleNoForm
 
-@this(backLink: components.back_link,
-      heading: components.heading,
-      text: components.text,
+
+@this(layout: views.html.layouts.layout,
+      h1: components.h1,
+      p: components.p,
       buttonLink: components.button_link,
-      infoDropdown: components.info_dropdown,
-      mainTemplate: main_template)
+      infoDropdown: components.info_dropdown
+      )
 
-@(appConfig: FrontendAppConfig,redirectionUrl:String)(implicit request: Request[_], messages: Messages)
+@(redirectionUrl:String)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@mainTemplate(
-    title = messages("eligible.title"),
-    appConfig = appConfig,
-    bodyClasses = None) {
+@layout(pageTitle = Some(titleNoForm(messages("eligible.title"))), backLink = true) {
 
-    @backLink()
+    @h1("eligible.heading")
 
-    @heading("eligible.heading")
+    @p{@messages("eligible.text")}
 
-    @text("eligible.text")
+    @infoDropdown(messages("eligible.dropdown"), content)
 
-    @infoDropdown("eligible.dropdown", Seq("eligible.info"))
+    @buttonLink("site.createGGWUser",Some(redirectionUrl))
+}
 
-    @buttonLink("site.createGGWUser",redirectionUrl)
+@content = {
+@p{@messages("eligible.info")}
 }

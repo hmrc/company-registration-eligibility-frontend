@@ -26,14 +26,14 @@ import views.html.beforeYouStart
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class BeforeYouStartController @Inject()(appConfig: FrontendAppConfig,
-                                         identify: SessionAction,
+class BeforeYouStartController @Inject()(identify: SessionAction,
                                          controllerComponents: MessagesControllerComponents,
-                                         view: beforeYouStart) extends FrontendController(controllerComponents) with I18nSupport {
+                                         view: beforeYouStart)
+                                        (implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
-      Ok(view(appConfig))
+      Ok(view())
   }
 
   def onSubmit: Action[AnyContent] = Action {

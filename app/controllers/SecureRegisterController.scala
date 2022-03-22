@@ -33,8 +33,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SecureRegisterController @Inject()(appConfig: FrontendAppConfig,
-                                         dataCacheConnector: DataCacheConnector,
+class SecureRegisterController @Inject()(dataCacheConnector: DataCacheConnector,
                                          navigator: Navigator,
                                          identify: SessionAction,
                                          getData: DataRetrievalAction,
@@ -42,7 +41,7 @@ class SecureRegisterController @Inject()(appConfig: FrontendAppConfig,
                                          formProvider: SecureRegisterFormProvider,
                                          controllerComponents: MessagesControllerComponents,
                                          view: secureRegister
-                                        )(implicit executionContext: ExecutionContext) extends FrontendController(controllerComponents) with I18nSupport {
+                                        )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
@@ -52,14 +51,14 @@ class SecureRegisterController @Inject()(appConfig: FrontendAppConfig,
         case None => form
         case Some(value) => form.fill(value)
       }
-      Ok(view(appConfig, preparedForm, NormalMode))
+      Ok(view(preparedForm, NormalMode))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(appConfig, formWithErrors, NormalMode))),
+          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, SecureRegisterId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(SecureRegisterId, NormalMode)(new UserAnswers(cacheMap))))

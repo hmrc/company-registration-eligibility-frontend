@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import config.FrontendAppConfig
+package models
 
-@this(heading: components.heading,
-      mainTemplate: main_template)
-
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
-
-@mainTemplate(
-    title = messages("index.title"),
-    appConfig = appConfig,
-    bodyClasses = None) {
-
-    @heading("index.heading")
-
-    <p>@messages("index.guidance")</p>
-}
+case class FeatureSwitchModel(takeOversAllowedEnabled: Boolean)

@@ -14,13 +14,15 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import views.html.components._
+@this(p: components.p)
 
-@(textKey: String, bulletKeys: Seq[String])(implicit messages: Messages)
+@(textKey: String, itemMsgKeys: Seq[String])(implicit messages: Messages)
 
- <p>@Messages(textKey)</p>
- <ul class="list list-bullet">
-    @for(bulletKey <- bulletKeys) {
-     <li>@Messages(bulletKey)</li>
-    }
+ @p{@messages(textKey)}
+ <ul class="govuk-list govuk-list--bullet">
+   @itemMsgKeys.map { msgKey =>
+      <li>@messages(msgKey)</li>
+   }
  </ul>

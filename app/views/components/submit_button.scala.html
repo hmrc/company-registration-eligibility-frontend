@@ -14,8 +14,16 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(messageKey: String = "site.continue")(implicit messages: Messages)
+@this(
+button: GovukButton
+)
 
-<button id="submit" class="button">@messages(messageKey)</button>
+@(msg: String= "site.continue")(implicit messages: Messages)
+
+@button(Button(
+     attributes = Map("id" -> "continue"),
+     content = Text(messages(msg)),
+     preventDoubleClick = true
+))

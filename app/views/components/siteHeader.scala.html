@@ -1,5 +1,5 @@
-/*
- * Copyright 2021 HM Revenue & Customs
+@*
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,21 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package views
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcHeader
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.Header
 
-import views.behaviours.ViewBehaviours
-import views.html.index
+@this(
+    header: HmrcHeader
+)
 
-class IndexViewSpec extends ViewBehaviours {
+@(showSignOut: Boolean = true)(implicit messages: Messages)
 
-  val view: index = app.injector.instanceOf[index]
-
-  def createView = () => view(frontendAppConfig)(fakeRequest, messages)
-
-  "Index view" must {
-
-    behave like normalPage(createView, "index", "guidance")
-  }
-}
+@header(Header(
+    homepageUrl = controllers.routes.IndexController.onPageLoad.url,
+    serviceName = Some(messages("service.name")),
+    serviceUrl = controllers.routes.IndexController.onPageLoad.url,
+    containerClasses = "govuk-width-container",
+    signOutHref = None
+))

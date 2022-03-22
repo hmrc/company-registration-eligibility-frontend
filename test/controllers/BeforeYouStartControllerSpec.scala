@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,18 +24,18 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
   val view: beforeYouStart = app.injector.instanceOf[beforeYouStart]
 
-  object Controller extends BeforeYouStartController(
-    frontendAppConfig,
+
+  val  controller = new BeforeYouStartController(
     new FakeSessionAction(messagesControllerComponents),
     messagesControllerComponents,
     view
-  )
+    )(frontendAppConfig)
 
-  def viewAsString() = view(frontendAppConfig)(fakeRequest, messages).toString
+  def viewAsString() = view()(fakeRequest, messages, frontendAppConfig).toString
 
   "BeforeYouStart Controller" must {
     "return OK and the correct view for a GET" in {
-      val result = Controller.onPageLoad(fakeRequest)
+      val result = controller.onPageLoad(fakeRequest)
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString
@@ -44,7 +44,7 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
     "redirect to the next page when valid data is submitted" in {
       val postRequest = fakeRequest.withFormUrlEncodedBody()
 
-      val result = Controller.onSubmit()(postRequest)
+      val result = controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.PaymentOptionController.onPageLoad().url)

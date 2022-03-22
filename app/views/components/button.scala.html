@@ -14,12 +14,15 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(
-messageKey: String = "",
-inputType: String = "button",
-bid: String = ""
-)(implicit messages: Messages)
+@this(
+  button: GovukButton
+)
 
-<input type="@inputType" class="button" id="@bid" value="@messages(messageKey)" />
+@(msg: String)(implicit messages: Messages)
+
+@button(Button(
+    content = Text(messages(msg)),
+    preventDoubleClick = true
+))

@@ -25,12 +25,11 @@ import javax.inject.{Inject, Singleton}
 import views.html.error_template
 
 @Singleton
-class ErrorHandler @Inject()(appConfig: FrontendAppConfig,
-                             val messagesApi: MessagesApi,
+class ErrorHandler @Inject()(val messagesApi: MessagesApi,
                              view: error_template
-                            ) extends FrontendErrorHandler with I18nSupport {
+                            )(implicit appConfig: FrontendAppConfig) extends FrontendErrorHandler with I18nSupport {
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html =
-    view(pageTitle, heading, message, appConfig)
+    view(pageTitle, heading, message)
 }
 
