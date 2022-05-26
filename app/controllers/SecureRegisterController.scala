@@ -57,7 +57,7 @@ class SecureRegisterController @Inject()(dataCacheConnector: DataCacheConnector,
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
       form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
+        formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value =>
           dataCacheConnector.save[Boolean](request.internalId, SecureRegisterId.toString, value).map(cacheMap =>
