@@ -27,7 +27,6 @@ import javax.inject.{Inject, Singleton}
 class Navigator @Inject()() {
 
   private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
-    case TakingOverBusinessId => routes.TakingOverBusinessController.onPageLoad()
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
     case PaymentOptionId => routes.EligibleController.onPageLoad()
@@ -48,11 +47,10 @@ class Navigator @Inject()() {
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
     PaymentOptionId -> {
       _.paymentOption match {
-        case Some(true) => pageIdToPageLoad(TakingOverBusinessId)
+        case Some(true) => pageIdToPageLoad(SecureRegisterId)
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
-    nextOn(TakingOverBusinessId, SecureRegisterId),
     nextOn(SecureRegisterId, EligibleId),
     nextOn(EligibleId, EligibleId)
   )

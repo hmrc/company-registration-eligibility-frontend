@@ -18,8 +18,7 @@ package controllers.test
 
 import config.FrontendAppConfig
 import config.featureswitch.FeatureSwitch.switches
-import config.featureswitch.{FeatureSwitch, FeatureSwitching, TakeOversAllowed}
-import forms.FeatureSwitchForm
+import config.featureswitch.{FeatureSwitch, FeatureSwitching}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -38,11 +37,7 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
   implicit val config: FrontendAppConfig = appConfig
 
   def show: Action[AnyContent] = Action { implicit request =>
-  Ok(view(FeatureSwitchForm.form.fill(
-    FeatureSwitchModel(
-      takeOversAllowedEnabled = isEnabled(TakeOversAllowed)
-    )
-  )))
+  Ok(view())
   }
 
   def submit: Action[AnyContent] = Action.async { implicit req =>

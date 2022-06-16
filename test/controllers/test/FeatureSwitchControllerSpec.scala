@@ -36,14 +36,4 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase {
     view
   )
 
-  "handOffFeatureSwitch" should {
-    "return OK and the correct view for a GET" in {
-      val result = Controller.show(fakeRequest.withCSRFToken)
-      val page = Jsoup.parse(contentAsString(result))
-      status(result) mustBe OK
-      page.title() must include("Feature switch")
-      page.getElementById("feature-switch.takeovers-allowed").attr("value") mustBe "true"
-    }
-  }
-
 }

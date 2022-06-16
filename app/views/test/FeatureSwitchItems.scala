@@ -17,7 +17,6 @@
 package views.test
 
 import com.google.inject.Inject
-import config.featureswitch.TakeOversAllowed
 import models.FeatureSwitchModel
 import play.api.data.Form
 import uk.gov.hmrc.govukfrontend.views.Aliases.{CheckboxItem, Text}
@@ -38,8 +37,6 @@ class FeatureSwitchItems @Inject()() {
   }
 
   def items(form: Form[FeatureSwitchModel]): Seq[CheckboxItem] = {
-    Seq(
-      formCheckBoxItem(form, TakeOversAllowed.name, TakeOversAllowed.displayText)
-    )
+    Seq()
   }
 }
