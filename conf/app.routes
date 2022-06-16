@@ -20,9 +20,6 @@ GET        /ineligible/paymentOption                    controllers.IneligibleCo
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)
 POST       /ineligible                                  controllers.IneligibleController.onSubmit()
 
-GET        /taking-over-business                        controllers.TakingOverBusinessController.onPageLoad()
-POST       /taking-over-business                        controllers.TakingOverBusinessController.onSubmit()
-
 GET        /secure-register-form                        controllers.SecureRegisterController.onPageLoad()
 POST       /secure-register-form                        controllers.SecureRegisterController.onSubmit()
 

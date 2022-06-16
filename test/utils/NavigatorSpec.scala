@@ -40,7 +40,6 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "pageIdToPageLoad" should {
     "load a page" when {
       Seq(
-        TakingOverBusinessId -> routes.TakingOverBusinessController.onPageLoad(),
         SecureRegisterId -> routes.SecureRegisterController.onPageLoad(),
         EligibleId -> routes.EligibleController.onPageLoad()
       ) foreach { case (id, page) =>
@@ -59,14 +58,6 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
     }
   }
 
-  "taking over business" should {
-    "redirect to secure register page" in {
-      val userAnswers = new UserAnswers(CacheMap("id", Map(TakingOverBusinessId.toString -> JsBoolean(false))))
-      navigator.nextPage(TakingOverBusinessId, NormalMode)(userAnswers).url mustBe controllers.routes.SecureRegisterController.onPageLoad().url
-
-    }
-  }
-
   "nextOnFalse" should {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
@@ -74,7 +65,6 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
         val userAnswers = new UserAnswers(CacheMap("id", Map(PaymentOptionId.toString -> JsBoolean(false))))
 
         res._1 mustBe PaymentOptionId
-        res._2(userAnswers) mustBe routes.TakingOverBusinessController.onPageLoad()
       }
     }
 

@@ -16,4 +16,4 @@
 
 package models
 
-case class FeatureSwitchModel(takeOversAllowedEnabled: Boolean)
+case class FeatureSwitchModel()

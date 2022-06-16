@@ -87,19 +87,6 @@ ineligible.secureRegister.text              = when one of its directors or secre
 ineligible.payment.text                     = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit                           = Use other service
 
-## Taking Over Business
-takingOverBusiness.title                    = Is the new company taking over another business?
-takingOverBusiness.heading                  = Is the new company taking over another business?
-takingOverBusiness.checkYourAnswersLabel    = takingOverBusiness
-takingOverBusiness.error.required           = Tell us if the new company taking over another business
-takingOverBusiness.text                     = This includes if it''s:
-takingOverBusiness.bullet1                  = buying another limited company
-takingOverBusiness.bullet2                  = changing a sole trader business into a limited company
-takingOverBusiness.bullet3                  = changing a partnership business into a limited company
-takingOverBusiness.whatis                   = What is a sole trader or partnership business?
-takingOverBusiness.dropdown.p1              = A sole trader is someone who''s self-employed and is the only owner of their business.
-takingOverBusiness.dropdown.p2              = A partnership is when two or more people agree to share the profits, costs and risks of running a business.
-
 ## Secure Register
 secureRegister.title                        = Are any directors or ''persons with significant control'' on the Companies House secure register?
 secureRegister.heading                      = Are any directors or ''persons with significant control'' on the Companies House secure register?
