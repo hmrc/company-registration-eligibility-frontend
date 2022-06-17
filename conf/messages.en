@@ -82,7 +82,6 @@ beforeYouStart.submit                       = Continue to questions
 ineligible.title                            = You cannot set up a company with this service
 ineligible.heading                          = You cannot set up a company with this service
 ineligible.text                             = To set up a company {0}, you''ll need to use another service.
-ineligible.takingOverBusiness.text          = that''s taking over another business
 ineligible.secureRegister.text              = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
 ineligible.payment.text                     = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit                           = Use other service

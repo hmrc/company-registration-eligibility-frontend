@@ -61,20 +61,10 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "nextOnFalse" should {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
-        val res = navigator.nextOn(PaymentOptionId, TakingOverBusinessId)
+        val res = navigator.nextOn(PaymentOptionId, SecureRegisterId)
         val userAnswers = new UserAnswers(CacheMap("id", Map(PaymentOptionId.toString -> JsBoolean(false))))
 
         res._1 mustBe PaymentOptionId
-      }
-    }
-
-    "return an ID and function to the ineligible" when {
-      "given a start page id and end page id when the answer provided is true" in {
-        val res = navigator.nextOn(TakingOverBusinessId, SecureRegisterId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(TakingOverBusinessId.toString -> JsBoolean(true))))
-
-        res._1 mustBe TakingOverBusinessId
-        res._2(userAnswers) mustBe routes.IneligibleController.onPageLoad(TakingOverBusinessId.toString)
       }
     }
   }
