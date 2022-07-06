@@ -26,7 +26,7 @@ error.non_numeric                           = Give a value using only numbers
 error.number                                = Please enter a valid number
 error.required                              = Please enter a value
 error.summary.title                         = This page has errors
-error.title-prefix                          = 'Error: '
+error.title-prefix                          = ‘Error: ’
 
 ## Index
 index.title                                 = company-registration-eligibility-frontend
@@ -67,38 +67,38 @@ footer.links.help_page.text                 = Help using GOV.UK
 footer.links.accessibility.text             = Accessibility
 
 ## Unauthorised
-unauthorised.title                          = You can''t access this service with this account
-unauthorised.heading                        = You can''t access this service with this account
+unauthorised.title                          = You can’t access this service with this account
+unauthorised.heading                        = You can’t access this service with this account
 
 ##Before You Start
 beforeYouStart.title                        = Check before you start
 beforeYouStart.heading                      = Check before you start
-beforeYouStart.text                         = We''re going to ask some questions. Your answers will:
+beforeYouStart.text                         = We’re going to ask some questions. Your answers will:
 beforeYouStart.bullet1                      = show whether you can use this service to register a limited company and set up Corporation Tax
-beforeYouStart.bullet2                      = take you to another service if you''re not eligible to use this one
+beforeYouStart.bullet2                      = take you to another service if you’re not eligible to use this one
 beforeYouStart.submit                       = Continue to questions
 
 ## Ineligible
 ineligible.title                            = You cannot set up a company with this service
 ineligible.heading                          = You cannot set up a company with this service
-ineligible.text                             = To set up a company {0}, you''ll need to use another service.
+ineligible.text                             = To set up a company {0}, you’ll need to use another service.
 ineligible.secureRegister.text              = when one of its directors or secretaries has successfully applied to be on the Companies House secure register
 ineligible.payment.text                     = To use this service, you need to pay for the application using a card or PayPal.
 ineligible.submit                           = Use other service
 
 ## Secure Register
-secureRegister.title                        = Are any directors or ''persons with significant control'' on the Companies House secure register?
-secureRegister.heading                      = Are any directors or ''persons with significant control'' on the Companies House secure register?
+secureRegister.title                        = Are any directors or ‘persons with significant control’ on the Companies House secure register?
+secureRegister.heading                      = Are any directors or ‘persons with significant control’ on the Companies House secure register?
 secureRegister.checkYourAnswersLabel        = secureRegister
-secureRegister.error.required               = Select yes if any directors or ''people with significant control'' are on the Companies House secure register
+secureRegister.error.required               = Select yes if any directors or ‘people with significant control’ are on the Companies House secure register
 secureRegister.text                         = The secure register is for victims of threatening behaviour or violence who cannot risk having their home address information on the public register.
-secureRegister.dropdowntitle                = What is a ''person in significant control''?
+secureRegister.dropdowntitle                = What is a ‘person in significant control’?
 secureRegister.dropdown.p1                  = This is someone who has substantial influence over the way the company is run, for example anyone with more than 25% shares or voting rights.
 
 ## Eligible
 eligible.title                              = You will now create a Government Gateway user ID for this company
 eligible.heading                            = You will now create a Government Gateway user ID for this company
-eligible.text                               = Use this user ID whenever you need sign in to manage the company''s taxes online.
+eligible.text                               = Use this user ID whenever you need sign in to manage the company’s taxes online.
 eligible.dropdown                           = What if I need to set up multiple companies?
 eligible.info                               = You must create a new Government Gateway user ID for each company. After you have set up one company, return to GOV.UK and repeat the registration process.
 
