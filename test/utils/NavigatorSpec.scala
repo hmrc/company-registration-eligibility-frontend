@@ -37,13 +37,13 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
     }
   }
 
-  "pageIdToPageLoad" should {
+  "pageIdToPageLoad" must {
     "load a page" when {
       Seq(
         SecureRegisterId -> routes.SecureRegisterController.onPageLoad(),
         EligibleId -> routes.EligibleController.onPageLoad()
       ) foreach { case (id, page) =>
-        s"given an ID of ${id.toString} should go to ${page.url}" in {
+        s"given an ID of ${id.toString} must go to ${page.url}" in {
           navigator.pageIdToPageLoad(id).url must include(page.url)
         }
       }
@@ -58,7 +58,7 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
     }
   }
 
-  "nextOnFalse" should {
+  "nextOnFalse" must {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
         val res = navigator.nextOn(PaymentOptionId, SecureRegisterId)

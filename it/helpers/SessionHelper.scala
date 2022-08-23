@@ -16,23 +16,22 @@
 
 package helpers
 
+import org.mongodb.scala.bson.BsonDocument
 import org.scalatest.BeforeAndAfterEach
 import play.api.libs.json.{DefaultReads, Format, Json}
 import repositories.ReactiveMongoRepository
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.mongo.MongoSpecSupport
+import uk.gov.hmrc.mongo.test.MongoSupport
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
-trait SessionHelper extends MongoSpecSupport with BeforeAndAfterEach with DefaultReads {
+trait SessionHelper extends MongoSupport with BeforeAndAfterEach with DefaultReads {
   self: IntegrationSpecBase =>
 
-  lazy val repo = new ReactiveMongoRepository(app.configuration, mongo)
+  lazy val repo = new ReactiveMongoRepository(app.configuration, mongoComponent)
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    await(repo.drop)
-    await(repo.count) mustBe 0
+    await(repo.collection.deleteMany(BsonDocument()).toFuture())
+    await(repo.collection.countDocuments().toFuture()) mustBe 0
     resetWiremock()
   }
 
