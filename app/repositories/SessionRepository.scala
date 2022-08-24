@@ -16,19 +16,20 @@
 
 package repositories
 
-import org.joda.time.{DateTime, DateTimeZone}
-import play.api.libs.json.{Format, JsValue, Json, OFormat}
-import play.api.Configuration
-import play.modules.reactivemongo.ReactiveMongoComponent
-import reactivemongo.api.DefaultDB
-import reactivemongo.api.indexes.{Index, IndexType}
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
-import reactivemongo.play.json.ImplicitBSONHandlers._
-import reactivemongo.play.json.JsObjectDocumentWriter
-import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.mongo.ReactiveRepository
-import uk.gov.hmrc.mongo.json.ReactiveMongoFormats
 
+import org.joda.time.{DateTime, DateTimeZone}
+import org.mongodb.scala.model.Filters.equal
+import org.mongodb.scala.model.Indexes.ascending
+import org.mongodb.scala.model.{FindOneAndReplaceOptions, IndexModel, IndexOptions}
+import play.api.Configuration
+import play.api.libs.json.{Format, JsValue, Json, OFormat}
+import repositories.DatedCacheMap.unapply
+import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.mongo.MongoComponent
+import uk.gov.hmrc.mongo.play.json.{Codecs, PlayMongoRepository}
+import uk.gov.hmrc.mongo.play.json.formats.{MongoJavatimeFormats, MongoJodaFormats}
+
+import java.util.concurrent.TimeUnit
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -38,53 +39,41 @@ case class DatedCacheMap(id: String,
                          lastUpdated: DateTime = DateTime.now(DateTimeZone.UTC))
 
 object DatedCacheMap {
-  implicit val dateFormat: Format[DateTime] = ReactiveMongoFormats.dateTimeFormats
+  implicit val dateFormat: Format[DateTime] = MongoJodaFormats.dateTimeFormat //TODO: Temporary, future stories to switch to JavaTime
   implicit val formats: OFormat[DatedCacheMap] = Json.format[DatedCacheMap]
 
   def apply(cacheMap: CacheMap): DatedCacheMap = DatedCacheMap(cacheMap.id, cacheMap.data)
 }
 
-class ReactiveMongoRepository(config: Configuration, mongo: () => DefaultDB)
-  extends ReactiveRepository[DatedCacheMap, BSONObjectID](config.get[String]("appName"), mongo, DatedCacheMap.formats) {
+class ReactiveMongoRepository(config: Configuration, mongo: MongoComponent)
+  extends PlayMongoRepository[DatedCacheMap](
+    mongoComponent = mongo,
+    collectionName = config.get[String]("appName"),
+    domainFormat = DatedCacheMap.formats,
+    indexes = Seq(IndexModel(
+      ascending("lastUpdated"),
+      IndexOptions()
+        .name("userAnswersExpiry")
+        .expireAfter(config.get[Int]("mongodb.timeToLiveInSeconds").toLong, TimeUnit.SECONDS)
+    )),
+    extraCodecs = Seq(Codecs.playFormatCodec(CacheMap.formats))
+  ) {
 
-  val fieldName: String = "lastUpdated"
-  val createdIndexName: String = "userAnswersExpiry"
-  val expireAfterSeconds: String = "expireAfterSeconds"
-  val timeToLiveInSeconds: Int = config.get[Int]("mongodb.timeToLiveInSeconds")
-
-  createIndex(fieldName, createdIndexName, timeToLiveInSeconds)
-
-  private def createIndex(field: String, indexName: String, ttl: Int): Future[Boolean] = {
-    collection.indexesManager.ensure(Index(Seq((field, IndexType.Ascending)), Some(indexName),
-      options = BSONDocument(expireAfterSeconds -> ttl))) map {
-      result => {
-        logger.debug(s"set [$indexName] with value $ttl -> result : $result")
-        result
-      }
-    } recover {
-      case e => logger.error("Failed to set TTL index", e)
-        false
-    }
-  }
-
-  def upsert(cm: CacheMap): Future[Boolean] = {
-    val selector = BSONDocument("id" -> cm.id)
-    val cmDocument = Json.toJson(DatedCacheMap(cm))
-    val modifier = BSONDocument("$set" -> cmDocument)
-
-    collection.update.one(selector, modifier, upsert = true).map { lastError =>
-      lastError.ok
-    }
-  }
+  def upsert(cm: CacheMap): Future[Boolean] =
+    collection.findOneAndReplace(
+      filter = equal("id", cm.id),
+      replacement = DatedCacheMap(cm),
+      options = FindOneAndReplaceOptions().upsert(true)
+    ).toFuture().map(_ => true)
 
   def get(id: String): Future[Option[CacheMap]] =
-    collection.find(Json.obj("id" -> id), Some(Json.obj())).one[CacheMap]
+    collection.find[CacheMap](equal("id", id)).headOption()
 }
 
 @Singleton
-class SessionRepository @Inject()(config: Configuration, reactiveMongoComponent: ReactiveMongoComponent) {
+class SessionRepository @Inject()(config: Configuration, reactiveMongoComponent: MongoComponent) {
 
-  private lazy val sessionRepository: ReactiveMongoRepository = new ReactiveMongoRepository(config, reactiveMongoComponent.mongoConnector.db)
+  private lazy val sessionRepository: ReactiveMongoRepository = new ReactiveMongoRepository(config, reactiveMongoComponent)
 
   def apply(): ReactiveMongoRepository = sessionRepository
 }

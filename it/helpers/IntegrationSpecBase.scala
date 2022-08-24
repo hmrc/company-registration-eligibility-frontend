@@ -22,7 +22,7 @@ import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
-import uk.gov.hmrc.mongo.MongoSpecSupport
+import uk.gov.hmrc.mongo.test.MongoSupport
 
 import scala.concurrent.duration._
 
@@ -36,7 +36,7 @@ trait IntegrationSpecBase
     with BeforeAndAfterAll
     with FutureAwaits
     with DefaultAwaitTimeout
-    with MongoSpecSupport with FakeConfig {
+    with MongoSupport with FakeConfig {
 
   val mockPort = 11111
   val mockHost = "localhost"
