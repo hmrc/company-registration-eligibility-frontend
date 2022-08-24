@@ -9,7 +9,6 @@ object AppDependencies {
   private val logbackJsonLoggerVersion = "5.1.0"
   private val scalaTestVersion = "3.2.12"
   private val scalaTestPlusPlayVersion = "5.1.0"
-  private val pegdownVersion = "1.6.0"
   private val httpCachingClientVersion = s"9.5.0$playVersion"
   private val playConditionalFormMappingVersion = s"1.9.0$playVersion"
   private val playLanguageVersion = s"5.1.0$playVersion"
@@ -33,7 +32,6 @@ object AppDependencies {
   private def testDeps(scope: String) = Seq(
     "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
     "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion % scope,
-    "org.pegdown" % "pegdown" % pegdownVersion % scope,
     "org.jsoup" % "jsoup" % "1.10.3" % scope,
     "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
     "org.scalatestplus" %% "scalacheck-1-16" % s"$scalaTestVersion.0" % scope,
