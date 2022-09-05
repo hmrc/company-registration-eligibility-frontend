@@ -19,14 +19,14 @@ package helpers
 import org.mongodb.scala.bson.BsonDocument
 import org.scalatest.BeforeAndAfterEach
 import play.api.libs.json.{DefaultReads, Format, Json}
-import repositories.ReactiveMongoRepository
+import repositories.SessionRepository
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.mongo.test.MongoSupport
 
 trait SessionHelper extends MongoSupport with BeforeAndAfterEach with DefaultReads {
   self: IntegrationSpecBase =>
 
-  lazy val repo = new ReactiveMongoRepository(app.configuration, mongoComponent)
+  lazy val repo = new SessionRepository(app.configuration, mongoComponent)
 
   override def beforeEach(): Unit = {
     super.beforeEach()
