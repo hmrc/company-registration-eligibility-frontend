@@ -16,9 +16,9 @@
 
 package controllers
 
-import config.FrontendAppConfig
-import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc.ControllerComponents
+import config.{FrontendAppConfig}
+import play.api.i18n.Lang
+import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
 import javax.inject.{Inject, Singleton}
@@ -26,12 +26,24 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class LanguageSwitchController @Inject()(appConfig: FrontendAppConfig,
-                                         controllerComponents: ControllerComponents,
-                                         languageUtils: LanguageUtils
-                                        ) extends LanguageController(languageUtils, controllerComponents) with I18nSupport {
+                                         languageUtils: LanguageUtils,
+                                         controllerComponents: ControllerComponents
+                                        ) extends LanguageController(languageUtils, controllerComponents) {
 
-  override def fallbackURL: String = routes.IndexController.onPageLoad.url
+  def languageMap: Map[String, Lang] = appConfig.languageMap
 
-  override def languageMap: Map[String, Lang] = appConfig.languageMap
+  def setLanguage(language: String): Action[AnyContent] = Action { implicit request =>
+    val enabled: Boolean = languageMap.get(language).exists(languageUtils.isLangAvailable)
+    val lang: Lang =
+      if (enabled) {
+        languageMap.getOrElse(language, languageUtils.getCurrentLang)
+      }
+      else {
+        languageUtils.getCurrentLang
+      }
 
+    Redirect(fallbackURL).withLang(Lang.apply(lang.code))
+  }
+
+  protected[controllers] def fallbackURL: String = routes.IndexController.onPageLoad.url
 }

@@ -11,3 +11,6 @@
 
 # Add all the application routes to the prod.routes file
 ->         /                                                                prod.Routes
+
+GET        /eligibility-for-setting-up-company/test-only/feature-switch     controllers.test.FeatureSwitchController.show
+POST       /eligibility-for-setting-up-company/test-only/feature-switch     controllers.test.FeatureSwitchController.submit

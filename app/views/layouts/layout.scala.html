@@ -17,43 +17,29 @@
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
+@import views.html.helper.CSPNonce
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 
 
 @this(
-trackingConsentSnippet: HmrcTrackingConsentSnippet,
-hmrcTimeoutDialog: HmrcTimeoutDialog,
-phaseBanner: components.phaseBanner,
-govukBackLink: GovukBackLink,
-hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
-siteHeader: components.siteHeader,
-govukLayout: GovukLayout,
-hmrcStandardFooter: HmrcStandardFooter
+    hmrcLayout: HmrcLayout,
+    hmrcTimeoutDialog: HmrcTimeoutDialog,
+    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
+    siteHeader: components.siteHeader,
+    standardBetaBanner: StandardBetaBanner
 )
 
 @(pageTitle: Option[String] = None, beforeContentBlock: Option[Html] = None, backLink: Boolean = false, signOutLink: Boolean = true)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@trackingConsentSnippet()
-
 @head = {
-<!--[if lte IE 8]><link href=' @controllers.routes.Assets.versioned("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
-<!--[if gt IE 8]><!--> <link href='@controllers.routes.Assets.versioned("stylesheets/application.css")' media="screen" rel="stylesheet" type="text/css" />
+<!--[if lte IE 8]><link href=' @controllers.routes.Assets.at("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if gt IE 8]><!--> <link href='@controllers.routes.Assets.at("stylesheets/application.css")' media="screen" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 }
 
-@beforeContentBlock = {
-@phaseBanner("beta")
-
-@if(backLink == true) {
-@govukBackLink(BackLink(href = "#", content = Text(messages("site.back")), attributes = Map("id" -> "back-link")))
-}
-}
 
 @scripts = {
-<script src='@controllers.routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
-<script src='@controllers.routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
-<script>window.GOVUKFrontend.initAll();
-    window.HMRCFrontend.initAll()</script>
-<script src="@controllers.routes.Assets.versioned("javascripts/backLink.js")"></script>
+    <script @{CSPNonce.attr} src="@controllers.routes.Assets.at("javascripts/backLink.js")"></script>
 }
 
 @content = {
@@ -71,12 +57,17 @@ hmrcStandardFooter: HmrcStandardFooter
     @hmrcReportTechnicalIssueHelper()
 }
 
-@govukLayout(
+@hmrcLayout(
     pageTitle = pageTitle,
-    headBlock = Some(head),
-    beforeContentBlock = Some(beforeContentBlock),
-    bodyEndBlock = None,
-    headerBlock = Some(siteHeader(signOutLink)),
-    footerBlock = Some(hmrcStandardFooter(accessibilityStatementUrl = Some(appConfig.accessibilityStatementRoute(request.uri)))),
-    scriptsBlock = Some(scripts)
+    serviceName = Some(messages("service.name")),
+    isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
+    additionalHeadBlock = Some(head),
+    signOutUrl = Some(""),
+    serviceUrl = Some("/eligibility-for-setting-up-company"),
+    phaseBanner = Some(standardBetaBanner(url = "https://www.tax.service.gov.uk/contact/beta-feedback?service=SCRS")),
+    backLinkUrl = if (backLink) Some("#") else None,
+    displayHmrcBanner = false,
+    accessibilityStatementUrl = Some(appConfig.accessibilityStatementUrl),
+    nonce = CSPNonce.get,
+    additionalScriptsBlock = Some(scripts)
 )(content)
