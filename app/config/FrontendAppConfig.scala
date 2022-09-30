@@ -16,6 +16,8 @@
 
 package config
 
+import config.featureswitch.{FeatureSwitching}
+import config.featureswitch.FeatureSwitch.WelshEnabled
 import controllers.routes
 import play.api.i18n.Lang
 import play.api.mvc.Call
@@ -24,7 +26,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class FrontendAppConfig @Inject()(config: ServicesConfig) {
+class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitching {
 
   private def loadConfig(key: String) = config.getString(key)
 
@@ -44,13 +46,14 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) {
 
   lazy val ggMakeAccountUrl: String = loadConfig(s"$configRoot.gg-reg-fe.url")
 
-  lazy val languageTranslationEnabled: Boolean = config.getConfBool("microservice.services.features.welsh-translation", defBool = false)
-
   lazy val commonFooterUrl: String = "https://www.tax.service.gov.uk/register-your-company/cookies-privacy-terms"
 
   lazy val helpFooterUrl: String = "https://www.gov.uk/help"
 
-  def accessibilityStatementRoute(pageUri: String): String = s"$compRegFEURL$compRegFEURI/accessibility-statement?pageUri=$pageUri"
+  lazy val accessibilityStatementPath = loadConfig("accessibility-statement.host")
+  lazy val accessibilityStatementUrl = s"$accessibilityStatementPath/accessibility-statement/company-registration"
+
+  def languageTranslationEnabled: Boolean = isEnabled(WelshEnabled)
 
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
