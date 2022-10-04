@@ -30,7 +30,7 @@ object AppDependencies {
   val test = Seq(
     "org.scalatest"           %%  "scalatest"                       %  scalaTestVersion           % "test, it",
     "org.scalatestplus.play"  %%  "scalatestplus-play"              %  scalaTestPlusPlayVersion   % "test, it",
-    "org.jsoup"               %   "jsoup"                           %  "1.10.3"                   % "test, it",
+    "org.jsoup"               %   "jsoup"                           %  "1.15.3"                   % "test, it",
     "com.typesafe.play"       %%  "play-test"                       %  PlayVersion.current        % "test, it",
     "org.scalatestplus"       %%  "scalacheck-1-16"                 % s"$scalaTestVersion.0"      % "test, it",
     "com.vladsch.flexmark"    %   "flexmark-all"                    %  flexmarkAllVersion         % "test, it",
