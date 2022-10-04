@@ -34,9 +34,9 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
   def messagesApi: MessagesApi = messagesControllerComponents.messagesApi
 
-  def fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  def fakeRequest(method: String = "GET"): FakeRequest[AnyContentAsEmpty.type] = FakeRequest(method, "/path")
 
-  def messages: Messages = messagesApi.preferred(fakeRequest)
+  def messages: Messages = messagesApi.preferred(fakeRequest())
 
   def messagesControllerComponents: MessagesControllerComponents = injector.instanceOf[MessagesControllerComponents]
 

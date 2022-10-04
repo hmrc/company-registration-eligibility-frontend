@@ -27,13 +27,13 @@ class SessionExpiredControllerSpec extends ControllerSpecBase {
 
   "SessionExpired Controller" must {
     "return 200 for a GET" in {
-      val result = Controller.onPageLoad()(fakeRequest)
+      val result = Controller.onPageLoad()(fakeRequest())
       status(result) mustBe OK
     }
 
     "return the correct view for a GET" in {
-      val result = Controller.onPageLoad()(fakeRequest)
-      contentAsString(result) mustBe view()(fakeRequest, messages, frontendAppConfig).toString
+      val result = Controller.onPageLoad()(fakeRequest())
+      contentAsString(result) mustBe view()(fakeRequest(), messages, frontendAppConfig).toString
     }
   }
 }

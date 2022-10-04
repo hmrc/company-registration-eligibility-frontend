@@ -51,12 +51,12 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest, messages, frontendAppConfig).toString
+  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
 
   "SecureRegister Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = Controller.onPageLoad()(fakeRequest)
+      val result = Controller.onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
@@ -77,13 +77,13 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
         view
       )
 
-      val result = Controller.onPageLoad()(fakeRequest)
+      val result = Controller.onPageLoad()(fakeRequest())
 
       contentAsString(result) mustBe viewAsString(form.fill(true))
     }
 
     "redirect to the next page when valid data is submitted" in {
-      val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
+      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
 
       val result = Controller.onSubmit()(postRequest)
 
@@ -92,7 +92,7 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
-      val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "invalid value"))
+      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "invalid value"))
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
       val result = Controller.onSubmit()(postRequest)
@@ -114,14 +114,14 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
         view
       )
 
-      val result = Controller.onPageLoad()(fakeRequest)
+      val result = Controller.onPageLoad()(fakeRequest())
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
     }
 
     "redirect to Session Expired for a POST if no existing data is found" in {
-      val postRequest = fakeRequest.withFormUrlEncodedBody(("value", "true"))
+      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
 
       object Controller extends SecureRegisterController(
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
