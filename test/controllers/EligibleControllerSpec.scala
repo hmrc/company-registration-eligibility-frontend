@@ -36,18 +36,18 @@ class EligibleControllerSpec extends ControllerSpecBase {
   val redirectionUrl: String = "http://localhost:8571/government-gateway-registration-frontend" +
     "?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
 
-  def viewAsString(): String = view(redirectionUrl)(fakeRequest, messages, frontendAppConfig).toString
+  def viewAsString(): String = view(redirectionUrl)(fakeRequest(), messages, frontendAppConfig).toString
 
   "Eligible Controller" must {
     "return OK and the correct view for a GET" in {
-      val result = Controller.onPageLoad(fakeRequest)
+      val result = Controller.onPageLoad(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
     }
 
     "redirect to GG create account URL when the user hits submit" in {
-      val postRequest = fakeRequest.withFormUrlEncodedBody()
+      val postRequest = fakeRequest("POST").withFormUrlEncodedBody()
 
       val result = Controller.onSubmit()(postRequest)
 

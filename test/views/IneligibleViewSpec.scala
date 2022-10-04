@@ -23,7 +23,7 @@ class IneligibleViewSpec extends ViewBehaviours {
 
   val messageKeyPrefix: String = "ineligible"
   val view: ineligible = app.injector.instanceOf[ineligible]
-  def createView = () => view("foo")(fakeRequest, messages, frontendAppConfig)
+  def createView = () => view("foo")(fakeRequest(), messages, frontendAppConfig)
 
   "Ineligible view" must {
     behave like normalPage(createView, messageKeyPrefix)

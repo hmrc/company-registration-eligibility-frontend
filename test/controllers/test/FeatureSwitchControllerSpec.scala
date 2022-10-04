@@ -39,7 +39,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
   "enableWelshFeatureSwitch" should {
     "return OK and the correct view for a GET with Welsh Enabled" in {
       enable(WelshEnabled)
-      val result = Controller.show(fakeRequest.withCSRFToken)
+      val result = Controller.show(fakeRequest().withCSRFToken)
       val page = Jsoup.parse(contentAsString(result))
       status(result) mustBe OK
       page.title() must include("Feature switch")
@@ -48,7 +48,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
 
     "return OK and the correct view for a GET with Welsh Disabled" in {
       disable(WelshEnabled)
-      val result = Controller.show(fakeRequest.withCSRFToken)
+      val result = Controller.show(fakeRequest().withCSRFToken)
       val page = Jsoup.parse(contentAsString(result))
       status(result) mustBe OK
       page.title() must include("Feature switch")

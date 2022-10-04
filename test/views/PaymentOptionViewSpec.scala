@@ -30,9 +30,9 @@ class PaymentOptionViewSpec extends YesNoViewBehaviours {
   val form: Form[Boolean] = new PaymentOptionFormProvider()()
   val view: paymentOption = app.injector.instanceOf[paymentOption]
 
-  def createView: () => Html = () => view(form, NormalMode)(fakeRequest, messages, frontendAppConfig)
+  def createView: () => Html = () => view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig)
 
-  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(form, NormalMode)(fakeRequest, messages, frontendAppConfig)
+  def createViewUsingForm: Form[_] => Html = (form: Form[_]) => view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig)
 
   "PaymentOption view" must {
 

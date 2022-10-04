@@ -22,7 +22,7 @@ class IndexControllerSpec extends ControllerSpecBase {
 
   "Index Controller" must {
     "return 200 for a GET" in {
-      val result = new IndexController(messagesControllerComponents).onPageLoad()(fakeRequest)
+      val result = new IndexController(messagesControllerComponents).onPageLoad()(fakeRequest())
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.BeforeYouStartController.onPageLoad().url)
     }
