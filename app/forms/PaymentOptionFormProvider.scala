@@ -21,7 +21,7 @@ import play.api.data.Form
 
 import javax.inject.Inject
 
-class PaymentOptionFormProvider @Inject() extends FormErrorHelper with Mappings {
+class PaymentOptionFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Boolean] =
     Form(

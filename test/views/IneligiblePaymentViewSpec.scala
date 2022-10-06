@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package forms
+package views
 
-import play.api.data.FormError
+import views.behaviours.ViewBehaviours
+import views.html.{ineligible, ineligible_payment}
 
-trait FormErrorHelper {
-  def produceError(key: String, error: String) = Left(Seq(FormError(key, error)))
+class IneligiblePaymentViewSpec extends ViewBehaviours {
+
+  val messageKeyPrefix: String = "ineligible"
+  val view: ineligible_payment = app.injector.instanceOf[ineligible_payment]
+  def createView = () => view()(fakeRequest(), messages, frontendAppConfig)
+
+  "IneligiblePayment view" must {
+    behave like normalPage(createView, messageKeyPrefix, "payment.text")
+  }
 }

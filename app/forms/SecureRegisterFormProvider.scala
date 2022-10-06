@@ -21,7 +21,7 @@ import play.api.data.Form
 
 import javax.inject.Inject
 
-class SecureRegisterFormProvider @Inject() extends FormErrorHelper with Mappings {
+class SecureRegisterFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Boolean] =
     Form(

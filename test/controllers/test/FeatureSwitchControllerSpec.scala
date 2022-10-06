@@ -54,6 +54,21 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
       page.title() must include("Feature switch")
       page.getElementById("feature-switch.enable-welsh").attr("value") mustBe "false"
     }
+
+    "change state of switches when posting" in {
+
+      disable(WelshEnabled)
+      isEnabled(WelshEnabled) mustBe false
+
+      val result = Controller.submit(fakeRequest("POST").withFormUrlEncodedBody(
+        WelshEnabled.name -> "true"
+      ).withCSRFToken)
+
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(routes.FeatureSwitchController.show.url)
+
+      isEnabled(WelshEnabled) mustBe true
+    }
   }
 
 }
