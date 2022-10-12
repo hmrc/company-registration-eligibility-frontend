@@ -35,7 +35,8 @@ class IneligibleControllerSpec extends ControllerSpecBase {
     viewIneligiblePayment
   )(frontendAppConfig)
 
-  def viewAsString(): String = viewIneligible("foo")(fakeRequest(), messages, frontendAppConfig).toString
+  def ineligibleViewAsString(): String = viewIneligible("foo")(fakeRequest(), messages, frontendAppConfig).toString
+  def ineligiblePaymentViewAsString(): String = viewIneligiblePayment()(fakeRequest(), messages, frontendAppConfig).toString
 
   "Ineligible Controller" must {
 
@@ -43,7 +44,14 @@ class IneligibleControllerSpec extends ControllerSpecBase {
       val result = controller().onPageLoad("foo")(fakeRequest())
 
       status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString()
+      contentAsString(result) mustBe ineligibleViewAsString()
+    }
+
+    "return OK and the correct view for a GET (when rendering the IneligiblePayment copy)" in {
+      val result = controller().onPageLoadPayment()(fakeRequest())
+
+      status(result) mustBe OK
+      contentAsString(result) mustBe ineligiblePaymentViewAsString()
     }
 
     "redirect to the next page when valid data is submitted" in {
