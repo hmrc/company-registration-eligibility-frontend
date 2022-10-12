@@ -50,7 +50,7 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
 
   lazy val helpFooterUrl: String = "https://www.gov.uk/help"
 
-  lazy val accessibilityStatementPath = loadConfig("accessibility-statement.host")
+  lazy val accessibilityStatementPath = loadConfig(s"$configRoot.accessibility-statement.host")
   lazy val accessibilityStatementUrl = s"$accessibilityStatementPath/accessibility-statement/company-registration"
 
   def languageTranslationEnabled: Boolean = isEnabled(WelshEnabled)
