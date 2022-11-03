@@ -61,4 +61,8 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
   )
 
   def routeToSwitchLanguage: String => Call = (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
+
+  lazy val feedbackFrontendUrl = loadConfig("microservice.services.feedback-frontend.host")
+  lazy val betaFeedbackUrl = s"$feedbackFrontendUrl/feedback/SCRS"
+
 }
