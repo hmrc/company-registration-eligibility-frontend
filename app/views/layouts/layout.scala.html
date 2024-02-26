@@ -68,7 +68,6 @@
     backLinkUrl = if (backLink) Some("#") else None,
     displayHmrcBanner = false,
     accessibilityStatementUrl = Some(appConfig.accessibilityStatementUrl),
-    nonce = CSPNonce.get,
     additionalScriptsBlock = Some(scripts)
 )(content)
 

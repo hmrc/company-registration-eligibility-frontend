@@ -13,7 +13,7 @@ object AppDependencies {
   private val playConditionalFormMappingVersion = s"1.12.0$playVersion"
   private val bootstrapVersion                  = "7.13.0"
   private val wireMockVersion                   = "2.35.0"
-  private val playHmrcFrontendVersion           = s"6.3.0$playVersion"
+  private val playHmrcFrontendVersion           = s"8.5.0"
   private val hmrcMongoVersion                  = "0.74.0"
   private val flexmarkAllVersion                = "0.64.0"
 
@@ -24,7 +24,7 @@ object AppDependencies {
     "uk.gov.hmrc"             %%  "http-caching-client"             %  httpCachingClientVersion,
     "uk.gov.hmrc"             %%  "play-conditional-form-mapping"   %  playConditionalFormMappingVersion,
     "uk.gov.hmrc"             %% s"bootstrap-frontend$playVersion"  %  bootstrapVersion,
-    "uk.gov.hmrc"             %%  "play-frontend-hmrc"              %  playHmrcFrontendVersion
+    "uk.gov.hmrc"             %%  "play-frontend-hmrc-play-28"              %  playHmrcFrontendVersion
   )
 
   val test = Seq(
