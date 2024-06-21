@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package helpers
+package test.helpers
 
 import org.mongodb.scala.bson.BsonDocument
 import org.scalatest.BeforeAndAfterEach
@@ -25,8 +25,8 @@ import uk.gov.hmrc.mongo.test.MongoSupport
 
 trait SessionHelper extends MongoSupport with BeforeAndAfterEach with DefaultReads {
   self: IntegrationSpecBase =>
-
-  lazy val repo = new SessionRepository(app.configuration, mongoComponent)
+  implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
+  lazy val repo = new SessionRepository(app.configuration, mongoComponent)(ec)
 
   override def beforeEach(): Unit = {
     super.beforeEach()

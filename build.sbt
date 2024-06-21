@@ -1,11 +1,15 @@
 import play.sbt.routes.RoutesKeys
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings
 
 val appName: String = "company-registration-eligibility-frontend"
 
+ThisBuild / majorVersion := 1
+ThisBuild / scalaVersion := "2.13.14"
+
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin): _*)
+  .enablePlugins(Seq(play.sbt.PlayScala, SbtDistributablesPlugin): _*)
   .settings(RoutesKeys.routesImport ++= Seq("models._"))
   .settings(
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;.*models.*;.*repositories.*;" +
@@ -16,17 +20,13 @@ lazy val microservice = Project(appName, file("."))
     ScoverageKeys.coverageHighlighting := true,
     Test / parallelExecution := false
   )
-  .settings(scalaSettings: _*)
-  .settings(defaultSettings(): _*)
-  .settings(majorVersion := 0)
+  .settings(scalaSettings *)
+  .settings(defaultSettings() *)
   .settings(
     scalacOptions ++= Seq("-feature", "-Xlint:-unused"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true
   )
-  .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
-  .settings(integrationTestSettings())
   .settings(
     RoutesKeys.routesImport ++= Seq("models._"),
     TwirlKeys.templateImports ++= Seq(
@@ -52,5 +52,11 @@ lazy val microservice = Project(appName, file("."))
     uglify / includeFilter := GlobFilter("companyregistrationeligibilityfrontend-*.js")
   )
 
-scalaVersion :=  "2.13.8"
-  
+lazy val it = project.in(file("it"))
+  .enablePlugins(PlayScala)
+  .dependsOn(microservice % "test->test") // the "test->test" allows reusing test code and test dependencies
+  .settings(DefaultBuildSettings.itSettings(true))
+  .settings(
+    libraryDependencies ++= AppDependencies(),
+    addTestReportOption(Test, "int-test-reports")
+  )
