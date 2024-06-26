@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package www
+package test.www
 
 import controllers.routes
-import helpers.{AuthHelper, IntegrationSpecBase, SessionHelper}
 import identifiers.SecureRegisterId
 import play.api.Application
 import play.api.http.HeaderNames
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.crypto.DefaultCookieSigner
 import play.api.libs.ws.WSRequest
+import test.helpers.{AuthHelper, IntegrationSpecBase, SessionHelper}
 
 class SecureRegisterISpec extends IntegrationSpecBase with SessionHelper with AuthHelper {
 

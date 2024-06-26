@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package helpers
+package test.helpers
 
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.PlaySpec

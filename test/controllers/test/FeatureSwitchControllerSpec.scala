@@ -16,7 +16,7 @@
 
 package controllers.test
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import config.featureswitch.FeatureSwitch.WelshEnabled
 import config.featureswitch.FeatureSwitching
 import controllers.ControllerSpecBase
