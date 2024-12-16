@@ -33,8 +33,8 @@ class EligibleControllerSpec extends ControllerSpecBase {
     view
   )(frontendAppConfig)
 
-  val redirectionUrl: String = "http://localhost:8571/government-gateway-registration-frontend" +
-    "?accountType=organisation&continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
+  val redirectionUrl: String = "http://localhost:9553/bas-gateway/register" +
+    "?accountType=organisation&continueUrl=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in&origin=company-registration-frontend"
 
   def viewAsString(): String = view(redirectionUrl)(fakeRequest(), messages, frontendAppConfig).toString
 
@@ -52,8 +52,8 @@ class EligibleControllerSpec extends ControllerSpecBase {
       val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result).get must include(s"${frontendAppConfig.ggMakeAccountUrl}/government-gateway-registration-frontend")
-      redirectLocation(result).get must include("continue=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in")
+      redirectLocation(result).get must include(s"${frontendAppConfig.ggMakeAccountUrl}")
+      redirectLocation(result).get must include("continueUrl=http%3A%2F%2Flocalhost%3A9970%2Fregister-your-company%2Fpost-sign-in")
     }
   }
 
