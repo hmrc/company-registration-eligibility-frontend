@@ -35,11 +35,12 @@ class EligibleController @Inject()(controllerComponents: MessagesControllerCompo
   private val redirectionUrl = {
     val companyRegURI = s"${appConfig.compRegFEURL}${appConfig.compRegFEURI}"
     val crfePostSignIn = s"$companyRegURI${appConfig.postSignInUrl}"
+    val ggrf = "/bas-gateway/register"
     val accountType = "accountType=organisation"
     val origin = "origin=company-registration-frontend"
     val continueURL = s"continueUrl=${URLEncoder.encode(s"$crfePostSignIn", "UTF-8")}"
 
-    s"${appConfig.ggMakeAccountUrl}?$accountType&$continueURL&$origin"
+    s"${appConfig.ggMakeAccountUrl}$ggrf?$accountType&$continueURL&$origin"
   }
 
   def onPageLoad: Action[AnyContent] = identify {
