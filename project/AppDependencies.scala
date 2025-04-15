@@ -6,7 +6,7 @@ object AppDependencies {
 
   private val playVersion = "-play-30"
 
-  private val logbackJsonLoggerVersion          = "5.4.0"
+  private val logbackJsonLoggerVersion          = "5.5.0"
   private val scalaTestVersion                  = "3.2.19"
   private val scalaTestPlusPlayVersion          = "7.0.1"
   private val httpCachingClientVersion          = "11.2.0"
@@ -14,7 +14,7 @@ object AppDependencies {
   private val bootstrapVersion                  = "8.6.0"
   private val wireMockVersion                   = "3.0.1"
   private val playHmrcFrontendVersion           = "9.11.0"
-  private val hmrcMongoVersion                  = "2.1.0"
+  private val hmrcMongoVersion                  = "2.6.0"
   private val flexmarkAllVersion                = "0.64.8"
 
   val compile: Seq[ModuleID] = Seq(
