@@ -43,7 +43,7 @@
 
         @infoDropdown(messages("secureRegister.dropdowntitle"), detailsContent)
 
-        @formWithCSRF(action = SecureRegisterController.onSubmit(), 'autoComplete -> "off") {
+        @formWithCSRF(action = SecureRegisterController.onSubmit(), Symbol("autoComplete") -> "off") {
 
             @inputYesNo(
                 form = form,

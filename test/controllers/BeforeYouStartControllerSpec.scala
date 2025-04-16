@@ -31,14 +31,14 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
     view
     )(frontendAppConfig)
 
-  def viewAsString() = view()(fakeRequest(), messages, frontendAppConfig).toString
+  def viewAsString(): String = view()(fakeRequest(), messages, frontendAppConfig).toString
 
   "BeforeYouStart Controller" must {
     "return OK and the correct view for a GET" in {
       val result = controller.onPageLoad(fakeRequest())
 
       status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString
+      contentAsString(result) mustBe viewAsString()
     }
 
     "redirect to the next page when valid data is submitted" in {

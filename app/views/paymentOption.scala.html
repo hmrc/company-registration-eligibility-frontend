@@ -39,7 +39,7 @@
 
     @p{@messages("paymentOption.text")}
 
-    @formWithCSRF(action = routes.PaymentOptionController.onSubmit(), 'autoComplete -> "off") {
+    @formWithCSRF(action = routes.PaymentOptionController.onSubmit(), Symbol("autoComplete") -> "off") {
         @inputYesNo(
             form = paymentOptionForm,
             headingKey = "paymentOption.heading",
