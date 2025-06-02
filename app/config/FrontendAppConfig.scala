@@ -16,8 +16,8 @@
 
 package config
 
-import config.featureswitch.{FeatureSwitching}
-import config.featureswitch.FeatureSwitch.WelshEnabled
+import config.featureswitch.FeatureSwitching
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled}
 import controllers.routes
 import play.api.i18n.Lang
 import play.api.mvc.Call
@@ -54,6 +54,7 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
   lazy val accessibilityStatementUrl = s"$accessibilityStatementPath/accessibility-statement/company-registration"
 
   def languageTranslationEnabled: Boolean = isEnabled(WelshEnabled)
+  def isScrsIdvEnabled: Boolean = isEnabled(ScrsIdvEnabled)
 
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

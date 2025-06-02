@@ -17,7 +17,7 @@
 package controllers.test
 
 import org.apache.pekko.actor.ActorSystem
-import config.featureswitch.FeatureSwitch.WelshEnabled
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled}
 import config.featureswitch.FeatureSwitching
 import controllers.ControllerSpecBase
 import org.jsoup.Jsoup
@@ -71,4 +71,39 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
     }
   }
 
+  "enable SCRS IDV feature switch" should {
+    "return OK and the correct view for a GET with SCRS IDV Enabled" in {
+      enable(ScrsIdvEnabled)
+      val result = Controller.show(fakeRequest().withCSRFToken)
+      val page = Jsoup.parse(contentAsString(result))
+      status(result) mustBe OK
+      page.title() must include("Feature switch")
+      page.getElementById("feature-switch.scrs-idv").attr("value") mustBe "true"
+    }
+
+    "return OK and the correct view for a GET with SCRS IDV Disabled" in {
+      disable(ScrsIdvEnabled)
+      val result = Controller.show(fakeRequest().withCSRFToken)
+      val page = Jsoup.parse(contentAsString(result))
+      status(result) mustBe OK
+      page.title() must include("Feature switch")
+      page.getElementById("feature-switch.scrs-idv").attr("value") mustBe "false"
+    }
+
+    "change state of scrs switche when posting" in {
+
+      disable(ScrsIdvEnabled)
+      isEnabled(ScrsIdvEnabled) mustBe false
+
+      val result = Controller.submit(fakeRequest("POST").withFormUrlEncodedBody(
+        ScrsIdvEnabled.name -> "true"
+      ).withCSRFToken)
+
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(routes.FeatureSwitchController.show.url)
+
+      isEnabled(ScrsIdvEnabled) mustBe true
+    }
+
+  }
 }

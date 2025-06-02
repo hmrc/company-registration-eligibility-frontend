@@ -16,7 +16,7 @@
 
 package forms
 
-import config.featureswitch.FeatureSwitch.WelshEnabled
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled}
 import models.FeatureSwitchModel
 import play.api.data.Form
 import play.api.data.Forms._
@@ -25,7 +25,8 @@ import play.api.data.Forms._
 object FeatureSwitchForm {
   val form: Form[FeatureSwitchModel] = Form(
     mapping(
-      WelshEnabled.name -> boolean
+      WelshEnabled.name -> boolean,
+      ScrsIdvEnabled.name -> boolean
     )(FeatureSwitchModel.apply)(FeatureSwitchModel.unapply)
   )
 }

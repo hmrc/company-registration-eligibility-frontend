@@ -17,7 +17,7 @@
 package controllers.test
 
 import config.FrontendAppConfig
-import config.featureswitch.FeatureSwitch.{WelshEnabled, switches}
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled, switches}
 import config.featureswitch.{FeatureSwitch, FeatureSwitching}
 import forms.FeatureSwitchForm
 import models.FeatureSwitchModel
@@ -41,7 +41,7 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
   def show: Action[AnyContent] = Action { implicit request =>
     Ok(view(FeatureSwitchForm.form.fill(
       FeatureSwitchModel(
-        welshEnabled = isEnabled(WelshEnabled)
+        welshEnabled = isEnabled(WelshEnabled), isScrsIdvEnabled = isEnabled(ScrsIdvEnabled)
       )
     )))
   }

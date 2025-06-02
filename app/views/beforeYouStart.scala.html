@@ -19,20 +19,34 @@
 
 @this(layout: views.html.layouts.layout,
       h1: components.h1,
+      p: components.p,
       textWithBullets: components.text_with_bullets,
       buttonLink: components.button_link)
 
 
 @()(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
-@layout(pageTitle = Some(titleNoForm(messages("beforeYouStart.title"))), backLink = true) {
+@if(appConfig.isScrsIdvEnabled){
+  @layout(pageTitle = Some(titleNoForm(messages("beforeYouStart.title-idv"))), backLink = true) {
+
+    @h1("beforeYouStart.heading-idv")
+
+    @textWithBullets("beforeYouStart.text", Seq("beforeYouStart.bullet1", "beforeYouStart.bullet2"))
+
+    @p{@messages("beforeYouStart.text-idv")}
+
+    @buttonLink("beforeYouStart.submit-idv",Some(controllers.routes.PaymentOptionController.onPageLoad().url))
+
+  }
+} else {
+  @layout(pageTitle = Some(titleNoForm(messages("beforeYouStart.title"))), backLink = true) {
 
     @h1("beforeYouStart.heading")
 
     @textWithBullets("beforeYouStart.text", Seq("beforeYouStart.bullet1", "beforeYouStart.bullet2"))
 
     @buttonLink("beforeYouStart.submit",Some(controllers.routes.PaymentOptionController.onPageLoad().url))
-
+  }
 }
 
 @{

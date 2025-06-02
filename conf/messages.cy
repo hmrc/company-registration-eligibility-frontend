@@ -72,10 +72,14 @@ unauthorised.heading =	Ni allwch ddefnyddio’r gwasanaeth hwn gyda’r cyfrif h
 ##Before You Start
 beforeYouStart.title =	Gwiriwch cyn i chi ddechrau
 beforeYouStart.heading =	Gwiriwch cyn i chi ddechrau
+beforeYouStart.title-idv =	Gwiriwch a allwch ddefnyddio’r gwasanaeth hwn
+beforeYouStart.heading-idv =	Gwiriwch a allwch ddefnyddio’r gwasanaeth hwn
 beforeYouStart.text =	Rydym yn mynd i ofyn rhai cwestiynau. Bydd eich atebion:
 beforeYouStart.bullet1 =	yn dangos a allwch ddefnyddio’r gwasanaeth hwn i gofrestru cwmni cyfyngedig a sefydlu Treth Gorfforaeth
 beforeYouStart.bullet2 =	yn mynd â chi i wasanaeth arall os nad ydych yn gymwys i ddefnyddio hwn
+beforeYouStart.text-idv = Byddwn hefyd yn gofyn i chi gadarnhau bod holl gyfarwyddwyr y cwmni a phobl â rheolaeth sylweddol (PSCs) wedi gwirio eu hunaniaeth ar gyfer Tŷ’r Cwmnïau.
 beforeYouStart.submit =	Yn eich blaen i’r cwestiynau
+beforeYouStart.submit-idv =	Yn eich blaen
 
 ## Ineligible
 ineligible.title =	Ni allwch sefydlu cwmni gyda’r gwasanaeth hwn

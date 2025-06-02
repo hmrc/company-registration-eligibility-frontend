@@ -16,4 +16,4 @@
 
 package models
 
-case class FeatureSwitchModel(welshEnabled: Boolean)
+case class FeatureSwitchModel(welshEnabled: Boolean, isScrsIdvEnabled: Boolean)
