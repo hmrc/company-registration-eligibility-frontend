@@ -17,7 +17,7 @@
 package config.featureswitch
 
 import com.google.inject.Inject
-import config.featureswitch.FeatureSwitch.WelshEnabled
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled}
 import models.FeatureSwitchModel
 import play.api.data.Form
 import uk.gov.hmrc.govukfrontend.views.Aliases.{CheckboxItem, Text}
@@ -39,7 +39,8 @@ class FeatureSwitchItems @Inject()() {
 
   def items(form: Form[FeatureSwitchModel]): Seq[CheckboxItem] = {
     Seq(
-      formCheckBoxItem(form, WelshEnabled.name, WelshEnabled.displayText)
+      formCheckBoxItem(form, WelshEnabled.name, WelshEnabled.displayText),
+      formCheckBoxItem(form, ScrsIdvEnabled.name, ScrsIdvEnabled.displayText)
     )
   }
 }

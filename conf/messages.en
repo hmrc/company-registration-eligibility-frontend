@@ -73,10 +73,14 @@ unauthorised.heading                        = You can’t access this service wi
 ##Before You Start
 beforeYouStart.title                        = Check before you start
 beforeYouStart.heading                      = Check before you start
+beforeYouStart.title-idv                    = Check if you can use this service
+beforeYouStart.heading-idv                  = Check if you can use this service
 beforeYouStart.text                         = We’re going to ask some questions. Your answers will:
 beforeYouStart.bullet1                      = show whether you can use this service to register a limited company and set up Corporation Tax
 beforeYouStart.bullet2                      = take you to another service if you’re not eligible to use this one
+beforeYouStart.text-idv                     = We’ll also ask you to confirm that all the company directors and people with significant control (PSCs) have verified their identity for Companies House.
 beforeYouStart.submit                       = Continue to questions
+beforeYouStart.submit-idv                   = Continue
 
 ## Ineligible
 ineligible.title                            = You cannot set up a company with this service
