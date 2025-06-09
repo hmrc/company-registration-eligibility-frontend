@@ -66,4 +66,6 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
   lazy val feedbackFrontendUrl = loadConfig("microservice.services.feedback-frontend.host")
   lazy val betaFeedbackUrl = s"$feedbackFrontendUrl/feedback/SCRS"
 
+  def getExternalUrl(key: String): String = config.getString(s"external.gov.$key")
+
 }

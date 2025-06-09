@@ -14,6 +14,10 @@ GET        /unauthorised                                controllers.Unauthorised
 
 GET        /check-before-you-start                      controllers.BeforeYouStartController.onPageLoad()
 
+GET        /identity-verification                      controllers.IdentityVerificationController.onPageLoad()
+POST       /identity-verification                      controllers.IdentityVerificationController.onSubmit()
+
+GET        /identity-verification-companies-house      controllers.NeedVerifiedIdentityController.onPageLoad()
 
 GET        /ineligible/paymentOption                    controllers.IneligibleController.onPageLoadPayment()
 GET        /ineligible/:inelligibleType                 controllers.IneligibleController.onPageLoad(inelligibleType: String)

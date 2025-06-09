@@ -29,34 +29,34 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "contain a legend for the question" in {
           val doc = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
-          legends.size mustBe 1
-          legends.first.text mustBe messages(s"$messageKeyPrefix.heading")
+          if (messageKeyPrefix.equals("identityVerification")) {
+            legends.size mustBe 2
+            legends.first.text mustBe messages(s"$messageKeyPrefix.question")
+          } else {
+            legends.size mustBe 1
+            legends.first.text mustBe messages(s"$messageKeyPrefix.heading")
+          }
         }
-
         "contain an input for the value" in {
           val doc = asDocument(createView(form))
           assertRenderedById(doc, "value-yes")
           assertRenderedById(doc, "value-no")
         }
-
         "have no values checked when rendered with no form" in {
           val doc = asDocument(createView(form))
           assert(!doc.getElementById("value-yes").hasAttr("checked"))
           assert(!doc.getElementById("value-no").hasAttr("checked"))
         }
-
         "not render an error summary" in {
           val doc = asDocument(createView(form))
           assertNotRenderedById(doc, "error-summary_header")
         }
       }
-
       "rendered with a value of true" must {
-        behave like answeredYesNoPage(createView, true)
+        behave like answeredYesNoPage(createView, answer = true)
       }
-
       "rendered with a value of false" must {
-        behave like answeredYesNoPage(createView, false)
+        behave like answeredYesNoPage(createView, answer = false)
       }
 
       "rendered with an error" must {
@@ -75,7 +75,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
   }
 
 
-  def answeredYesNoPage(createView: Form[Boolean] => HtmlFormat.Appendable, answer: Boolean) = {
+  def answeredYesNoPage(createView: Form[Boolean] => HtmlFormat.Appendable, answer: Boolean): Unit = {
 
     "have only the correct value checked" in {
       val doc = asDocument(createView(form.fill(answer)))
