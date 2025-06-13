@@ -77,9 +77,27 @@ beforeYouStart.heading-idv =	Gwiriwch a allwch ddefnyddio’r gwasanaeth hwn
 beforeYouStart.text =	Rydym yn mynd i ofyn rhai cwestiynau. Bydd eich atebion:
 beforeYouStart.bullet1 =	yn dangos a allwch ddefnyddio’r gwasanaeth hwn i gofrestru cwmni cyfyngedig a sefydlu Treth Gorfforaeth
 beforeYouStart.bullet2 =	yn mynd â chi i wasanaeth arall os nad ydych yn gymwys i ddefnyddio hwn
-beforeYouStart.text-idv = Byddwn hefyd yn gofyn i chi gadarnhau bod holl gyfarwyddwyr y cwmni a phobl â rheolaeth sylweddol (PSCs) wedi gwirio eu hunaniaeth ar gyfer Tŷ’r Cwmnïau.
+beforeYouStart.text-idv = Byddwn hefyd yn gofyn i chi gadarnhau bod pob cyfarwyddwr sydd yn y cwmni, ynghyd â phob person sydd â rheolaeth sylweddol (PSC), wedi profi pwy ydynt ar gyfer Tŷ’r Cwmnïau.
 beforeYouStart.submit =	Yn eich blaen i’r cwestiynau
 beforeYouStart.submit-idv =	Yn eich blaen
+
+identityVerification.title                  = Cadarnhau pwy ydych
+identityVerification.heading                = Cadarnhau pwy ydych
+identityVerification.paragraph1             = Mae’n rhaid i bob cyfarwyddwr cwmni a phobl sydd â rheolaeth sylweddol (PSCs) brofi pwy ydyw gyda Thŷ’r Cwmnïau cyn y gallwch gofrestru cwmni gan ddefnyddio’r gwasanaeth hwn.
+identityVerification.paragraph2             = Gallant wneud hyn gan ddefnyddio’r gwasanaeth <a {0}>Profi pwy ydych gyda Thŷ’r Cwmnïau</a>.
+identityVerification.paragraph3             = Pan fydd pob person wedi llwyddo i brofi pwy ydyw, byddwn yn rhoi cod personol Tŷ’r Cwmnïau iddynt.
+identityVerification.paragraph4             = Bydd angen i chi ddarparu cod personol pob cyfarwyddwr a PSC fel rhan o’r cofrestriad hwn, fel y gallwn gysylltu pwy ydyw â’n cofnodion.
+identityVerification.question               = A oes gennych godau personol Tŷ’r Cwmnïau ar gyfer pob cyfarwyddwr cwmni a PSC?
+identityVerification.paragraph5             = Mae hwn yn god 11 o gymeriadau sy’n cael ei roi i berson ar ôl iddo brofi pwy ydyw.
+identityVerification.submit                 = Yn eich blaen
+identityVerification.error.required         = Dewiswch ‘Iawn’ os oes gennych godau personol Tŷ’r Cwmnïau ar gyfer pob cyfarwyddwr cwmni a PSC
+
+needVerifiedIdentity.title                  = Mae angen i bob cyfarwyddwr cwmni a PSC brofi pwy ydyw
+needVerifiedIdentity.heading                = Mae angen i bob cyfarwyddwr cwmni a PSC brofi pwy ydyw
+needVerifiedIdentity.paragraph1             = Mae angen i bob cyfarwyddwr cwmni a phobl sydd â rheolaeth sylweddol (PSCs) brofi pwy ydyw gyda Thŷ’r Cwmnïau cyn y gallwch gofrestru cwmni gan ddefnyddio’r gwasanaeth hwn.
+needVerifiedIdentity.paragraph2             = Gallant wneud hyn gan ddefnyddio’r gwasanaeth <a {0}>Profi pwy ydych gyda Thŷ’r Cwmnïau</a>.
+needVerifiedIdentity.paragraph3             = Pan fydd pob person wedi profi pwy ydyw, byddwn yn rhoi cod personol Tŷ’r Cwmnïau iddynt.
+needVerifiedIdentity.paragraph4             = Mae angen iddynt rannu hyn gyda chi, gan y gofynnir i chi ddarparu’r codau personol ar gyfer pob cyfarwyddwr a PSC wrth gofrestru’r cwmni.
 
 ## Ineligible
 ineligible.title =	Ni allwch sefydlu cwmni gyda’r gwasanaeth hwn

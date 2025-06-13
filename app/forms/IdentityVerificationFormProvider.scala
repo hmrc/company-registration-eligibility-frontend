@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package utils
+package forms
 
-import identifiers._
-import uk.gov.hmrc.http.cache.client.CacheMap
+import forms.mappings.Mappings
+import play.api.data.Form
 
-class UserAnswers(val cacheMap: CacheMap) extends Enumerable.Implicits {
-  def getAnswer(id: Identifier): Option[Boolean] = cacheMap.getEntry[Boolean](id.toString)
+import javax.inject.Inject
 
-  def secureRegister: Option[Boolean] = cacheMap.getEntry[Boolean](SecureRegisterId.toString)
+class IdentityVerificationFormProvider @Inject() extends Mappings {
 
-  def paymentOption: Option[Boolean] = cacheMap.getEntry[Boolean](PaymentOptionId.toString)
-
-  def identityVerification: Option[Boolean] = cacheMap.getEntry[Boolean](IdentityVerificationId.toString)
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("identityVerification.error.required")
+    )
 }

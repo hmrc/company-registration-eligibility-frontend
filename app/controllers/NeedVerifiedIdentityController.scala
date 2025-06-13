@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,26 +21,19 @@ import controllers.actions._
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.beforeYouStart
+import views.html.{beforeYouStart, needVerifiedIdentity}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class BeforeYouStartController @Inject()(identify: SessionAction,
-                                         controllerComponents: MessagesControllerComponents,
-                                         view: beforeYouStart)
-                                        (implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
+class NeedVerifiedIdentityController @Inject()(identify: SessionAction,
+                                               controllerComponents: MessagesControllerComponents,
+                                               view: needVerifiedIdentity)
+                                              (implicit appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = identify {
     implicit request =>
       Ok(view())
   }
 
-  def onSubmit: Action[AnyContent] = Action {
-    if (appConfig.isScrsIdvEnabled) {
-      Redirect(controllers.routes.IdentityVerificationController.onPageLoad())
-    } else {
-      Redirect(controllers.routes.PaymentOptionController.onPageLoad())
-    }
-  }
 }

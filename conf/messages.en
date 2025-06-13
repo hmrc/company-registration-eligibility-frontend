@@ -82,6 +82,24 @@ beforeYouStart.text-idv                     = We’ll also ask you to confirm th
 beforeYouStart.submit                       = Continue to questions
 beforeYouStart.submit-idv                   = Continue
 
+identityVerification.title                  = Identity verification
+identityVerification.heading                = Identity verification
+identityVerification.paragraph1             = All company directors and people with significant control (PSCs) must have verified their identity for Companies House before you can register a company using this service.
+identityVerification.paragraph2             = They can do this using the <a {0}>Verify your identity for Companies House</a> service.
+identityVerification.paragraph3             = When each person has successfully verified their identity, we’ll give them a Companies House personal code.
+identityVerification.paragraph4             = You’ll need to provide each director and PSC’s personal code as part of this registration, so that we can connect their verified identity to our records.
+identityVerification.question               = Do you have the Companies House personal codes for all company directors and PSCs?
+identityVerification.paragraph5             = This is an 11 character code that is given to a person once they have verified their identity.
+identityVerification.submit                 = Continue
+identityVerification.error.required         = Select yes if you have the Companies House personal codes for all company directors and PSCs
+
+needVerifiedIdentity.title                  = All company directors and PSCs need to verify their identity
+needVerifiedIdentity.heading                = All company directors and PSCs need to verify their identity
+needVerifiedIdentity.paragraph1             = All company directors and people with significant control (PSCs) need to verify their identity with Companies House before you can register a company using this service.
+needVerifiedIdentity.paragraph2             = They can do this using the <a {0}>Verify your identity for Companies House</a> service.
+needVerifiedIdentity.paragraph3             = When each person has verified their identity, we will give them a Companies House personal code.
+needVerifiedIdentity.paragraph4             = They need to share this with you, as you’ll be asked to provide the personal codes for all directors and PSCs when registering the company.
+
 ## Ineligible
 ineligible.title                            = You cannot set up a company with this service
 ineligible.heading                          = You cannot set up a company with this service

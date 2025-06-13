@@ -29,7 +29,8 @@ class Navigator @Inject()() {
   private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
     case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
     case EligibleId => routes.EligibleController.onPageLoad()
-    case PaymentOptionId => routes.EligibleController.onPageLoad()
+    case PaymentOptionId => routes.PaymentOptionController.onPageLoad()
+    case IdentityVerificationId => routes.IdentityVerificationController.onPageLoad()
     case _ => throw new RuntimeException(s"[Navigator] [pageIdToPageLoad] Could not load page for pageId: $pageId")
   }
 
@@ -45,6 +46,12 @@ class Navigator @Inject()() {
   }
 
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
+    IdentityVerificationId -> {
+      _.identityVerification match {
+        case Some(true) => pageIdToPageLoad(PaymentOptionId)
+        case _ => routes.NeedVerifiedIdentityController.onPageLoad()
+      }
+    },
     PaymentOptionId -> {
       _.paymentOption match {
         case Some(true) => pageIdToPageLoad(SecureRegisterId)

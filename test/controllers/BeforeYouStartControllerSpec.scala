@@ -16,11 +16,13 @@
 
 package controllers
 
+import config.featureswitch.FeatureSwitch.ScrsIdvEnabled
+import config.featureswitch.FeatureSwitching
 import controllers.actions._
 import play.api.test.Helpers._
 import views.html.beforeYouStart
 
-class BeforeYouStartControllerSpec extends ControllerSpecBase {
+class BeforeYouStartControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
   val view: beforeYouStart = app.injector.instanceOf[beforeYouStart]
 
@@ -35,19 +37,31 @@ class BeforeYouStartControllerSpec extends ControllerSpecBase {
 
   "BeforeYouStart Controller" must {
     "return OK and the correct view for a GET" in {
+      disable(ScrsIdvEnabled)
       val result = controller.onPageLoad(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the next page payment option when valid data is submitted with no SCRS flag" in {
+      disable(ScrsIdvEnabled)
       val postRequest = fakeRequest("POST").withFormUrlEncodedBody()
 
       val result = controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.PaymentOptionController.onPageLoad().url)
+    }
+
+    "redirect to the next page identity verification when valid data is submitted with SCRS flag enabled" in {
+      enable(ScrsIdvEnabled)
+      val postRequest = fakeRequest("POST").withFormUrlEncodedBody()
+
+      val result = controller.onSubmit()(postRequest)
+
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(routes.IdentityVerificationController.onPageLoad().url)
     }
   }
 
