@@ -62,7 +62,7 @@ class IdentityVerificationController @Inject()(dataCacheConnector: DataCacheConn
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value => {
-          auditConnector.sendExplicitAudit("SCRSIdentityVerification", auditEvent(value))
+          auditConnector.sendExplicitAudit("SCRSIDVerification", auditEvent(value))
           dataCacheConnector.save[Boolean](request.internalId, IdentityVerificationId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(IdentityVerificationId, NormalMode)(new UserAnswers(cacheMap))))
         }
