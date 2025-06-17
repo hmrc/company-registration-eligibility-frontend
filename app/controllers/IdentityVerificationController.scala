@@ -70,8 +70,7 @@ class IdentityVerificationController @Inject()(dataCacheConnector: DataCacheConn
   }
 
   private def auditEvent(yesOrNo: Boolean): IdentityVerificationAudit = {
-    val userQuestionMsg = messagesApi.messages.getOrElse("identityVerification.question","IdentityVerificationQuestion").toString
     val userAnswer = if (yesOrNo) "Yes"  else "No"
-    IdentityVerificationAudit(userQuestion = Some(userQuestionMsg), userAnswer =  Some(userAnswer))
+    IdentityVerificationAudit(haveCompanyHousePersonalCodes =  Some(userAnswer))
   }
 }

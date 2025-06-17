@@ -18,8 +18,7 @@ package models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class IdentityVerificationAudit(userQuestion: Option[String] = None,
-                                     userAnswer: Option[String] = None)
+case class IdentityVerificationAudit(haveCompanyHousePersonalCodes: Option[String] = None)
 
 object IdentityVerificationAudit {
   implicit val formats: OFormat[IdentityVerificationAudit] = Json.format[IdentityVerificationAudit]
