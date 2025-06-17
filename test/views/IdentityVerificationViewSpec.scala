@@ -40,4 +40,15 @@ class IdentityVerificationViewSpec extends YesNoViewBehaviours {
 
     behave like yesNoPage(createViewUsingForm, messageKeyPrefix)
   }
+
+  "idv view external gov link" in {
+    frontendAppConfig.getExternalUrl("identityVerification.companyHouse") mustBe
+      "https://www.gov.uk/guidance/verify-your-identity-for-companies-house"
+
+    frontendAppConfig.getExternalUrl("identityVerification.companyHouse",
+      Some("cy")) mustBe "https://www.gov.uk/guidance/verify-your-identity-for-companies-house.cy"
+
+    frontendAppConfig.getExternalUrl("identityVerification.companyHouse",
+      Some("en")) mustBe "https://www.gov.uk/guidance/verify-your-identity-for-companies-house"
+  }
 }
