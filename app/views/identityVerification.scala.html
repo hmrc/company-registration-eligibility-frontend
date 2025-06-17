@@ -33,7 +33,7 @@ submitButton: components.submit_button
 @(identityVerificationForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
 @linkAttr = @{
-s"""id="identityVerification-company-house-link" href="${appConfig.getExternalUrl("identityVerification.companyHouse")}""""
+s"""id="identityVerification-company-house-link" href="${appConfig.getExternalUrl("identityVerification.companyHouse", Some(messages.lang.code))}""""
 }
 
 @layout(pageTitle = Some(title(messages("identityVerification.title"),identityVerificationForm)), backLink = true) {

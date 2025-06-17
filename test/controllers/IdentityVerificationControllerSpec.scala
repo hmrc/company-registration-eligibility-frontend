@@ -95,8 +95,8 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
 
       status(result) mustBe SEE_OTHER
       Mockito.verify(mockAuditConnector, times(1))
-        .sendExplicitAudit(ArgumentMatchers.eq("SCRSIdentityVerification"),
-          ArgumentMatchers.eq(IdentityVerificationAudit(Some("IdentityVerificationQuestion"),Some("Yes"))))(any(), any(), any())
+        .sendExplicitAudit(ArgumentMatchers.eq("SCRSIDVerification"),
+          ArgumentMatchers.eq(IdentityVerificationAudit(Some("Yes"))))(any(), any(), any())
       redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
 

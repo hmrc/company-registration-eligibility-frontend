@@ -66,6 +66,12 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
   lazy val feedbackFrontendUrl = loadConfig("microservice.services.feedback-frontend.host")
   lazy val betaFeedbackUrl = s"$feedbackFrontendUrl/feedback/SCRS"
 
-  def getExternalUrl(key: String): String = config.getString(s"external.gov.$key")
+  def getExternalUrl(key: String, lang: Option[String] = None): String = {
+    val baseUrl = config.getString(s"external.gov.$key")
+    lang match {
+      case Some("cy") => s"$baseUrl.${lang.get}"
+      case _ => baseUrl
+    }
+  }
 
 }
