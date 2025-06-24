@@ -16,22 +16,16 @@
 
 package controllers
 
-import config.featureswitch.FeatureSwitch.ScrsIdvEnabled
 import config.featureswitch.FeatureSwitching
 import connectors.FakeDataCacheConnector
 import controllers.actions._
 import forms.IdentityVerificationFormProvider
 import identifiers.IdentityVerificationId
-import models.{IdentityVerificationAudit, NormalMode}
-import org.mockito.ArgumentMatchers.{any, anyString}
-import org.mockito.{ArgumentMatchers, Mockito}
-import org.mockito.Mockito.times
-import org.scalatestplus.mockito.MockitoSugar.mock
+import models.NormalMode
 import play.api.data.Form
-import play.api.libs.json.{JsBoolean, JsObject}
+import play.api.libs.json.JsBoolean
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import utils.FakeNavigator
 import views.html.identityVerification
 
@@ -40,14 +34,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class IdentityVerificationControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
   val view: identityVerification = app.injector.instanceOf[identityVerification]
-  val mockAuditConnector: AuditConnector = mock[AuditConnector]
 
   val formProvider: IdentityVerificationFormProvider = new IdentityVerificationFormProvider()
   val form: Form[Boolean] = formProvider()
 
   val  controller = new IdentityVerificationController(
     new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-    mockAuditConnector,
     new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
     new FakeSessionAction(messagesControllerComponents),
     getEmptyCacheMap,
@@ -74,7 +66,6 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
 
       object Controller extends IdentityVerificationController(
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        mockAuditConnector,
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         getRelevantData,
@@ -94,9 +85,6 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
       val result = controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      Mockito.verify(mockAuditConnector, times(1))
-        .sendExplicitAudit(ArgumentMatchers.eq("SCRSIDVerification"),
-          ArgumentMatchers.eq(IdentityVerificationAudit(Some("Yes"))))(any(), any(), any())
       redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
 
@@ -114,7 +102,6 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
 
       object Controller extends IdentityVerificationController(
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        mockAuditConnector,
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
@@ -133,7 +120,6 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
 
       object Controller extends IdentityVerificationController(
         new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        mockAuditConnector,
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
         dontGetAnyData,
