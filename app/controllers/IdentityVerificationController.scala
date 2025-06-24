@@ -21,11 +21,10 @@ import connectors.DataCacheConnector
 import controllers.actions._
 import forms.IdentityVerificationFormProvider
 import identifiers.IdentityVerificationId
-import models.{IdentityVerificationAudit, NormalMode}
+import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.identityVerification
@@ -35,7 +34,6 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class IdentityVerificationController @Inject()(dataCacheConnector: DataCacheConnector,
-                                               auditConnector: AuditConnector,
                                                navigator: Navigator,
                                                identify: SessionAction,
                                                getData: DataRetrievalAction,
@@ -62,15 +60,9 @@ class IdentityVerificationController @Inject()(dataCacheConnector: DataCacheConn
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, NormalMode))),
         value => {
-          auditConnector.sendExplicitAudit("SCRSIDVerification", auditEvent(value))
           dataCacheConnector.save[Boolean](request.internalId, IdentityVerificationId.toString, value).map(cacheMap =>
             Redirect(navigator.nextPage(IdentityVerificationId, NormalMode)(new UserAnswers(cacheMap))))
         }
       )
-  }
-
-  private def auditEvent(yesOrNo: Boolean): IdentityVerificationAudit = {
-    val userAnswer = if (yesOrNo) "Yes"  else "No"
-    IdentityVerificationAudit(haveCompanyHousePersonalCodes =  Some(userAnswer))
   }
 }
