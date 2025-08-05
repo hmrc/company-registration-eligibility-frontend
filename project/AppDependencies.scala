@@ -8,12 +8,12 @@ object AppDependencies {
 
   private val logbackJsonLoggerVersion          = "5.6.0"
   private val scalaTestVersion                  = "3.2.19"
-  private val scalaTestPlusPlayVersion          = "7.0.1"
-  private val httpCachingClientVersion          = "11.2.0"
-  private val playConditionalFormMappingVersion = "2.0.0"
-  private val bootstrapVersion                  = "8.6.0"
+  private val scalaTestPlusPlayVersion          = "7.0.2"
+  private val httpCachingClientVersion          = "12.2.0"
+  private val playConditionalFormMappingVersion = "3.3.0"
+  private val bootstrapVersion                  = "9.19.0"
   private val wireMockVersion                   = "3.0.1"
-  private val playHmrcFrontendVersion           = "11.13.0"
+  private val playHmrcFrontendVersion           = "12.8.0"
   private val hmrcMongoVersion                  = "2.7.0"
   private val flexmarkAllVersion                = "0.64.8"
 
@@ -31,7 +31,7 @@ object AppDependencies {
     "uk.gov.hmrc"            %% s"bootstrap-test$playVersion"  % bootstrapVersion         % Test,
     "org.scalatest"          %% "scalatest"                    % scalaTestVersion         % Test,
     "org.scalatestplus.play" %% "scalatestplus-play"           % scalaTestPlusPlayVersion % Test,
-    "org.jsoup"               % "jsoup"                        % "1.19.1"                 % Test,
+    "org.jsoup"               % "jsoup"                        % "1.21.1"                 % Test,
     "org.playframework"      %% "play-test"                    % PlayVersion.current      % Test,
     "org.scalatestplus"      %% "scalacheck-1-16"              % "3.2.14.0"               % Test,
     "com.vladsch.flexmark"    % "flexmark-all"                 % flexmarkAllVersion       % Test,

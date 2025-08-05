@@ -17,19 +17,28 @@
 package handlers
 
 import config.FrontendAppConfig
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Request
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.mvc.{AnyContent, AnyContentAsEmpty, Request, RequestHeader}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import javax.inject.{Inject, Singleton}
 import views.html.error_template
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ErrorHandler @Inject()(val messagesApi: MessagesApi,
                              view: error_template
-                            )(implicit appConfig: FrontendAppConfig) extends FrontendErrorHandler with I18nSupport {
+                            )(implicit appConfig: FrontendAppConfig, executionContext: ExecutionContext) extends FrontendErrorHandler with I18nSupport {
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html =
-    view(pageTitle, heading, message)
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(
+    implicit request: RequestHeader
+  ): Future[Html] = {
+    val messages: Messages = messagesApi.preferred(request)
+    val req: Request[AnyContent] = Request(request, AnyContentAsEmpty)
+    Future.successful(view.apply(pageTitle, heading, message)(req, messages, appConfig))
+  }
+
+  override protected implicit val ec: ExecutionContext = executionContext
 }
 
