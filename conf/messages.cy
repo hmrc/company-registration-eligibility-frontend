@@ -102,9 +102,9 @@ needVerifiedIdentity.paragraph4             = Mae angen iddynt rannu hyn gyda ch
 ## Ineligible
 ineligible.title =	Ni allwch sefydlu cwmni gyda’r gwasanaeth hwn
 ineligible.heading =	Ni allwch sefydlu cwmni gyda’r gwasanaeth hwn
-ineligible.text =	 I sefydlu cwmni {0}, bydd angen i chi ddefnyddio gwasanaeth arall.
+ineligible.text =	 Bydd angen i chi ddefnyddio gwasanaeth arall i sefydlu cwmni {0}
 ineligible.takingOverBusiness.text =	mae hynny’n golygu cymryd busnes arall drosodd
-ineligible.secureRegister.text =	pan fydd un o'i gyfarwyddwyr neu ysgrifenyddion wedi gwneud cais llwyddiannus i fod ar gofrestr ddiogel Tŷ’r Cwmnïau
+ineligible.secureRegister.text =	os yw un o’r cyfarwyddwyr neu’r ysgrifenyddion ar gofrestr ddiogel Tŷ’r Cwmnïau.
 ineligible.payment.text =	I ddefnyddio’r gwasanaeth hwn, mae angen i chi dalu am y cais gan ddefnyddio cerdyn neu PayPal.
 ineligible.submit =	Defnyddio gwasanaeth arall
 
