@@ -129,7 +129,7 @@ paymentOption.title                         = Are you able to pay for this appli
 paymentOption.heading                       = Are you able to pay for this application using a card or PayPal?
 paymentOption.checkYourAnswersLabel         = paymentOption
 paymentOption.error.required                = Tell us if you will pay for this application using a card or PayPal
-paymentOption.text                          = We only accept card or PayPal payments on this service.
+paymentOption.text                          = It costs £50 to register a company. We only accept card or PayPal payments on this service.
 
 ## Feature switch page
 feature.title                               = Feature switch
