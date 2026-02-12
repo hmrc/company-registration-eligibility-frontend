@@ -127,7 +127,7 @@ paymentOption.title =	A ydych yn gallu talu am y cais hwn gan ddefnyddio cerdyn 
 paymentOption.heading =	A ydych yn gallu talu am y cais hwn gan ddefnyddio cerdyn neu PayPal?
 paymentOption.checkYourAnswersLabel =	paymentOption
 paymentOption.error.required =	Rhowch wybod i ni a fyddwch yn talu am y cais hwn gan ddefnyddio cerdyn neu PayPal
-paymentOption.text =	Y gost o gofrestru cwmni yw £50. Dim ond taliadau cerdyn neu PayPal rydym yn eu derbyn ar y gwasanaeth hwn.
+paymentOption.text =	Y gost o gofrestru cwmni yw £100. Dim ond taliadau cerdyn neu PayPal rydym yn eu derbyn ar y gwasanaeth hwn.
 
 ## Feature switch page
 feature.title =	    Feature switch
