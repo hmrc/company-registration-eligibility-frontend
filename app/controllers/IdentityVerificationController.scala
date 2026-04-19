@@ -17,7 +17,7 @@
 package controllers
 
 import config.FrontendAppConfig
-import connectors.DataCacheConnector
+import connectors.SessionDataCacheConnector
 import controllers.actions._
 import forms.IdentityVerificationFormProvider
 import identifiers.IdentityVerificationId
@@ -25,44 +25,45 @@ import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.SessionCacheId.NoSessionException
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import utils.{Navigator, UserAnswers}
+import utils.Navigator
 import views.html.identityVerification
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class IdentityVerificationController @Inject()(dataCacheConnector: DataCacheConnector,
+class IdentityVerificationController @Inject()(dataCacheConnector: SessionDataCacheConnector,
                                                navigator: Navigator,
                                                identify: SessionAction,
-                                               getData: DataRetrievalAction,
                                                formProvider: IdentityVerificationFormProvider,
                                                controllerComponents: MessagesControllerComponents,
                                                view: identityVerification
-                                       )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig)
+                                              )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig)
   extends FrontendController(controllerComponents) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
-      val preparedForm = request.userAnswers flatMap (_.identityVerification) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-      Ok(view(preparedForm, NormalMode))
+  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
+    dataCacheConnector.fetchIdentityVerificationFromSession.map { identityVerification =>
+      Ok(view(identityVerification.fold(form)(form.fill), NormalMode))
+    }.recover {
+      case NoSessionException =>
+        Redirect(routes.SessionExpiredController.onPageLoad)
+    }
   }
 
-  def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
-        value => {
-          dataCacheConnector.save[Boolean](request.internalId, IdentityVerificationId.toString, value).map(cacheMap =>
-            Redirect(navigator.nextPage(IdentityVerificationId, NormalMode)(new UserAnswers(cacheMap))))
-        }
-      )
+  def onSubmit(): Action[AnyContent] = identify.async { implicit request =>
+    form.bindFromRequest().fold(
+      formWithErrors =>
+        Future.successful(BadRequest(view(formWithErrors, NormalMode))),
+      value =>
+        dataCacheConnector
+          .saveIdentityVerificationToSession(value)
+          .map(userAnswers =>
+            Redirect(navigator.nextPage(IdentityVerificationId, NormalMode)(userAnswers))
+          )
+    )
   }
 }

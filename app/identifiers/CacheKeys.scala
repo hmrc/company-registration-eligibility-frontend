@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package utils
+package identifiers
 
-case class UserAnswers(secureRegister: Option[Boolean] = None, paymentOption: Option[Boolean] = None,
-                       identityVerification: Option[Boolean] = None, eligible: Option[Boolean] = None)
+import uk.gov.hmrc.mongo.cache.DataKey
 
+object CacheKeys {
+  val identityVerification = DataKey[Boolean]("identityVerification")
+  val secureRegister       = DataKey[Boolean]("secureRegister")
+  val paymentOption        = DataKey[Boolean]("paymentOption")
+  val eligible             = DataKey[Boolean]("eligible")
+}

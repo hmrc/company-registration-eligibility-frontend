@@ -16,76 +16,88 @@
 
 package controllers
 
-import connectors.FakeDataCacheConnector
+import connectors.FakeSessionDataCacheConnector
 import controllers.actions._
 import forms.SecureRegisterFormProvider
-import identifiers.SecureRegisterId
 import models.NormalMode
 import play.api.data.Form
-import play.api.libs.json.JsBoolean
 import play.api.mvc.Call
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
-import utils.FakeNavigator
+import uk.gov.hmrc.http.HeaderCarrier
+import utils.{FakeNavigator, UserAnswers}
 import views.html.secureRegister
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 class SecureRegisterControllerSpec extends ControllerSpecBase {
 
-  def onwardRoute: Call = routes.IndexController.onPageLoad
-
   lazy val formProvider: SecureRegisterFormProvider = new SecureRegisterFormProvider()
   lazy val form: Form[Boolean] = formProvider()
-
   val view: secureRegister = app.injector.instanceOf[secureRegister]
 
+  def onwardRoute: Call = routes.IndexController.onPageLoad
+
+  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
+
+  def controllerWithData(data: Option[Boolean]) =
+    new SecureRegisterController(
+      new FakeSessionDataCacheConnector(sessionRepository) {
+        override def fetchSecureRegisterFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = Future.successful(data)
+
+        override def saveSecureRegisterToSession(paymentOptionVal: Boolean)(implicit hc: HeaderCarrier,
+                                                                            ec: ExecutionContext): Future[UserAnswers] =
+          Future.successful(UserAnswers())
+      },
+      new FakeNavigator(routes.IndexController.onPageLoad),
+      new FakeSessionAction(messagesControllerComponents),
+      formProvider,
+      messagesControllerComponents,
+      view
+    )
+
   object Controller extends SecureRegisterController(
-    new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+    new FakeSessionDataCacheConnector(sessionRepository),
     new FakeNavigator(desiredRoute = onwardRoute),
     new FakeSessionAction(messagesControllerComponents),
-    getEmptyCacheMap,
-    new DataRequiredAction(messagesControllerComponents),
     formProvider,
     messagesControllerComponents,
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
-
   "SecureRegister Controller" must {
 
     "return OK and the correct view for a GET" in {
-      val result = Controller.onPageLoad()(fakeRequest())
+      val controller = controllerWithData(None)
+
+      val result = controller.onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString()
+      contentAsString(result) mustBe viewAsString(form)
     }
 
-    "populate the view correctly on a GET when the question has previously been answered" in {
-      val validData = Map(SecureRegisterId.toString -> JsBoolean(true))
-      val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
+    "populate the view correctly on a GET when previously answered true" in {
+      val controller = controllerWithData(Some(true))
 
-      object Controller extends SecureRegisterController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        new FakeNavigator(desiredRoute = onwardRoute),
-        new FakeSessionAction(messagesControllerComponents),
-        getRelevantData,
-        new DataRequiredAction(messagesControllerComponents),
-        formProvider,
-        messagesControllerComponents,
-        view
-      )
+      val result = controller.onPageLoad()(fakeRequest())
 
-      val result = Controller.onPageLoad()(fakeRequest())
-
+      status(result) mustBe OK
       contentAsString(result) mustBe viewAsString(form.fill(true))
+    }
+
+    "populate the view correctly on a GET when previously answered false" in {
+      val controller = controllerWithData(Some(false))
+
+      val result = controller.onPageLoad()(fakeRequest())
+
+      status(result) mustBe OK
+      contentAsString(result) mustBe viewAsString(form.fill(false))
     }
 
     "redirect to the next page when valid data is submitted" in {
       val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
 
-      val result = Controller.onSubmit()(postRequest)
+      val result = controllerWithData(Some(true)).onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(onwardRoute.url)
@@ -101,14 +113,12 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
       contentAsString(result) mustBe viewAsString(boundForm)
     }
 
-    "redirect to Session Expired for a GET if no existing data is found" in {
+    "go to Session Expired for a GET if no existing data is found" in {
 
       object Controller extends SecureRegisterController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeSessionDataCacheConnector(sessionRepository),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
-        dontGetAnyData,
-        new DataRequiredAction(messagesControllerComponents),
         formProvider,
         messagesControllerComponents,
         view
@@ -116,19 +126,16 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
 
       val result = Controller.onPageLoad()(fakeRequest())
 
-      status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
+      status(result) mustBe OK
     }
 
     "redirect to Session Expired for a POST if no existing data is found" in {
       val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
 
       object Controller extends SecureRegisterController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeSessionDataCacheConnector(sessionRepository),
         new FakeNavigator(desiredRoute = onwardRoute),
         new FakeSessionAction(messagesControllerComponents),
-        dontGetAnyData,
-        new DataRequiredAction(messagesControllerComponents),
         formProvider,
         messagesControllerComponents,
         view
@@ -136,7 +143,7 @@ class SecureRegisterControllerSpec extends ControllerSpecBase {
       val result = Controller.onSubmit()(postRequest)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
+      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
   }
 }

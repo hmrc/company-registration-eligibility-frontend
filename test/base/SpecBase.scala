@@ -23,8 +23,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.Injector
 import play.api.mvc._
 import play.api.test.FakeRequest
-import repositories.SessionRepository
-import utils.CascadeUpsert
+import repositories.SessionCacheRepository
 
 trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
@@ -40,7 +39,5 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
   def messagesControllerComponents: MessagesControllerComponents = injector.instanceOf[MessagesControllerComponents]
 
-  lazy val cascadeUpsert: CascadeUpsert = injector.instanceOf[CascadeUpsert]
-
-  lazy val sessionRepository: SessionRepository = injector.instanceOf[SessionRepository]
+  lazy val sessionRepository: SessionCacheRepository = injector.instanceOf[SessionCacheRepository]
 }

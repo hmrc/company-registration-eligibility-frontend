@@ -36,15 +36,6 @@ class Navigator @Inject()() {
 
   private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
 
-  private[utils] def nextOn(fromPage: Identifier, toPage: Identifier, condition: Boolean = false): (Identifier, UserAnswers => Call) = {
-    fromPage -> {
-      _.getAnswer(fromPage) match {
-        case Some(`condition`) => pageIdToPageLoad(toPage)
-        case _ => ineligiblePage(fromPage)
-      }
-    }
-  }
-
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
     IdentityVerificationId -> {
       _.identityVerification match {
@@ -58,8 +49,18 @@ class Navigator @Inject()() {
         case _ => routes.IneligibleController.onPageLoadPayment()
       }
     },
-    nextOn(SecureRegisterId, EligibleId),
-    nextOn(EligibleId, EligibleId)
+    SecureRegisterId -> {
+      _.secureRegister match {
+        case Some(false) => pageIdToPageLoad(EligibleId)
+        case _ => ineligiblePage(SecureRegisterId)
+      }
+    },
+    EligibleId -> {
+      _.eligible match {
+        case Some(false) => pageIdToPageLoad(EligibleId)
+        case _ => ineligiblePage(EligibleId)
+      }
+    }
   )
 
   def nextPage(id: Identifier, mode: Mode): UserAnswers => Call =
