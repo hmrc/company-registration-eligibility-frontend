@@ -14,8 +14,22 @@
  * limitations under the License.
  */
 
-package utils
+package repositories
 
-case class UserAnswers(secureRegister: Option[Boolean] = None, paymentOption: Option[Boolean] = None,
-                       identityVerification: Option[Boolean] = None, eligible: Option[Boolean] = None)
+import play.api.libs.json.{Reads, Writes}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.mongo.cache.DataKey
+import scala.concurrent.{ExecutionContext, Future}
 
+trait CacheRepository {
+
+  def putSession[T: Writes](
+                             dataKey: DataKey[T],
+                             data: T
+                           )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[T]
+
+  def getFromSession[T: Reads](dataKey: DataKey[T])(implicit hc: HeaderCarrier): Future[Option[T]]
+
+  def deleteFromSession(implicit hc: HeaderCarrier): Future[Unit]
+
+}

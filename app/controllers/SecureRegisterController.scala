@@ -17,7 +17,7 @@
 package controllers
 
 import config.FrontendAppConfig
-import connectors.DataCacheConnector
+import connectors.SessionDataCacheConnector
 import controllers.actions._
 import forms.SecureRegisterFormProvider
 import identifiers.SecureRegisterId
@@ -25,19 +25,18 @@ import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.SessionCacheId.NoSessionException
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import utils.{Navigator, UserAnswers}
+import utils.Navigator
 import views.html.secureRegister
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SecureRegisterController @Inject()(dataCacheConnector: DataCacheConnector,
+class SecureRegisterController @Inject()(dataCacheConnector: SessionDataCacheConnector,
                                          navigator: Navigator,
                                          identify: SessionAction,
-                                         getData: DataRetrievalAction,
-                                         requireData: DataRequiredAction,
                                          formProvider: SecureRegisterFormProvider,
                                          controllerComponents: MessagesControllerComponents,
                                          view: secureRegister
@@ -45,23 +44,25 @@ class SecureRegisterController @Inject()(dataCacheConnector: DataCacheConnector,
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
-      val preparedForm = request.userAnswers.secureRegister match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-      Ok(view(preparedForm, NormalMode))
+  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
+    dataCacheConnector.fetchSecureRegisterFromSession.map { secureRegister =>
+      Ok(view(secureRegister.fold(form)(form.fill), NormalMode))
+    }.recover {
+      case NoSessionException =>
+        Redirect(routes.SessionExpiredController.onPageLoad)
+    }
   }
 
-  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
-    implicit request =>
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
-        value =>
-          dataCacheConnector.save[Boolean](request.internalId, SecureRegisterId.toString, value).map(cacheMap =>
-            Redirect(navigator.nextPage(SecureRegisterId, NormalMode)(new UserAnswers(cacheMap))))
-      )
+  def onSubmit(): Action[AnyContent] = identify.async { implicit request =>
+    form.bindFromRequest().fold(
+      formWithErrors =>
+        Future.successful(BadRequest(view(formWithErrors, NormalMode))),
+      value =>
+        dataCacheConnector
+          .saveSecureRegisterToSession(value)
+          .map(userAnswers =>
+            Redirect(navigator.nextPage(SecureRegisterId, NormalMode)(userAnswers))
+          )
+    )
   }
 }

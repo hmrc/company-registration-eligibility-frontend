@@ -17,7 +17,7 @@
 package controllers
 
 import config.FrontendAppConfig
-import connectors.DataCacheConnector
+import connectors.SessionDataCacheConnector
 import controllers.actions._
 import forms.PaymentOptionFormProvider
 import identifiers.PaymentOptionId
@@ -25,6 +25,7 @@ import models.NormalMode
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.SessionCacheId.NoSessionException
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import utils.{Navigator, UserAnswers}
 import views.html.paymentOption
@@ -33,10 +34,9 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class PaymentOptionController @Inject()(dataCacheConnector: DataCacheConnector,
+class PaymentOptionController @Inject()(dataCacheConnector: SessionDataCacheConnector,
                                         navigator: Navigator,
                                         identify: SessionAction,
-                                        getData: DataRetrievalAction,
                                         formProvider: PaymentOptionFormProvider,
                                         controllerComponents: MessagesControllerComponents,
                                         view: paymentOption
@@ -44,23 +44,25 @@ class PaymentOptionController @Inject()(dataCacheConnector: DataCacheConnector,
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
-      val preparedForm = request.userAnswers flatMap (_.paymentOption) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-      Ok(view(preparedForm, NormalMode))
+  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
+    dataCacheConnector.fetchPaymentOptionFromSession.map { paymentOption =>
+      Ok(view(paymentOption.fold(form)(form.fill), NormalMode))
+    }.recover {
+      case NoSessionException =>
+        Redirect(routes.SessionExpiredController.onPageLoad)
+    }
   }
 
-  def onSubmit(): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, NormalMode))),
-        value =>
-          dataCacheConnector.save[Boolean](request.internalId, PaymentOptionId.toString, value).map(cacheMap =>
-            Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(new UserAnswers(cacheMap))))
-      )
+  def onSubmit(): Action[AnyContent] = identify.async { implicit request =>
+    form.bindFromRequest().fold(
+      formWithErrors =>
+        Future.successful(BadRequest(view(formWithErrors, NormalMode))),
+      value =>
+        dataCacheConnector
+          .savePaymentOptionToSession(value)
+          .map(userAnswers =>
+            Redirect(navigator.nextPage(PaymentOptionId, NormalMode)(userAnswers))
+          )
+    )
   }
 }

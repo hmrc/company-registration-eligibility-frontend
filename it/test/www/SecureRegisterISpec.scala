@@ -35,15 +35,15 @@ class SecureRegisterISpec extends IntegrationSpecBase with SessionHelper with Au
     ws.url(s"http://localhost:$port/eligibility-for-setting-up-company/secure-register-form").withFollowRedirects(false)
 
   s"GET ${routes.SecureRegisterController.onPageLoad().url}" should {
-    "redirect if you have no saved data" in {
+    "displays the page even if no saved data" in {
       val fResponse = client.get()
       val response = await(fResponse)
 
-      response.status mustBe 303
+      response.status mustBe 200
     }
 
     "open the page if data is already stored" in {
-      cacheSessionData(sessionId, SecureRegisterId.toString, true)
+      cacheSessionData(SecureRegisterId.toString, data = true)
 
       val fResponse = client.withHttpHeaders(HeaderNames.COOKIE -> getSessionCookie()).get()
       val response = await(fResponse)

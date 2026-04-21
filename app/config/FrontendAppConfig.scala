@@ -24,6 +24,8 @@ import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
+import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 
 @Singleton
 class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitching {
@@ -74,4 +76,6 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
     }
   }
 
+  lazy val mongoDbExpireAfterMinutes: Duration = config.getInt("mongodb.timeToLiveInSeconds").seconds.toMinutes.minutes
+  lazy val appNameAsDbCollectionSessions: String = config.getString("appName") + "sessions"
 }

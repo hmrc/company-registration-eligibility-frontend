@@ -17,19 +17,18 @@
 package controllers
 
 import config.featureswitch.FeatureSwitching
-import connectors.FakeDataCacheConnector
+import connectors.FakeSessionDataCacheConnector
 import controllers.actions._
 import forms.IdentityVerificationFormProvider
-import identifiers.IdentityVerificationId
 import models.NormalMode
 import play.api.data.Form
-import play.api.libs.json.JsBoolean
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.http.HeaderCarrier
 import utils.FakeNavigator
 import views.html.identityVerification
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 class IdentityVerificationControllerSpec extends ControllerSpecBase with FeatureSwitching {
 
@@ -38,45 +37,57 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
   val formProvider: IdentityVerificationFormProvider = new IdentityVerificationFormProvider()
   val form: Form[Boolean] = formProvider()
 
-  val  controller = new IdentityVerificationController(
-    new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+  val controller = new IdentityVerificationController(
+    new FakeSessionDataCacheConnector(sessionRepository),
     new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
     new FakeSessionAction(messagesControllerComponents),
-    getEmptyCacheMap,
     formProvider,
     messagesControllerComponents,
     view
   )
 
-  def viewAsString(form: Form[_] = form): String = view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
+  def controllerWithData(data: Option[Boolean]) =
+    new IdentityVerificationController(
+      new FakeSessionDataCacheConnector(sessionRepository) {
+        override def fetchIdentityVerificationFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = Future.successful(data)
+      },
+      new FakeNavigator(routes.IndexController.onPageLoad),
+      new FakeSessionAction(messagesControllerComponents),
+      formProvider,
+      messagesControllerComponents,
+      view
+    )
 
+  def viewAsString(form: Form[_]): String =
+    view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
 
   "IdentityVerification Controller" must {
 
-    "return OK and the correct view for a GET" in {
+    "return OK and empty view for a GET when no data" in {
+      val controller = controllerWithData(None)
+
       val result = controller.onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
-      contentAsString(result) mustBe viewAsString()
+      contentAsString(result) mustBe viewAsString(form)
     }
 
-    "populate the view correctly on a GET when the question has previously been answered" in {
-      val validData = Map(IdentityVerificationId.toString -> JsBoolean(true))
-      val getRelevantData = new FakeDataRetrievalAction(Some(CacheMap(cacheMapId, validData)), messagesControllerComponents, sessionRepository, cascadeUpsert)
+    "populate the view correctly on a GET when previously answered true" in {
+      val controller = controllerWithData(Some(true))
 
-      object Controller extends IdentityVerificationController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
-        new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
-        new FakeSessionAction(messagesControllerComponents),
-        getRelevantData,
-        formProvider,
-        messagesControllerComponents,
-        view
-      )
+      val result = controller.onPageLoad()(fakeRequest())
 
-      val result = Controller.onPageLoad()(fakeRequest())
-
+      status(result) mustBe OK
       contentAsString(result) mustBe viewAsString(form.fill(true))
+    }
+
+    "populate the view correctly on a GET when previously answered false" in {
+      val controller = controllerWithData(Some(false))
+
+      val result = controller.onPageLoad()(fakeRequest())
+
+      status(result) mustBe OK
+      contentAsString(result) mustBe viewAsString(form.fill(false))
     }
 
     "redirect to the next page when valid data is submitted with audit" in {
@@ -101,10 +112,9 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
     "redirect to Session Expired for a GET if no existing data is found" in {
 
       object Controller extends IdentityVerificationController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeSessionDataCacheConnector(sessionRepository),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
-        dontGetAnyData,
         formProvider,
         messagesControllerComponents,
         view
@@ -119,10 +129,9 @@ class IdentityVerificationControllerSpec extends ControllerSpecBase with Feature
       val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
 
       object Controller extends IdentityVerificationController(
-        new FakeDataCacheConnector(sessionRepository, cascadeUpsert),
+        new FakeSessionDataCacheConnector(sessionRepository),
         new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
         new FakeSessionAction(messagesControllerComponents),
-        dontGetAnyData,
         formProvider,
         messagesControllerComponents,
         view

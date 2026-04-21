@@ -14,14 +14,13 @@ object AppDependencies {
   private val bootstrapVersion                  = "9.19.0"
   private val wireMockVersion                   = "3.0.1"
   private val playHmrcFrontendVersion           = "12.8.0"
-  private val hmrcMongoVersion                  = "2.7.0"
+  private val hmrcMongoVersion                  = "2.12.0"
   private val flexmarkAllVersion                = "0.64.8"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo$playVersion"                    % hmrcMongoVersion,
     "uk.gov.hmrc"       %% "logback-json-logger"                        % logbackJsonLoggerVersion,
-    "uk.gov.hmrc"       %% s"http-caching-client$playVersion"           % httpCachingClientVersion,
     "uk.gov.hmrc"       %% s"play-conditional-form-mapping$playVersion" % playConditionalFormMappingVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend$playVersion"            % bootstrapVersion,
     "uk.gov.hmrc"       %% s"play-frontend-hmrc$playVersion"            % playHmrcFrontendVersion

@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package utils
+package repositories
 
-case class UserAnswers(secureRegister: Option[Boolean] = None, paymentOption: Option[Boolean] = None,
-                       identityVerification: Option[Boolean] = None, eligible: Option[Boolean] = None)
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.mongo.cache.CacheIdType
 
+case object SessionCacheId extends CacheIdType[HeaderCarrier] {
+
+  override def run: HeaderCarrier => String =
+    _.sessionId
+      .map(_.value)
+      .getOrElse(throw NoSessionException)
+
+  case object NoSessionException extends Exception("Could not find sessionId")
+}

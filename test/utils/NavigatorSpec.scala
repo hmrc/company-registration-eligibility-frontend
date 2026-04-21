@@ -21,8 +21,6 @@ import controllers.routes
 import identifiers._
 import models._
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.libs.json.JsBoolean
-import uk.gov.hmrc.http.cache.client.CacheMap
 
 class NavigatorSpec extends SpecBase with MockitoSugar {
 
@@ -63,12 +61,12 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
   "nextOnFalse" must {
     "return an ID and function to the next page" when {
       "given a start page id and end page id when the answer provided is false" in {
-        val res = navigator.nextOn(PaymentOptionId, SecureRegisterId)
-        val userAnswers = new UserAnswers(CacheMap("id", Map(PaymentOptionId.toString -> JsBoolean(false))))
-        val res1 = navigator.nextOn(IdentityVerificationId, PaymentOptionId)
-        val userAnswers1 = new UserAnswers(CacheMap("id", Map(IdentityVerificationId.toString -> JsBoolean(false))))
-        res._1 mustBe PaymentOptionId
-        res1._1 mustBe IdentityVerificationId
+        val userAnswers = new UserAnswers(paymentOption = Some(false))
+        val res = navigator.nextPage(PaymentOptionId, NormalMode)(userAnswers)
+        val userAnswers1 = new UserAnswers(identityVerification = Some(false))
+        val res1 = navigator.nextPage(IdentityVerificationId, NormalMode)(userAnswers1)
+        res mustBe routes.IneligibleController.onPageLoad("paymentOption")
+        res1 mustBe routes.NeedVerifiedIdentityController.onPageLoad
       }
     }
   }
