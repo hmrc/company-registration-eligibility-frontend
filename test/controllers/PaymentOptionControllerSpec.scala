@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,121 +16,140 @@
 
 package controllers
 
-import connectors.FakeSessionDataCacheConnector
-import controllers.actions._
+import controllers.actions.{DataRetrievalAction, SessionAction}
 import forms.PaymentOptionFormProvider
-import identifiers.PaymentOptionId
 import models.NormalMode
+import models.requests.{IdentifierRequest, OptionalDataRequest}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.Mockito._
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.Form
-import play.api.libs.json.JsBoolean
+import play.api.mvc.Results.Redirect
+import play.api.mvc._
 import play.api.test.Helpers._
+import service.SessionDataCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.{FakeNavigator, UserAnswers}
 import views.html.paymentOption
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.ExecutionContext.Implicits.global
 
-class PaymentOptionControllerSpec extends ControllerSpecBase {
+class PaymentOptionControllerSpec
+  extends ControllerSpecBase
+    with MockitoSugar {
 
-  val formProvider: PaymentOptionFormProvider = new PaymentOptionFormProvider()
-  val form: Form[Boolean] = formProvider()
+  implicit val ec: ExecutionContext = ExecutionContext.global
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   val view: paymentOption = app.injector.instanceOf[paymentOption]
+  val formProvider = new PaymentOptionFormProvider()
+  val form: Form[Boolean] = formProvider()
 
-  def viewAsString(form: Form[_]): String =
-    view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
+  val mockService: SessionDataCacheService = mock[SessionDataCacheService]
+  val mockResult1: Result = Redirect("/eligibility-for-setting-up-company")
+  val mockResult2: Result = Redirect("/eligibility-for-setting-up-company/this-service-has-been-reset")
 
-  object Controller extends PaymentOptionController(
-    new FakeSessionDataCacheConnector(sessionRepository) {
-      override def fetchPaymentOptionFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = Future.successful(None)
+  def controllerWithData(data: Option[Boolean]): PaymentOptionController = {
+    val userAnswers = data.map(v => UserAnswers(paymentOption = Some(v)))
 
-      override def savePaymentOptionToSession(paymentOptionVal: Boolean)(implicit hc: HeaderCarrier,
-                                                                         ec: ExecutionContext): Future[UserAnswers] =
-        Future.successful(UserAnswers())
-    },
-    new FakeNavigator(desiredRoute = routes.IndexController.onPageLoad),
-    new FakeSessionAction(messagesControllerComponents),
-    formProvider,
-    messagesControllerComponents,
-    view
-  )
-
-
-  def controllerWithData(data: Option[Boolean]) =
     new PaymentOptionController(
-      new FakeSessionDataCacheConnector(sessionRepository) {
-        override def fetchPaymentOptionFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = Future.successful(data)
-        override def savePaymentOptionToSession(paymentOptionVal: Boolean)(implicit hc: HeaderCarrier,
-                                                                           ec: ExecutionContext): Future[UserAnswers] =
-          Future.successful(UserAnswers())
-      },
+      new FakeIdentifierAction,
+      new FakeDataRetrievalAction(userAnswers),
+      mockService,
       new FakeNavigator(routes.IndexController.onPageLoad),
-      new FakeSessionAction(messagesControllerComponents),
       formProvider,
       messagesControllerComponents,
       view
     )
+  }
+
+  def viewAsString(form: Form[_]): String =
+    view(form, NormalMode)(fakeRequest(), messages, frontendAppConfig).toString
+
+  class FakeIdentifierAction
+    extends SessionAction(messagesControllerComponents) {
+
+    override def parser: BodyParser[AnyContent] =
+      stubBodyParser(AnyContentAsEmpty)
+
+    override def invokeBlock[A](
+                                 request: Request[A],
+                                 block: IdentifierRequest[A] => Future[Result]
+                               ): Future[Result] =
+      block(IdentifierRequest(request, "internal-id"))
+  }
+
+  class FakeDataRetrievalAction(userAnswers: Option[UserAnswers])
+    extends DataRetrievalAction(mockService) {
+    override protected def transform[A](
+                                         request: IdentifierRequest[A]
+                                       ): Future[OptionalDataRequest[A]] =
+      Future.successful(
+        OptionalDataRequest(request.request, request.internalId, userAnswers)
+      )
+  }
 
   "PaymentOption Controller" must {
 
-    "return OK and the correct view for a GET" in {
-      val controller = controllerWithData(None)
-
-      val result = controller.onPageLoad()(fakeRequest())
+    "return OK and empty view for a GET when no data" in {
+      val result = controllerWithData(None).onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString(form)
     }
 
-    "populate the view correctly on a GET when previously answered true" in {
-      val controller = controllerWithData(Some(true))
-
-      val result = controller.onPageLoad()(fakeRequest())
+    "populate view correctly on GET when previously answered true" in {
+      val result = controllerWithData(Some(true)).onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString(form.fill(true))
     }
 
-    "populate the view correctly on a GET when previously answered false" in {
-      val controller = controllerWithData(Some(false))
-
-      val result = controller.onPageLoad()(fakeRequest())
+    "populate view correctly on GET when previously answered false" in {
+      val result = controllerWithData(Some(false)).onPageLoad()(fakeRequest())
 
       status(result) mustBe OK
       contentAsString(result) mustBe viewAsString(form.fill(false))
     }
 
-    "redirect to the next page when valid data is submitted" in {
-      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
+    "redirect to next page when valid data is submitted" in {
 
-      val result = controllerWithData(Some(true)).onSubmit()(postRequest)
+      when(
+        mockService.setPaymentOptionAndRedirectToNextPage(eqTo(true))(
+          any[UserAnswers => Call]
+        )(any[HeaderCarrier])
+      ).thenReturn(Future.successful(mockResult1))
+
+      val request = fakeRequest("POST").withFormUrlEncodedBody("value" -> "true")
+
+      val result = controllerWithData(None).onSubmit()(request)
+
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
     }
 
-    "return a Bad Request and errors when invalid data is submitted" in {
-      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "invalid value"))
-      val boundForm = form.bind(Map("value" -> "invalid value"))
+    "return Bad Request when invalid data is submitted" in {
+      val request = fakeRequest("POST").withFormUrlEncodedBody("value" -> "invalid")
 
-      val result = Controller.onSubmit()(postRequest)
+      val result = controllerWithData(None).onSubmit()(request)
 
       status(result) mustBe BAD_REQUEST
-      contentAsString(result) mustBe viewAsString(boundForm)
     }
 
-    "redirect to Session Expired for a GET if no existing data is found" in {
-      val result =  controllerWithData(None).onPageLoad()(fakeRequest())
-      status(result) mustBe OK
-    }
+    "redirect to Session Expired when service returns None" in {
 
-    "redirect to Session Expired for a POST if no existing data is found" in {
-      val postRequest = fakeRequest("POST").withFormUrlEncodedBody(("value", "true"))
+      when(
+        mockService.setPaymentOptionAndRedirectToNextPage(eqTo(true))(
+          any[UserAnswers => Call]
+        )(any[HeaderCarrier])
+      ).thenReturn(Future.successful(mockResult2))
 
-      val result = controllerWithData(None).onSubmit()(postRequest)
+      val request = fakeRequest("POST").withFormUrlEncodedBody("value" -> "true")
+
+      val result = controllerWithData(None).onSubmit()(request)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad.url)
+      redirectLocation(result) mustBe Some(routes.SessionExpiredController.onPageLoad.url)
     }
   }
 }

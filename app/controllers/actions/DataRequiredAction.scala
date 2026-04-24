@@ -21,20 +21,22 @@ import models.requests.{DataRequest, OptionalDataRequest}
 import play.api.mvc.Results.Redirect
 import play.api.mvc._
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-@Singleton
-class DataRequiredAction @Inject()(controllerComponents: MessagesControllerComponents) extends ActionRefiner[OptionalDataRequest, DataRequest] {
+class DataRequiredAction @Inject()(implicit val executionContext: ExecutionContext)
+  extends ActionRefiner[OptionalDataRequest, DataRequest] {
 
-  override protected def executionContext: ExecutionContext = controllerComponents.executionContext
+  override protected def refine[A](
+                                    request: OptionalDataRequest[A]
+                                  ): Future[Either[Result, DataRequest[A]]] = {
 
-  def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
-
-  override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] =
     request.userAnswers match {
-      case None => Future.successful(Left(Redirect(routes.SessionExpiredController.onPageLoad)))
-      case Some(data) => Future.successful(Right(DataRequest(request.request, request.internalId, data)))
-    }
+      case Some(data) =>
+        Future.successful(Right(DataRequest(request.request, request.internalId, data)))
 
+      case None =>
+        Future.successful(Left(Redirect(routes.SessionExpiredController.onPageLoad)))
+    }
+  }
 }

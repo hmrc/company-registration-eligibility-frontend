@@ -17,7 +17,6 @@
 package connectors
 
 
-import play.api.libs.json.Format
 import repositories.SessionCacheRepository
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.mongo.cache.DataKey
@@ -32,38 +31,20 @@ class SessionDataCacheConnector @Inject()(cacheRepository: SessionCacheRepositor
   import cacheRepository._
   import identifiers.CacheKeys._
 
-  def saveSecureRegisterToSession(secureRegisterVal: Boolean)(implicit hc: HeaderCarrier,
-                                                              ec: ExecutionContext): Future[UserAnswers] = {
-    putSession[Boolean](secureRegister, secureRegisterVal).flatMap(_ => fetchUserAnswersFromSession)
-  }
+  def saveValueToSession(value: Boolean, key: DataKey[Boolean])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[UserAnswers]] =
+    putSession[Boolean](key, value).flatMap(_ => fetchUserAnswersFromSession)
 
-  def fetchUserAnswersFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[UserAnswers] = {
+  def fetchUserAnswersFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[UserAnswers]] =
     for {
       secureRegister <- getFromSession[Boolean](secureRegister)
       paymentOption <- getFromSession[Boolean](paymentOption)
       identityVerification <- getFromSession[Boolean](identityVerification)
-    } yield UserAnswers(secureRegister, paymentOption, identityVerification)
-  }
+    } yield {
+      if (secureRegister.isEmpty && paymentOption.isEmpty && identityVerification.isEmpty) {
+        None
+      } else {
+        Some(UserAnswers(secureRegister, paymentOption, identityVerification))
+      }
+    }
 
-  def fetchIdentityVerificationFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = {
-    getFromSession[Boolean](identityVerification)
-  }
-
-  def fetchPaymentOptionFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = {
-    getFromSession[Boolean](paymentOption)
-  }
-
-  def fetchSecureRegisterFromSession(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Boolean]] = {
-    getFromSession[Boolean](secureRegister)
-  }
-
-  def savePaymentOptionToSession(paymentOptionVal: Boolean)(implicit hc: HeaderCarrier,
-                                                            ec: ExecutionContext): Future[UserAnswers] = {
-    putSession[Boolean](paymentOption, paymentOptionVal).flatMap(_ => fetchUserAnswersFromSession)
-  }
-
-  def saveIdentityVerificationToSession(identityVerificationVal: Boolean)(implicit hc: HeaderCarrier,
-                                                                          ec: ExecutionContext): Future[UserAnswers] = {
-    putSession[Boolean](identityVerification, identityVerificationVal).flatMap(_ => fetchUserAnswersFromSession)
-  }
 }
