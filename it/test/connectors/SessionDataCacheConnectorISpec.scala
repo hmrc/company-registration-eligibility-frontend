@@ -60,6 +60,13 @@ class SessionDataCacheConnectorISpec
           identityVerification = None
         )
       )
+
+      val savedValue =
+        await(
+          sessionCacheRepository.getFromSession[Boolean](secureRegister)
+        )
+
+      savedValue mustBe Some(true)
     }
   }
 
