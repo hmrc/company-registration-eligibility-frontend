@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,52 +17,54 @@
 package controllers
 
 import config.FrontendAppConfig
-import connectors.SessionDataCacheConnector
-import controllers.actions._
+import controllers.actions.{DataRequiredAction, DataRetrievalAction, SessionAction}
 import forms.SecureRegisterFormProvider
 import identifiers.SecureRegisterId
 import models.NormalMode
+import models.requests.DataRequest
 import play.api.data.Form
 import play.api.i18n.I18nSupport
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionCacheId.NoSessionException
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
+import service.SessionDataCacheService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import utils.Navigator
+import utils.{Navigator, UserAnswers}
 import views.html.secureRegister
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
+
 @Singleton
-class SecureRegisterController @Inject()(dataCacheConnector: SessionDataCacheConnector,
-                                         navigator: Navigator,
-                                         identify: SessionAction,
-                                         formProvider: SecureRegisterFormProvider,
-                                         controllerComponents: MessagesControllerComponents,
-                                         view: secureRegister
-                                        )(implicit executionContext: ExecutionContext, appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
+class SecureRegisterController @Inject()(
+                                          identify: SessionAction,
+                                          getData: DataRetrievalAction,
+                                          requireData: DataRequiredAction,
+                                          sessionDataCacheService: SessionDataCacheService,
+                                          navigator: Navigator,
+                                          formProvider: SecureRegisterFormProvider,
+                                          controllerComponents: MessagesControllerComponents,
+                                          view: secureRegister
+                                        )(implicit executionContext: ExecutionContext,
+                                          appConfig: FrontendAppConfig) extends FrontendController(controllerComponents) with I18nSupport {
+
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
-    dataCacheConnector.fetchSecureRegisterFromSession.map { secureRegister =>
-      Ok(view(secureRegister.fold(form)(form.fill), NormalMode))
-    }.recover {
-      case NoSessionException =>
-        Redirect(routes.SessionExpiredController.onPageLoad)
-    }
+  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request: DataRequest[AnyContent] =>
+    val preparedForm = request.userAnswers.secureRegister.fold(form)(form.fill)
+    Ok(view(preparedForm, NormalMode))
   }
 
-  def onSubmit(): Action[AnyContent] = identify.async { implicit request =>
-    form.bindFromRequest().fold(
-      formWithErrors =>
-        Future.successful(BadRequest(view(formWithErrors, NormalMode))),
-      value =>
-        dataCacheConnector
-          .saveSecureRegisterToSession(value)
-          .map(userAnswers =>
-            Redirect(navigator.nextPage(SecureRegisterId, NormalMode)(userAnswers))
-          )
-    )
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        formWithErrors => Future.successful(BadRequest(view(formWithErrors, NormalMode))),
+        value => {
+          val redirectToNextPage: UserAnswers => Call = navigator.nextPage(SecureRegisterId, NormalMode)
+          sessionDataCacheService
+            .setSecureRegisterAndRedirectToNextPage(value)(redirectToNextPage)
+        }
+      )
   }
 }

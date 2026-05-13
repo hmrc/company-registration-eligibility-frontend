@@ -18,7 +18,7 @@ package utils
 
 import controllers.routes
 import identifiers._
-import models.Mode
+import models.{Mode, NormalMode}
 import play.api.mvc.Call
 
 import javax.inject.{Inject, Singleton}
@@ -26,43 +26,57 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class Navigator @Inject()() {
 
-  private[utils] def pageIdToPageLoad(pageId: Identifier): Call = pageId match {
-    case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
-    case EligibleId => routes.EligibleController.onPageLoad()
-    case PaymentOptionId => routes.PaymentOptionController.onPageLoad()
-    case IdentityVerificationId => routes.IdentityVerificationController.onPageLoad()
-    case _ => throw new RuntimeException(s"[Navigator] [pageIdToPageLoad] Could not load page for pageId: $pageId")
-  }
-
-  private def ineligiblePage(pageId: Identifier) = routes.IneligibleController.onPageLoad(pageId.toString)
-
   private val routeMap: Map[Identifier, UserAnswers => Call] = Map(
-    IdentityVerificationId -> {
-      _.identityVerification match {
-        case Some(true) => pageIdToPageLoad(PaymentOptionId)
-        case _ => routes.NeedVerifiedIdentityController.onPageLoad()
+
+    IdentityVerificationId -> { answers =>
+      answers.identityVerification match {
+        case Some(true) => page(PaymentOptionId)
+        case Some(false) => routes.NeedVerifiedIdentityController.onPageLoad()
+        case None => page(IdentityVerificationId)
       }
     },
-    PaymentOptionId -> {
-      _.paymentOption match {
-        case Some(true) => pageIdToPageLoad(SecureRegisterId)
-        case _ => routes.IneligibleController.onPageLoadPayment()
+
+    PaymentOptionId -> { answers =>
+      answers.paymentOption match {
+        case Some(true) => page(SecureRegisterId)
+        case Some(false) => routes.IneligibleController.onPageLoadPayment()
+        case None => page(PaymentOptionId)
       }
     },
-    SecureRegisterId -> {
-      _.secureRegister match {
-        case Some(false) => pageIdToPageLoad(EligibleId)
-        case _ => ineligiblePage(SecureRegisterId)
+
+    SecureRegisterId -> { answers =>
+      answers.secureRegister match {
+        case Some(false) => page(EligibleId)
+        case Some(true) => ineligible(SecureRegisterId)
+        case None => page(SecureRegisterId)
       }
     },
-    EligibleId -> {
-      _.eligible match {
-        case Some(false) => pageIdToPageLoad(EligibleId)
-        case _ => ineligiblePage(EligibleId)
+
+    EligibleId -> { answers =>
+      answers.eligible match {
+        case Some(true) => routes.IndexController.onPageLoad
+        case Some(false) => ineligible(EligibleId)
+        case None => page(EligibleId)
       }
     }
   )
 
   def nextPage(id: Identifier, mode: Mode): UserAnswers => Call =
     routeMap.getOrElse(id, _ => routes.IndexController.onPageLoad)
+
+  private def page(pageId: Identifier): Call = pageId match {
+    case SecureRegisterId => routes.SecureRegisterController.onPageLoad()
+    case EligibleId => routes.EligibleController.onPageLoad()
+    case PaymentOptionId => routes.PaymentOptionController.onPageLoad()
+    case IdentityVerificationId => routes.IdentityVerificationController.onPageLoad()
+    case _ =>
+      throw new RuntimeException(s"[Navigator] Unknown pageId: $pageId")
+  }
+
+  def pageIdToPageLoad(id: Identifier): Call =
+    nextPage(id, NormalMode)(UserAnswers())
+
+
+  private def ineligible(pageId: Identifier): Call =
+    routes.IneligibleController.onPageLoad(pageId.toString)
 }

@@ -49,13 +49,14 @@ class NavigatorSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "throw a run time exception" when {
+    "return default route" when {
       "given an invalid ID" in {
         sealed class FakeID extends Identifier
-
-        intercept[RuntimeException](navigator.pageIdToPageLoad(new FakeID))
+        val result = navigator.nextPage(new FakeID, NormalMode)(UserAnswers())
+        result mustBe routes.IndexController.onPageLoad
       }
     }
+
   }
 
   "nextOnFalse" must {

@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import models.requests.CacheIdentifierRequest
+import models.requests.IdentifierRequest
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -27,7 +27,7 @@ class FakeSessionAction(controllerComponents: MessagesControllerComponents) exte
 
   override def parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
-  override def invokeBlock[A](request: Request[A], block: CacheIdentifierRequest[A] => Future[Result]): Future[Result] =
-    block(CacheIdentifierRequest(request, "id"))
+  override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] =
+    block(IdentifierRequest(request, "id"))
 }
 

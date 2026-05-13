@@ -19,20 +19,27 @@ package test.helpers
 import config.FrontendAppConfig
 import org.scalatest.BeforeAndAfterEach
 import play.api.libs.json.DefaultReads
+import play.api.libs.ws.WSRequest
 import repositories.SessionCacheRepository
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
 import uk.gov.hmrc.mongo.cache.DataKey
 import uk.gov.hmrc.mongo.test.MongoSupport
 import uk.gov.hmrc.mongo.{CurrentTimestampSupport, TimestampSupport}
+import play.api.mvc.Session
+import play.api.libs.crypto.CookieSigner
+
+import scala.concurrent.ExecutionContext
 
 trait SessionHelper extends MongoSupport with BeforeAndAfterEach with DefaultReads {
   self: IntegrationSpecBase =>
-  implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
+  implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
   lazy val repo = new SessionCacheRepository(ts)(ec, appConfig, mongoComponent)
   implicit val appConfig: FrontendAppConfig = app.injector.instanceOf[FrontendAppConfig]
   implicit val hc: HeaderCarrier =
     HeaderCarrier(sessionId = Some(SessionId("test-session-id")))
   val ts: TimestampSupport = new CurrentTimestampSupport
+
+  def sessionCookie: String =  "sessionId=test-session-id"
 
   override def beforeEach(): Unit = {
     super.beforeEach()
@@ -43,4 +50,6 @@ trait SessionHelper extends MongoSupport with BeforeAndAfterEach with DefaultRea
   def cacheSessionData(key: String, data: Boolean): Unit = {
     await(repo.putSession[Boolean](DataKey[Boolean](key), data))
   }
+
+
 }
