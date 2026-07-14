@@ -16,12 +16,14 @@
 
 package config.featureswitch
 
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
 trait FeatureSwitching {
   val FEATURE_SWITCH_ON = "true"
   val FEATURE_SWITCH_OFF = "false"
 
-  def isEnabled(featureSwitch: FeatureSwitch): Boolean = {
-    sys.props.get(featureSwitch.name).contains(FEATURE_SWITCH_ON)
+  def isEnabled(featureSwitch: FeatureSwitch, config: ServicesConfig): Boolean = {
+    sys.props.get(featureSwitch.name).getOrElse(config.getString(featureSwitch.name)).contains(FEATURE_SWITCH_ON)
   }
 
   def enable(featureSwitch: FeatureSwitch): Unit = {

@@ -24,12 +24,15 @@ import play.api.inject.Injector
 import play.api.mvc._
 import play.api.test.FakeRequest
 import repositories.SessionCacheRepository
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
   lazy val injector: Injector = app.injector
 
   lazy implicit val frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
+
+  lazy val serviceConfig: ServicesConfig = injector.instanceOf[ServicesConfig]
 
   def messagesApi: MessagesApi = messagesControllerComponents.messagesApi
 

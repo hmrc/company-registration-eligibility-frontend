@@ -44,7 +44,7 @@ class BeforeYouStartViewSpec extends ViewBehaviours with FeatureSwitching {
       val beforeYouStartView = createView
       val doc = asDocument(beforeYouStartView())
 
-      val nav = doc.getElementsByClass("govuk-header").text()
+      val nav = doc.getElementsByClass("govuk-service-navigation").text()
       nav must include(messages("site.service_name"))
       doc.title must include(messages(s"$messageKeyPrefix.title-idv"))
       assertPageTitleEqualsMessage(doc, s"$messageKeyPrefix.heading-idv")
