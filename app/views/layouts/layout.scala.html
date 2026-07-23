@@ -15,14 +15,16 @@
  *@
 
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
-@import views.html.helper.CSPNonce
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
+@import views.html.helper.CSPNonce
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.{Banners => StandardPageBanners}
 
 
 @this(
-    hmrcLayout: HmrcLayout,
+    hmrcStandardPage: HmrcStandardPage,
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     siteHeader: components.siteHeader,
@@ -57,18 +59,23 @@
     @hmrcReportTechnicalIssueHelper()
 }
 
-@hmrcLayout(
-    pageTitle = pageTitle,
-    serviceName = Some(messages("service.name")),
-    isWelshTranslationAvailable = appConfig.languageTranslationEnabled,
-    additionalHeadBlock = Some(head),
-    signOutUrl = Some(""),
-    serviceUrl = Some("/eligibility-for-setting-up-company"),
-    phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl)),
-    backLinkUrl = if (backLink) Some("#") else None,
-    displayHmrcBanner = false,
-    accessibilityStatementUrl = Some(appConfig.accessibilityStatementUrl),
-    additionalScriptsBlock = Some(scripts)
+@hmrcStandardPage(
+    HmrcStandardPageParams(
+        serviceURLs = ServiceURLs(
+            serviceUrl = Some("/eligibility-for-setting-up-company"),
+            signOutUrl = Some(""),
+            accessibilityStatementUrl = Some(appConfig.accessibilityStatementUrl),
+        ),
+        banners = StandardPageBanners(displayHmrcBanner = false, phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))),
+        serviceName = Some(messages("service.name")),
+        pageTitle = pageTitle,
+        backLink = if (backLink) Some(BackLink("#")) else None,
+        isWelshTranslationAvailable = true,
+        templateOverrides = TemplateOverrides(
+            additionalHeadBlock = Some(head),
+            additionalScriptsBlock = Some(scripts)
+        )
+    )
 )(content)
 
 @{
