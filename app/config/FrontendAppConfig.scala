@@ -55,8 +55,8 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
   lazy val accessibilityStatementPath = loadConfig(s"$configRoot.accessibility-statement.host")
   lazy val accessibilityStatementUrl = s"$accessibilityStatementPath/accessibility-statement/company-registration"
 
-  def languageTranslationEnabled: Boolean = isEnabled(WelshEnabled)
-  def isScrsIdvEnabled: Boolean = isEnabled(ScrsIdvEnabled)
+  def languageTranslationEnabled: Boolean = isEnabled(WelshEnabled, config)
+  def isScrsIdvEnabled: Boolean = isEnabled(ScrsIdvEnabled, config)
 
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

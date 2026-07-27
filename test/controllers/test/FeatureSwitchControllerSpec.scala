@@ -58,7 +58,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
     "change state of switches when posting" in {
 
       disable(WelshEnabled)
-      isEnabled(WelshEnabled) mustBe false
+      isEnabled(WelshEnabled, serviceConfig) mustBe false
 
       val result = Controller.submit(fakeRequest("POST").withFormUrlEncodedBody(
         WelshEnabled.name -> "true"
@@ -67,7 +67,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.FeatureSwitchController.show.url)
 
-      isEnabled(WelshEnabled) mustBe true
+      isEnabled(WelshEnabled, serviceConfig) mustBe true
     }
   }
 
@@ -93,7 +93,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
     "change state of scrs switche when posting" in {
 
       disable(ScrsIdvEnabled)
-      isEnabled(ScrsIdvEnabled) mustBe false
+      isEnabled(ScrsIdvEnabled, serviceConfig) mustBe false
 
       val result = Controller.submit(fakeRequest("POST").withFormUrlEncodedBody(
         ScrsIdvEnabled.name -> "true"
@@ -102,7 +102,7 @@ class FeatureSwitchControllerSpec extends ControllerSpecBase with FeatureSwitchi
       status(result) mustBe SEE_OTHER
       redirectLocation(result) mustBe Some(routes.FeatureSwitchController.show.url)
 
-      isEnabled(ScrsIdvEnabled) mustBe true
+      isEnabled(ScrsIdvEnabled, serviceConfig) mustBe true
     }
 
   }

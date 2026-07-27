@@ -41,7 +41,7 @@ class FeatureSwitchController @Inject()(val appConfig: FrontendAppConfig,
   def show: Action[AnyContent] = Action { implicit request =>
     Ok(view(FeatureSwitchForm.form.fill(
       FeatureSwitchModel(
-        welshEnabled = isEnabled(WelshEnabled), isScrsIdvEnabled = isEnabled(ScrsIdvEnabled)
+        welshEnabled = config.languageTranslationEnabled, isScrsIdvEnabled = config.isScrsIdvEnabled
       )
     )))
   }
