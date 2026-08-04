@@ -49,4 +49,9 @@ object FeatureSwitch {
     override val name: String = s"$prefix.scrs-idv"
     override val displayText: String = "Enable SCRS IDV"
   }
+
+  case object UrBannerEnabled extends FeatureSwitch {
+    override val name: String = s"$prefix.ur-banner"
+    override val displayText: String = "Enable User Research Banner"
+  }
 }

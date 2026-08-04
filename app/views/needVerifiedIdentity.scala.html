@@ -28,7 +28,7 @@
 s"""id="needVerifiedIdentity-company-house-link" href="${appConfig.getExternalUrl("identityVerification.companyHouse", Some(messages.lang.code))}""""
 }
 
-@layout(pageTitle = Some(titleNoForm(messages("needVerifiedIdentity.title"))), backLink = true) {
+@layout(pageTitle = Some(titleNoForm(messages("needVerifiedIdentity.title"))), backLink = true, urBanner = Some(UrBannerUtil.getUrBanner())) {
 
   @h1("needVerifiedIdentity.heading")
 
