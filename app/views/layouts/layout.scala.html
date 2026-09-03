@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,12 @@
     hmrcStandardPage: HmrcStandardPage,
     hmrcTimeoutDialog: HmrcTimeoutDialog,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
+    hmrcUserResearchBanner: HmrcUserResearchBanner,
     siteHeader: components.siteHeader,
     standardBetaBanner: StandardBetaBanner
 )
 
-@(pageTitle: Option[String] = None, beforeContentBlock: Option[Html] = None, backLink: Boolean = false, signOutLink: Boolean = true)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
+@(pageTitle: Option[String] = None, beforeContentBlock: Option[Html] = None, backLink: Boolean = false, signOutLink: Boolean = true, urBanner: Option[UserResearchBanner] = None)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
 @head = {
 <!--[if lte IE 8]><link href=' @controllers.routes.Assets.at("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
@@ -66,7 +67,11 @@
             signOutUrl = Some(""),
             accessibilityStatementUrl = Some(appConfig.accessibilityStatementUrl),
         ),
-        banners = StandardPageBanners(displayHmrcBanner = false, phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))),
+        banners = StandardPageBanners(
+            displayHmrcBanner = false,
+            phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl)),
+            additionalBannersBlock = if(appConfig.isUrBannerEnabled) urBanner.map(hmrcUserResearchBanner(_)) else None
+        ),
         serviceName = Some(messages("service.name")),
         pageTitle = pageTitle,
         backLink = if (backLink) Some(BackLink("#")) else None,

@@ -17,7 +17,7 @@
 package config
 
 import config.featureswitch.FeatureSwitching
-import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, WelshEnabled}
+import config.featureswitch.FeatureSwitch.{ScrsIdvEnabled, UrBannerEnabled, WelshEnabled}
 import controllers.routes
 import play.api.i18n.Lang
 import play.api.mvc.Call
@@ -78,4 +78,7 @@ class FrontendAppConfig @Inject()(config: ServicesConfig) extends FeatureSwitchi
 
   lazy val mongoDbExpireAfterMinutes: Duration = config.getInt("mongodb.timeToLiveInSeconds").seconds.toMinutes.minutes
   lazy val appNameAsDbCollectionSessions: String = config.getString("appName") + "sessions"
+
+  def isUrBannerEnabled: Boolean = isEnabled(UrBannerEnabled, config)
+  lazy val urBannerBaseUrl: String = config.getString("urls.urBannerBase")
 }
