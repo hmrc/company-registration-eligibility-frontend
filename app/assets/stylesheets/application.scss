@@ -9,3 +9,7 @@ $hmrc-assets-path: "/eligibility-for-setting-up-company/assets/lib/hmrc-frontend
   display: block;
   font-weight: bold;
 }
+
+.govuk-fieldset__legend.govuk-visually-hidden {
+  white-space: wrap !important;
+}
