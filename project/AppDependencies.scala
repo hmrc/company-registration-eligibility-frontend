@@ -14,7 +14,7 @@ object AppDependencies {
   private val bootstrapVersion                  = "9.19.0"
   private val wireMockVersion                   = "3.0.1"
   private val playHmrcFrontendVersion           = "12.32.0"
-  private val hmrcMongoVersion                  = "2.12.0"
+  private val hmrcMongoVersion                  = "2.14.0"
   private val flexmarkAllVersion                = "0.64.8"
 
   val compile: Seq[ModuleID] = Seq(
