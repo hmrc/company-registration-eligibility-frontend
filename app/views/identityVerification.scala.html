@@ -17,58 +17,49 @@
 @import config.FrontendAppConfig
 @import views.helpers.TitleHelper.title
 @import models.Mode
-@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
-
+@import uk.gov.hmrc.govukfrontend.views.html.components.{FormWithCSRF, GovukInsetText}
 
 @this(layout: views.html.layouts.layout,
-formWithCSRF: FormWithCSRF,
-h1: components.h1,
-inputYesNo: components.input_yes_no,
-heading: components.heading,
-errorSummary: components.error_summary,
-p: components.p,
-submitButton: components.submit_button
+  formWithCSRF: FormWithCSRF,
+  h1: components.h1,
+  inputYesNo: components.input_yes_no,
+  heading: components.heading,
+  errorSummary: components.error_summary,
+  p: components.p,
+  submitButton: components.submit_button,
+  govukInsetText : GovukInsetText
 )
 
 @(identityVerificationForm: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages, appConfig: FrontendAppConfig)
 
 @linkAttr = @{
-s"""id="identityVerification-company-house-link" href="${appConfig.getExternalUrl("identityVerification.companyHouse", Some(messages.lang.code))}""""
+  s"""class="govuk-link" id="identityVerification-company-house-link" href="${appConfig.getExternalUrl("identityVerification.companyHouse", Some(messages.lang.code))}""""
 }
 
 @layout(pageTitle = Some(title(messages("identityVerification.title"),identityVerificationForm)), backLink = true) {
 
-@errorSummary(identityVerificationForm.errors,Some(Map("value" -> "-yes")))
+  @errorSummary(identityVerificationForm.errors,Some(Map("value" -> "-yes")))
 
-@heading("identityVerification.heading")
+  @heading("identityVerification.heading")
 
-@p{@messages("identityVerification.paragraph1")}
+  @p{@messages("identityVerification.paragraph1")}
 
-<p class="govuk-body">@Html(messages("identityVerification.paragraph2", linkAttr))</p>
+  @p{@Html(messages("identityVerification.paragraph2", linkAttr))}
 
-@p{@messages("identityVerification.paragraph3")}
+  @p{@messages("identityVerification.paragraph3")}
 
-<div class="govuk-inset-text">
- <p class="govuk-body">@messages("identityVerification.paragraph4")</p>
-</div>
+  @govukInsetText(InsetText(
+    content = Text(messages("identityVerification.paragraph4"))
+  ))
 
-<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
- @messages("identityVerification.question")
-</legend>
-
-@p{@messages("identityVerification.paragraph5")}
-
-@formWithCSRF(action = routes.IdentityVerificationController.onSubmit(), Symbol("autoComplete") -> "off") {
-  @inputYesNo(
-    form = identityVerificationForm,
-    headingKey = "identityVerification.heading",
-    isPageHeading = false,
-    classes = "govuk-visually-hidden"
-  )
-  @submitButton()
-}
-}
-
-@{
-// $COVERAGE-OFF$
+  @formWithCSRF(action = routes.IdentityVerificationController.onSubmit(), Symbol("autoComplete") -> "off") {
+    @inputYesNo(
+      form = identityVerificationForm,
+      headingKey = "identityVerification.question",
+      hint = Some(Html(messages("identityVerification.paragraph5"))),
+      isPageHeading = false,
+      classes = "govuk-fieldset__legend--m"
+    )
+    @submitButton()
+  }
 }
