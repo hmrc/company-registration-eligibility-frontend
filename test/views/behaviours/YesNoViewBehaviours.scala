@@ -30,7 +30,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           val doc = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
           if (messageKeyPrefix.equals("identityVerification")) {
-            legends.size mustBe 2
+            legends.size mustBe 1
             legends.first.text mustBe messages(s"$messageKeyPrefix.question")
           } else {
             legends.size mustBe 1
